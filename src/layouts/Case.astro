@@ -1,0 +1,787 @@
+---
+import Header from "../components/Header.astro";
+import MainLayout from "../layouts/Main.astro";
+
+const { title } = Astro.props;
+---
+
+<MainLayout title={title} description={title}>
+    <Header current="cases" />
+    <div class="page">
+        <section class="hero hero--project" data-reveal>
+            <span class="hero__glow hero__glow--a"
+                ><span
+                    ><img
+                        src="assets/icons/glow-a.svg"
+                        alt=""
+                        aria-hidden="true"
+                    /></span
+                ></span
+            >
+            <span class="hero__glow hero__glow--b"
+                ><span
+                    ><img
+                        src="assets/icons/glow-b.svg"
+                        alt=""
+                        aria-hidden="true"
+                    /></span
+                ></span
+            >
+            <div class="hero__art">
+                <img
+                    src="assets/img/project-hero.webp"
+                    width="1050"
+                    height="980"
+                    alt="Стадион чемпионата мира: оплата 101 500 EUR"
+                />
+            </div>
+            <div class="hero__row">
+                <div class="hero__col">
+                    <p class="hero__category">Оплата мероприятий</p>
+                    <h1 class="hero__title">
+                        Оплата VIP-лож FIFA через проверенного плательщика
+                    </h1>
+                    <div class="hero__actions">
+                        <button class="btn btn--lg btn--primary" type="button"
+                            >Оставить заявку</button
+                        ><button
+                            class="btn btn--lg btn--secondary"
+                            type="button">Рассчитать платёж</button>
+                    </div>
+                </div>
+            </div>
+            <div class="dots hero__dots" role="tablist" aria-label="Слайды">
+                <span
+                    class="dot dot--active"
+                    role="tab"
+                    aria-selected="true"
+                    aria-label="Слайд 1"></span><span
+                    class="dot"
+                    role="tab"
+                    aria-selected="false"
+                    aria-label="Слайд 2"></span><span
+                    class="dot"
+                    role="tab"
+                    aria-selected="false"
+                    aria-label="Слайд 3"></span><span
+                    class="dot"
+                    role="tab"
+                    aria-selected="false"
+                    aria-label="Слайд 4"></span>
+            </div>
+        </section>
+
+        <section class="intro">
+            <div class="statrow" data-reveal>
+                <stat-card
+                    label="Комиссия"
+                    value="1,5%"
+                    image="assets/img/stat-1.webp"></stat-card>
+                <stat-card
+                    label="Сроки"
+                    value="10 часов"
+                    image="assets/img/stat-2.webp"></stat-card>
+                <stat-card
+                    label="География"
+                    value="США"
+                    image="assets/img/stat-3.webp"></stat-card>
+            </div>
+
+            <section class="progress" data-reveal>
+                <h2 class="progress__title">Ход работы</h2>
+                <div class="progress__body">
+                    <div class="progress__cards">
+                        <article class="pcard">
+                            <h3 class="pcard__title">Задача</h3>
+                            <p class="pcard__text">
+                                Оплатить VIP ложи во время финалов и 1/4
+                                чемпионата Мира по Футболу. Так как оплата была
+                                на официальные реквизиты FIFA это требовало
+                                высоких стандартов плательщика.
+                            </p>
+                        </article>
+                        <article class="pcard">
+                            <h3 class="pcard__title">Решение</h3>
+                            <p class="pcard__text">
+                                Предложили клиенту несколько компаний с
+                                безупречной репутацией на выбор. После
+                                верификации компании получателем денежных
+                                средств, мы провели платеж в евро с Британской
+                                компании.
+                            </p>
+                        </article>
+                        <article class="pcard pcard--result">
+                            <h3 class="pcard__title">Результат</h3>
+                            <ul class="pcard__list">
+                                <li class="pcard__item">
+                                    <span class="ico ico--24"
+                                        ><span style="inset:0"
+                                            ><img
+                                                src="assets/icons/check.svg"
+                                                alt=""
+                                                aria-hidden="true"
+                                            /></span
+                                        ></span
+                                    >
+                                    <p>
+                                        <b>Билеты — уже на следующий день.</b> Клиент
+                                        получил их на электронную почту.
+                                    </p>
+                                </li>
+                                <li class="pcard__item pcard__item--nudge">
+                                    <span class="ico ico--24"
+                                        ><span style="inset:0"
+                                            ><img
+                                                src="assets/icons/check.svg"
+                                                alt=""
+                                                aria-hidden="true"
+                                            /></span
+                                        ></span
+                                    >
+                                    <p>
+                                        <b
+                                            >Сэкономили деньги и снизили
+                                            финансовые риски</b
+                                        >. При неуспешной оплате со стороны
+                                        сомнительных компаний-плательщиков могли
+                                        возникнуть штрафные санкции или отмена
+                                        бронирования.
+                                    </p>
+                                </li>
+                                <li class="pcard__item pcard__item--nudge">
+                                    <span class="ico ico--24"
+                                        ><span style="inset:0"
+                                            ><img
+                                                src="assets/icons/check.svg"
+                                                aria-hidden="true"
+                                            /></span
+                                        ></span
+                                    >
+                                    <p>
+                                        <b
+                                            >Оформили сделку по официальному
+                                            ВЭД-контракту.</b
+                                        > Туроператор официально перечислил денежные
+                                        средства на наш счёт.
+                                    </p>
+                                </li>
+                            </ul>
+                        </article>
+                    </div>
+                    <figure
+                        class="progress__shot"
+                        role="img"
+                        aria-label="Платёжное поручение по сделке"
+                    >
+                        <img
+                            src="assets/img/project-invoice.webp"
+                            width="852"
+                            height="1206"
+                            alt=""
+                            aria-hidden="true"
+                            loading="lazy"
+                        />
+                        <button
+                            class="progress__zoom"
+                            type="button"
+                            aria-label="Открыть документ во весь экран"
+                            ><span class="ico ico--24"
+                                ><span style="inset:0"
+                                    ><img
+                                        src="assets/icons/upload.svg"
+                                        aria-hidden="true"
+                                    /></span
+                                ></span
+                            ></button
+                        >
+                    </figure>
+                </div>
+            </section>
+        </section>
+
+        <section class="workband">
+            <div class="workband__block" data-reveal>
+                <h2 class="section__title">Как мы работаем</h2>
+                <ol class="steps" data-reveal-group>
+                    <li class="step step--current" data-reveal>
+                        <div class="step__timeline">
+                            <span class="step__bullet"></span><span
+                                class="step__rule"
+                                ><span class="sep"></span></span>
+                        </div>
+                        <div class="step__content">
+                            <h3 class="step__name">Заявка</h3>
+                            <p class="step__desc">
+                                Подайте запрос и менеджер свяжется с вами
+                            </p><span class="sep"></span>
+                            <div class="step__duration">
+                                <span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/clock.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                >
+                                <p>30–60 минут</p>
+                            </div>
+                            <button
+                                class="btn btn--md btn--primary btn--block"
+                                type="button">Оставить заявку</button
+                            >
+                        </div>
+                    </li>
+                    <li class="step" data-reveal>
+                        <div class="step__timeline">
+                            <span class="step__bullet"></span><span
+                                class="step__rule"
+                                ><span class="sep"></span></span>
+                        </div>
+                        <div class="step__content">
+                            <h3 class="step__name">Проверка</h3>
+                            <p class="step__desc">
+                                Автоматизированная проверка документов и
+                                уточнение деталей.
+                            </p><span class="sep"></span>
+                            <div class="step__duration">
+                                <span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/clock.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                >
+                                <p>30 минут</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="step" data-reveal>
+                        <div class="step__timeline">
+                            <span class="step__bullet"></span><span
+                                class="step__rule"
+                                ><span class="sep"></span></span>
+                        </div>
+                        <div class="step__content">
+                            <h3 class="step__name">Платёж</h3>
+                            <p class="step__desc">
+                                Проводим операцию <br />в течение рабочего дня.
+                            </p><span class="sep"></span>
+                            <div class="step__duration">
+                                <span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/clock.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                >
+                                <p>3-4 часа</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="step" data-reveal>
+                        <div class="step__timeline">
+                            <span class="step__bullet"></span><span
+                                class="step__rule"
+                                ><span class="sep"></span></span>
+                        </div>
+                        <div class="step__content">
+                            <h3 class="step__name">Подтверждение</h3>
+                            <p class="step__desc">
+                                Выдаём PDF-подтверждение <br />о выполнении
+                                платежа.
+                            </p><span class="sep"></span>
+                            <div class="step__duration">
+                                <span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/clock.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                >
+                                <p>30–60 минут</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="step" data-reveal>
+                        <div class="step__timeline">
+                            <span class="step__bullet"></span><span
+                                class="step__rule"
+                                ><span class="sep"></span></span>
+                        </div>
+                        <div class="step__content">
+                            <h3 class="step__name">Отчётность</h3>
+                            <p class="step__desc">
+                                Предоставляем акт и полный комплект документов.
+                            </p><span class="sep"></span>
+                            <div class="step__duration">
+                                <span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/clock.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                >
+                                <p>10–20 минут</p>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="workband__block" data-reveal>
+                <div class="reviews__head">
+                    <h2 class="section__title">Отзывы</h2>
+                    <div class="reviews__rating">
+                        <p class="reviews__rating-label">Средний рейтинг</p>
+                        <p class="reviews__rating-value">
+                            <span class="ico ico--40"
+                                ><span style="inset:8.33%"
+                                    ><img
+                                        src="assets/icons/star.svg"
+                                        aria-hidden="true"
+                                    /></span
+                                ></span
+                            ><span>4,9</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="reviews__list">
+                    <article class="review">
+                        <p class="review__date">24 апр 2026</p>
+                        <div class="review__head">
+                            <p class="review__name">Planet C</p><span
+                                class="review__stars"
+                                ><span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/check.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                ><span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/check.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                ><span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/check.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                ><span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/check.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                ><span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/check.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                ><span>4,0</span></span
+                            >
+                        </div>
+                        <p class="review__body">
+                            One of the few companies in NL that has real humans
+                            answering the phone, who are both helpful and nice.
+                        </p>
+                    </article>
+                    <article class="review">
+                        <p class="review__date">24 апр 2026</p>
+                        <div class="review__head">
+                            <p class="review__name">JP de Groot</p><span
+                                class="review__stars"
+                                ><span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/check.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                ><span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/check.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                ><span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/check.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                ><span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/check.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                ><span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/check.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                ><span>5,0</span></span
+                            >
+                        </div>
+                        <p class="review__body">
+                            Excellent service — an unexpected by-effect of a
+                            software upgrade was identified and corrected,
+                            within 24 hours, after just one email to the
+                            helpdesk.
+                        </p>
+                    </article>
+                    <article class="review">
+                        <p class="review__date">24 апр 2026</p>
+                        <div class="review__head">
+                            <p class="review__name">Loma Russ</p><span
+                                class="review__stars"
+                                ><span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/check.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                ><span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/check.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                ><span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/check.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                ><span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/check.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                ><span class="ico ico--24"
+                                    ><span style="inset:8.33%"
+                                        ><img
+                                            src="assets/icons/check.svg"
+                                            aria-hidden="true"
+                                        /></span
+                                    ></span
+                                ><span>5,0</span></span
+                            >
+                        </div>
+                        <p class="review__body">
+                            Excellent help desk service. I had two problems that
+                            were resolved swiftly and efficiently. If only all
+                            customer service could be this good!
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--docs" data-reveal>
+            <h2 class="section__title">Доверие и документы</h2>
+            <div class="docs">
+                <section class="details">
+                    <h3 class="details__title">Реквизиты</h3>
+                    <dl class="details__rows">
+                        <div class="details__row">
+                            <dt>Наименование</dt>
+                            <dd>R3 Limited</dd>
+                        </div>
+                        <span class="sep"></span>
+                        <div class="details__row">
+                            <dt>Регистрационный №</dt>
+                            <dd>79832785</dd>
+                        </div>
+                        <span class="sep"></span>
+                        <div class="details__row">
+                            <dt>ИНН</dt>
+                            <dd>9909762500</dd>
+                        </div>
+                        <span class="sep"></span>
+                        <div class="details__row">
+                            <dt>КПП</dt>
+                            <dd>772887001</dd>
+                        </div>
+                        <span class="sep"></span>
+                        <div class="details__row">
+                            <dt>Юридический адрес</dt>
+                            <dd class="details__row-value--wrap">
+                                UNIT 308, 3/F., CHEVALIER HOUSE, 45-51 CHATHAM
+                                RD SOUTH, TSIM SHA TSUI HONG KONG
+                            </dd>
+                        </div>
+                        <span class="sep"></span>
+                    </dl>
+                </section>
+                <div class="docgrid">
+                    <article class="doccard">
+                        <span class="doccard__art"
+                            ><img
+                                src="assets/img/doc-1.webp"
+                                width="100"
+                                height="100"
+                                alt=""
+                            /></span
+                        >
+                        <div class="doccard__body">
+                            <h3 class="doccard__title">Юридическое лицо</h3>
+                            <div class="doccard__meta-row">
+                                <p class="doccard__meta">
+                                    [выписка · PDF · 000 КБ]
+                                </p><button class="doccard__dl" type="button"
+                                    ><span>Скачать</span><span
+                                        class="ico ico--24"
+                                        ><span style="inset:8.33%"
+                                            ><img
+                                                src="assets/icons/download.svg"
+                                                aria-hidden="true"
+                                            /></span
+                                        ></span
+                                    ></button
+                                >
+                            </div>
+                        </div>
+                    </article>
+                    <article class="doccard">
+                        <span class="doccard__art"
+                            ><img
+                                src="assets/img/doc-2.webp"
+                                width="100"
+                                height="100"
+                                alt=""
+                            /></span
+                        >
+                        <div class="doccard__body">
+                            <h3 class="doccard__title">Договор</h3>
+                            <div class="doccard__meta-row">
+                                <p class="doccard__meta">
+                                    [образец · PDF · 000 КБ]
+                                </p><button class="doccard__dl" type="button"
+                                    ><span>Скачать</span><span
+                                        class="ico ico--24"
+                                        ><span style="inset:8.33%"
+                                            ><img
+                                                src="assets/icons/download.svg"
+                                                aria-hidden="true"
+                                            /></span
+                                        ></span
+                                    ></button
+                                >
+                            </div>
+                        </div>
+                    </article>
+                    <article class="doccard">
+                        <span class="doccard__art"
+                            ><img
+                                src="assets/img/doc-3.webp"
+                                width="100"
+                                height="100"
+                                alt=""
+                            /></span
+                        >
+                        <div class="doccard__body">
+                            <h3 class="doccard__title">AML / KYC</h3>
+                            <div class="doccard__meta-row">
+                                <p class="doccard__meta">
+                                    [политика · PDF · 000 КБ]
+                                </p><button class="doccard__dl" type="button"
+                                    ><span>Скачать</span><span
+                                        class="ico ico--24"
+                                        ><span style="inset:8.33%"
+                                            ><img
+                                                src="assets/icons/download.svg"
+                                                aria-hidden="true"
+                                            /></span
+                                        ></span
+                                    ></button
+                                >
+                            </div>
+                        </div>
+                    </article>
+                    <article class="doccard">
+                        <span class="doccard__art"
+                            ><img
+                                src="assets/img/doc-4.webp"
+                                width="100"
+                                height="100"
+                                alt=""
+                            /></span
+                        >
+                        <div class="doccard__body">
+                            <h3 class="doccard__title">
+                                Политика конфиденциальности
+                            </h3>
+                            <div class="doccard__meta-row">
+                                <p class="doccard__meta">
+                                    [документ · PDF · 000 КБ]
+                                </p><button class="doccard__dl" type="button"
+                                    ><span>Скачать</span><span
+                                        class="ico ico--24"
+                                        ><span style="inset:8.33%"
+                                            ><img
+                                                src="assets/icons/download.svg"
+                                                aria-hidden="true"
+                                            /></span
+                                        ></span
+                                    ></button
+                                >
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-reveal>
+            <section class="request">
+                <div class="request__col">
+                    <h2 class="request__title">
+                        Оставьте заявку, чтобы узнать подробности
+                    </h2>
+                    <div class="request__points">
+                        <div class="request__point">
+                            <span class="ico ico--24"
+                                ><span style="inset:8.33%"
+                                    ><img
+                                        src="assets/icons/check.svg"
+                                        aria-hidden="true"
+                                    /></span
+                                ></span
+                            >
+                            <p>Отвечаем в рабочее время в течение 15 минут</p>
+                        </div>
+                        <div class="request__point">
+                            <span class="ico ico--24"
+                                ><span style="inset:8.33%"
+                                    ><img
+                                        src="assets/icons/check.svg"
+                                        aria-hidden="true"
+                                    /></span
+                                ></span
+                            >
+                            <p>
+                                Подбираем маршрут платежа под вашу страну и
+                                валюту
+                            </p>
+                        </div>
+                        <div class="request__point">
+                            <span class="ico ico--24"
+                                ><span style="inset:8.33%"
+                                    ><img
+                                        src="assets/icons/check.svg"
+                                        aria-hidden="true"
+                                    /></span
+                                ></span
+                            >
+                            <p>Фиксируем курс на время сделки</p>
+                        </div>
+                    </div>
+                    <span class="sep" style="width:350px"></span>
+                    <dl class="request__contacts">
+                        <div class="request__contact">
+                            <dt>Телефон</dt>
+                            <dd>+7 999 999 99 99</dd>
+                        </div>
+                        <div class="request__contact">
+                            <dt>Почта</dt>
+                            <dd>Alex.97@gmail.com</dd>
+                        </div>
+                    </dl>
+                </div>
+                <form class="reqform" novalidate>
+                    <div class="reqform__fields">
+                        <div class="reqform__pair">
+                            <vdx-field
+                                id="f-name"
+                                label="Ваше имя"
+                                placeholder="Александр"
+                                required
+                                error-required="Укажите имя"
+                                minlength="2"></vdx-field>
+                            <vdx-field
+                                id="f-company"
+                                label="Компания"
+                                placeholder="Название компании"></vdx-field>
+                        </div>
+                        <div class="reqform__pair">
+                            <vdx-field
+                                id="f-phone"
+                                label="Телефон"
+                                input-type="tel"
+                                placeholder="+7 999 999 99 99"
+                                required
+                                error-required="Укажите телефон"></vdx-field>
+                            <vdx-field
+                                id="f-mail"
+                                label="Почта"
+                                input-type="email"
+                                placeholder="Alex.97@gmail.com"
+                                required
+                                error-required="Укажите почту"></vdx-field>
+                        </div>
+                        <vdx-field
+                            id="f-note"
+                            label="Комментарий"
+                            placeholder="Страна, валюта, сумма"></vdx-field>
+                    </div>
+                    <div class="reqform__consents">
+                        <label class="consent" for="c1"
+                            ><span class="consent__box"
+                                ><span class="consent__mark"
+                                    ><input id="c1" type="checkbox" /></span
+                                ></span
+                            ><span class="consent__text"
+                                >Даю согласие на обработку и передачу
+                                персональных данных*</span
+                            ></label
+                        >
+                        <label class="consent" for="c2"
+                            ><span class="consent__box"
+                                ><span class="consent__mark"
+                                    ><input id="c2" type="checkbox" /></span
+                                ></span
+                            ><span class="consent__text"
+                                >Даю согласие на получение информационной и
+                                рекламной рассылки</span
+                            ></label
+                        >
+                    </div>
+                    <p class="reqform__required">
+                        *Обязательное поле для заполнения
+                    </p>
+                    <button
+                        class="btn btn--lg btn--primary btn--block"
+                        type="submit">Отправить заявку</button
+                    >
+                    <p class="reqform__done" hidden>
+                        Заявка отправлена — менеджер свяжется с вами
+                    </p>
+                </form>
+            </section>
+        </section>
+    </div>
+</MainLayout>

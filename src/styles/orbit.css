@@ -1,0 +1,740 @@
+/* ==========================================================================
+   Hero globe — coins riding the drawn orbit.  Test branch.
+
+   The art is now the bare globe (Resurses/Planet.png, no coins baked in) and
+   the coins and the widget are live elements on top, built from the design
+   file's own «валюта» and «Widget» components (462:30898 / 462:30906).
+
+   Every number below is a design unit from that 490x490 frame, scaled by
+   --u, so one variable moves the whole composition between breakpoints.
+   ========================================================================== */
+.globe {
+  /* unitless on purpose: 490px / 490 is 1px, and every size below
+     would then be px squared and get thrown away */
+  --art: 490;
+  --u: calc(var(--art) / 490);
+  /* The orbit is the bright streak drawn on the globe. It never leaves the
+     silhouette and runs 38px above the sphere's centre, so its visible half
+     length is sqrt(225.5^2 - 38^2) = 222 in the 501x498 art, which
+     object-fit:contain renders at 217.5 in the 490 box. */
+  --orbit: calc(217.5px * var(--u));
+  --coin: calc(52.7px * var(--u));
+  /* the coin at its nearest, per the design */
+  --spin: 22s;
+  --swap: 3s;
+  /* how long each amount is shown */
+  --fade: 0.4s;
+  /* and how long the dissolve takes */
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* The globe sits between the coins: a coin behind it is drawn under this
+   layer, and the PNG is transparent outside the sphere, so the coin simply
+   reappears past the silhouette. */
+.globe__img {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.globe__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* The art is fitted, not stretched, so the square it actually occupies is
+   min(box width, box height) centred. The coins and the card are placed
+   against that square rather than the box, which is what lets the same
+   percentages hold on a phone, where the box is 358x280 rather than square. */
+.globe__stage {
+  /* Centred with auto margins rather than a transform: a transform would make
+     this a stacking context and trap the coins and the card underneath the
+     globe layer, which sits at z-index 2. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  height: 100%;
+  aspect-ratio: 1;
+  max-width: 100%;
+}
+
+.globe__orbit {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* «валюта», 542:16020 / 542:16058 — the disc, its label and the tick all ride
+   one transform, so the coin recedes as a whole the way the design's own
+   «Animation» strip draws it.
+
+   The rim is a gradient stroke, which the Figma codegen flattens to its first
+   stop (a 1%-alpha navy) and so loses. It is restored here with the two
+   backgrounds trick: the fill paints to the padding box and the stroke to the
+   border box behind a transparent border, which is what strokeAlign INSIDE
+   means. Angles are the plugin's own gradientTransform read as CSS
+   (css = 90 - atan2), checked against the one angle the codegen does give:
+   the fill's 208.64deg. */
+.coin {
+  position: absolute;
+  left: 47.06%;
+  top: 43.82%;
+  /* the streak's own centre, 38px above the sphere's */
+  width: var(--coin);
+  height: var(--coin);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: calc(3.014px * var(--u)) solid transparent;
+  background:
+    linear-gradient(208.64deg, #282dad 17.663%, #0a109c 156.45%) padding-box,
+    linear-gradient(344.21deg, rgba(3, 14, 66, 0.01) 0%, #969aff 100%) border-box;
+  box-shadow: 0 0 calc(21.2px * var(--u)) rgba(255, 255, 255, 0.25);
+  animation: coin-orbit var(--spin) linear infinite both;
+  animation-delay: calc(var(--spin) * var(--phase) * -1);
+  will-change: transform;
+}
+
+.coin--paid {
+  background:
+    linear-gradient(180deg, #0f6c5e 0%, #1f5d54 100%) padding-box,
+    linear-gradient(344.21deg, rgba(3, 49, 42, 0) 0%, #138675 100%) border-box;
+}
+
+.coin__label {
+  font:
+    700 calc(12px * var(--u))/1 Onest,
+    sans-serif;
+  color: var(--neutral-10);
+  letter-spacing: 0;
+}
+
+.globe .coin__tick {
+  width: calc(var(--coin) * 0.575);
+  height: calc(var(--coin) * 0.391);
+  object-fit: contain;
+  color: var(--neutral-10);
+}
+
+/* «Widget», 462:30905 — static, the way the design places it. The instance is
+   the component scaled to 0.75: its 69px mark measures 51.2 in the composed
+   art and its 16px padding measures 12, so --w carries that factor and every
+   number below stays the component's own. */
+.globe__widget {
+  --w: calc(var(--u) * 0.75);
+  position: absolute;
+  z-index: 4;
+  left: 0;
+  top: calc(83.2px * var(--u));
+  display: flex;
+  align-items: center;
+  gap: calc(16px * var(--w));
+  width: calc(271.5px * var(--u));
+  height: calc(75.3px * var(--u));
+  margin: 0;
+  padding: calc(16px * var(--w));
+  border-radius: calc(24px * var(--w));
+  background: var(--neutral-10);
+  overflow: hidden;
+  box-shadow: 0 calc(4px * var(--u)) calc(81.3px * var(--u)) rgba(130, 130, 189, 0.19);
+  /* One float per full value cycle — 3 values x 3s — so the two never drift
+     against each other. Down 24px over the first half, back up over the second. */
+  animation: widget-float calc(var(--swap) * 3) ease-in-out infinite;
+}
+
+.globe__mark {
+  flex: none;
+  font-size: calc(69px * var(--w));
+}
+
+.globe .globe__mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.globe__lines {
+  display: flex;
+  flex-direction: column;
+  gap: calc(8px * var(--w));
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.globe__caption {
+  font:
+    400 calc(20px * var(--w))/1.2 Onest,
+    sans-serif;
+  color: var(--primary-100);
+}
+
+/* The three amounts of Widget 557:16223 sit in one grid cell and cross-fade,
+   so the card never reflows and the handover is a true 400ms dissolve rather
+   than a fade-out followed by a fade-in. Each slot runs the same 9s track,
+   offset by one 3s step; the extra -0.4s puts the first slot fully on at load
+   instead of mid-dissolve. */
+.globe__amount {
+  display: grid;
+}
+
+.globe__amount-slot {
+  grid-area: 1/1;
+  font:
+    600 calc(24px * var(--w))/1.2 Onest,
+    sans-serif;
+  color: #0b0f12;
+  opacity: 0;
+  animation: widget-value calc(var(--swap) * 3) linear infinite both;
+}
+
+.globe__amount-slot:nth-child(1) {
+  animation-delay: calc(var(--swap) * 0 - var(--fade));
+}
+
+.globe__amount-slot:nth-child(2) {
+  animation-delay: calc(var(--swap) * -2 - var(--fade));
+}
+
+.globe__amount-slot:nth-child(3) {
+  animation-delay: calc(var(--swap) * -1 - var(--fade));
+}
+
+.globe__check {
+  position: absolute;
+  right: calc(12px * var(--w));
+  top: calc(13px * var(--w));
+  font-size: calc(38px * var(--w));
+}
+
+@media (max-width: 1439px) {
+  .globe {
+    --art: 380;
+  }
+}
+
+/* On a phone the box is 358x280, so the fitted art — and the stage with it —
+   is a 280 square. Everything scales off --art, and the card takes the
+   position the mobile frame «Planet Main Mobil» gives it: 207.3/328.7 of 490,
+   which is 42.31% / 67.08% of the stage. */
+@media (max-width: 480px) {
+  .globe {
+    --art: 280;
+  }
+
+  .globe__widget {
+    left: 42.31%;
+    top: 67.08%;
+  }
+}
+
+/* Reduced motion cannot just pause the track: some engines force the duration
+   to zero, which lands every coin on the same frame. Each coin instead carries
+   the position the static design gives it, so the hero reads as the original
+   illustration. */
+@media (prefers-reduced-motion: reduce) {
+  .coin {
+    animation: none;
+    z-index: var(--z);
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * var(--tx)), calc(var(--orbit) * var(--ty))) scale(var(--sc));
+  }
+
+  /* The card rests where the design puts it and keeps the first amount —
+     with the track off, every slot would otherwise sit at its base opacity 0 */
+  .globe__widget,
+  .globe__amount-slot {
+    animation: none;
+  }
+
+  .globe__amount-slot:first-child {
+    opacity: 1;
+  }
+}
+
+/* 4.4444% of 9s is the 400ms dissolve; 33.3333% is the 3s each value holds */
+@keyframes widget-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(calc(24px * var(--u)));
+  }
+}
+
+@keyframes widget-value {
+  0% {
+    opacity: 0;
+  }
+
+  4.4444% {
+    opacity: 1;
+  }
+
+  33.3333% {
+    opacity: 1;
+  }
+
+  37.7778% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* app.js pauses the track while the hero is off-screen */
+.globe--idle .coin,
+.globe--idle .globe__widget,
+.globe--idle .globe__amount-slot {
+  animation-play-state: paused;
+}
+
+/* Generated by tools/orbit-keyframes.py — edit the script, not this block. */
+@keyframes coin-orbit {
+  0% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.8582), calc(var(--orbit) * -0.5134)) scale(0.3041);
+    z-index: 1;
+  }
+
+  1.3889% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.8541), calc(var(--orbit) * -0.5128)) scale(0.3237);
+    z-index: 3;
+  }
+
+  2.7778% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.8435), calc(var(--orbit) * -0.5083)) scale(0.3459);
+    z-index: 3;
+  }
+
+  4.1667% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.8265), calc(var(--orbit) * -0.5)) scale(0.3709);
+    z-index: 3;
+  }
+
+  5.5556% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.8032), calc(var(--orbit) * -0.4879)) scale(0.3991);
+    z-index: 3;
+  }
+
+  6.9444% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.7737), calc(var(--orbit) * -0.472)) scale(0.4308);
+    z-index: 3;
+  }
+
+  8.3333% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.7384), calc(var(--orbit) * -0.4525)) scale(0.4664);
+    z-index: 3;
+  }
+
+  9.7222% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.6975), calc(var(--orbit) * -0.4297)) scale(0.5061);
+    z-index: 3;
+  }
+
+  11.1111% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.6513), calc(var(--orbit) * -0.4035)) scale(0.5502);
+    z-index: 3;
+  }
+
+  12.5% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.6001), calc(var(--orbit) * -0.3742)) scale(0.5987);
+    z-index: 3;
+  }
+
+  13.8889% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.5443), calc(var(--orbit) * -0.3422)) scale(0.6513);
+    z-index: 3;
+  }
+
+  15.2778% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.4844), calc(var(--orbit) * -0.3075)) scale(0.7073);
+    z-index: 3;
+  }
+
+  16.6667% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.4209), calc(var(--orbit) * -0.2704)) scale(0.7654);
+    z-index: 3;
+  }
+
+  18.0556% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.3541), calc(var(--orbit) * -0.2314)) scale(0.8235);
+    z-index: 3;
+  }
+
+  19.4444% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.2846), calc(var(--orbit) * -0.1905)) scale(0.8787);
+    z-index: 3;
+  }
+
+  20.8333% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.2129), calc(var(--orbit) * -0.1482)) scale(0.9277);
+    z-index: 3;
+  }
+
+  22.2222% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.1397), calc(var(--orbit) * -0.1048)) scale(0.9664);
+    z-index: 3;
+  }
+
+  23.6111% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.0653), calc(var(--orbit) * -0.0606)) scale(0.9914);
+    z-index: 3;
+  }
+
+  25% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.0095), calc(var(--orbit) * -0.0159)) scale(1);
+    z-index: 3;
+  }
+
+  26.3889% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.0843), calc(var(--orbit) * 0.0289)) scale(0.9914);
+    z-index: 3;
+  }
+
+  27.7778% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.1584), calc(var(--orbit) * 0.0735)) scale(0.9664);
+    z-index: 3;
+  }
+
+  29.1667% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.2313), calc(var(--orbit) * 0.1175)) scale(0.9277);
+    z-index: 3;
+  }
+
+  30.5556% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.3024), calc(var(--orbit) * 0.1607)) scale(0.8787);
+    z-index: 3;
+  }
+
+  31.9444% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.3713), calc(var(--orbit) * 0.2026)) scale(0.8235);
+    z-index: 3;
+  }
+
+  33.3333% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.4373), calc(var(--orbit) * 0.2429)) scale(0.7654);
+    z-index: 3;
+  }
+
+  34.7222% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.5), calc(var(--orbit) * 0.2815)) scale(0.7073);
+    z-index: 3;
+  }
+
+  36.1111% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.5589), calc(var(--orbit) * 0.3178)) scale(0.6513);
+    z-index: 3;
+  }
+
+  37.5% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.6135), calc(var(--orbit) * 0.3518)) scale(0.5987);
+    z-index: 3;
+  }
+
+  38.8889% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.6635), calc(var(--orbit) * 0.3831)) scale(0.5502);
+    z-index: 3;
+  }
+
+  40.2778% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.7084), calc(var(--orbit) * 0.4114)) scale(0.5061);
+    z-index: 3;
+  }
+
+  41.6667% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.7479), calc(var(--orbit) * 0.4367)) scale(0.4664);
+    z-index: 3;
+  }
+
+  43.0556% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.7818), calc(var(--orbit) * 0.4586)) scale(0.4308);
+    z-index: 3;
+  }
+
+  44.4444% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.8096), calc(var(--orbit) * 0.477)) scale(0.3991);
+    z-index: 3;
+  }
+
+  45.8333% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.8314), calc(var(--orbit) * 0.4918)) scale(0.3709);
+    z-index: 3;
+  }
+
+  47.2222% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.8468), calc(var(--orbit) * 0.5028)) scale(0.3459);
+    z-index: 3;
+  }
+
+  48.6111% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.8557), calc(var(--orbit) * 0.5101)) scale(0.3237);
+    z-index: 3;
+  }
+
+  50% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.8582), calc(var(--orbit) * 0.5134)) scale(0.3041);
+    z-index: 3;
+  }
+
+  51.3889% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.8541), calc(var(--orbit) * 0.5128)) scale(0.2867);
+    z-index: 1;
+  }
+
+  52.7778% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.8435), calc(var(--orbit) * 0.5083)) scale(0.2713);
+    z-index: 1;
+  }
+
+  54.1667% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.8265), calc(var(--orbit) * 0.5)) scale(0.2577);
+    z-index: 1;
+  }
+
+  55.5556% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.8032), calc(var(--orbit) * 0.4879)) scale(0.2456);
+    z-index: 1;
+  }
+
+  56.9444% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.7737), calc(var(--orbit) * 0.472)) scale(0.235);
+    z-index: 1;
+  }
+
+  58.3333% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.7384), calc(var(--orbit) * 0.4525)) scale(0.2256);
+    z-index: 1;
+  }
+
+  59.7222% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.6975), calc(var(--orbit) * 0.4297)) scale(0.2174);
+    z-index: 1;
+  }
+
+  61.1111% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.6513), calc(var(--orbit) * 0.4035)) scale(0.2101);
+    z-index: 1;
+  }
+
+  62.5% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.6001), calc(var(--orbit) * 0.3742)) scale(0.2038);
+    z-index: 1;
+  }
+
+  63.8889% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.5443), calc(var(--orbit) * 0.3422)) scale(0.1984);
+    z-index: 1;
+  }
+
+  65.2778% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.4844), calc(var(--orbit) * 0.3075)) scale(0.1937);
+    z-index: 1;
+  }
+
+  66.6667% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.4209), calc(var(--orbit) * 0.2704)) scale(0.1898);
+    z-index: 1;
+  }
+
+  68.0556% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.3541), calc(var(--orbit) * 0.2314)) scale(0.1865);
+    z-index: 1;
+  }
+
+  69.4444% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.2846), calc(var(--orbit) * 0.1905)) scale(0.1839);
+    z-index: 1;
+  }
+
+  70.8333% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.2129), calc(var(--orbit) * 0.1482)) scale(0.1819);
+    z-index: 1;
+  }
+
+  72.2222% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.1397), calc(var(--orbit) * 0.1048)) scale(0.1804);
+    z-index: 1;
+  }
+
+  73.6111% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * -0.0653), calc(var(--orbit) * 0.0606)) scale(0.1796);
+    z-index: 1;
+  }
+
+  75% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.0095), calc(var(--orbit) * 0.0159)) scale(0.1793);
+    z-index: 1;
+  }
+
+  76.3889% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.0843), calc(var(--orbit) * -0.0289)) scale(0.1796);
+    z-index: 1;
+  }
+
+  77.7778% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.1584), calc(var(--orbit) * -0.0735)) scale(0.1804);
+    z-index: 1;
+  }
+
+  79.1667% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.2313), calc(var(--orbit) * -0.1175)) scale(0.1819);
+    z-index: 1;
+  }
+
+  80.5556% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.3024), calc(var(--orbit) * -0.1607)) scale(0.1839);
+    z-index: 1;
+  }
+
+  81.9444% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.3713), calc(var(--orbit) * -0.2026)) scale(0.1865);
+    z-index: 1;
+  }
+
+  83.3333% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.4373), calc(var(--orbit) * -0.2429)) scale(0.1898);
+    z-index: 1;
+  }
+
+  84.7222% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.5), calc(var(--orbit) * -0.2815)) scale(0.1937);
+    z-index: 1;
+  }
+
+  86.1111% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.5589), calc(var(--orbit) * -0.3178)) scale(0.1984);
+    z-index: 1;
+  }
+
+  87.5% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.6135), calc(var(--orbit) * -0.3518)) scale(0.2038);
+    z-index: 1;
+  }
+
+  88.8889% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.6635), calc(var(--orbit) * -0.3831)) scale(0.2101);
+    z-index: 1;
+  }
+
+  90.2778% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.7084), calc(var(--orbit) * -0.4114)) scale(0.2174);
+    z-index: 1;
+  }
+
+  91.6667% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.7479), calc(var(--orbit) * -0.4367)) scale(0.2256);
+    z-index: 1;
+  }
+
+  93.0556% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.7818), calc(var(--orbit) * -0.4586)) scale(0.235);
+    z-index: 1;
+  }
+
+  94.4444% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.8096), calc(var(--orbit) * -0.477)) scale(0.2456);
+    z-index: 1;
+  }
+
+  95.8333% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.8314), calc(var(--orbit) * -0.4918)) scale(0.2577);
+    z-index: 1;
+  }
+
+  97.2222% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.8468), calc(var(--orbit) * -0.5028)) scale(0.2713);
+    z-index: 1;
+  }
+
+  98.6111% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.8557), calc(var(--orbit) * -0.5101)) scale(0.2867);
+    z-index: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -50%)
+      translate(calc(var(--orbit) * 0.8582), calc(var(--orbit) * -0.5134)) scale(0.3041);
+    z-index: 1;
+  }
+}

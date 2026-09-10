@@ -1,0 +1,366 @@
+---
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import worldMap from '../../assets/img/map-optimized.svg';
+
+interface Country {
+  id: string;
+  name: string;
+  flag: string;
+  currency: string;
+  comission: string;
+  timeText: string;
+  isoTime: string;
+  // Процентные координаты пина на карте (x, y)
+  coords: { x: number; y: number };
+}
+
+const countries: Country[] = [
+  {
+    id: 'china',
+    name: 'Китай',
+    flag: 'china',
+    currency: 'CNY',
+    comission: '0,9%',
+    timeText: '1 день',
+    isoTime: 'P1D',
+    coords: { x: 1425, y: 440 }
+  },
+  {
+    id: 'usa',
+    name: 'США',
+    flag: 'usa',
+    currency: 'USD',
+    comission: '0,9%',
+    timeText: '1 день',
+    isoTime: 'P1D',
+    coords: { x: 300, y: 390 }
+  },
+  {
+    id: 'uae',
+    name: 'ОАЭ',
+    flag: 'uae',
+    currency: 'AED',
+    comission: '0,9%',
+    timeText: '1 день',
+    isoTime: 'P1D',
+    coords: { x: 1185, y: 513 }
+  },
+  {
+    id: 'turkey',
+    name: 'Турция',
+    flag: 'turkey',
+    currency: 'TRY',
+    comission: '1,1%',
+    timeText: '1 день',
+    isoTime: 'P1D',
+    coords: { x: 1103, y: 417 }
+  },
+  {
+    id: 'russia',
+    name: 'Россия',
+    flag: 'russia',
+    currency: 'RUB',
+    comission: '0,7%',
+    timeText: '1 день',
+    isoTime: 'P1D',
+    coords: { x: 1281, y: 222 }
+  }
+];
+
+const defaultActiveId = countries[0].id;
+---
+
+<section class="world-transfers" aria-labelledby="transfers-title">
+  <h2 id="transfers-title" class="h2">
+    Переводы по всему миру
+  </h2>
+
+  <div class="world-transfers__card">
+    <svg xmlns="http://www.w3.org/2000/svg" width="1916" height="1123" viewBox="0 0 1916 1123" fill="none">
+      <foreignObject x="0" y="0" width="1916" height="1123">
+        <Image
+          src={worldMap}
+          alt="Карта подложка"
+          loading="eager"
+          style="width: 100%; height: 100%; object-fit: cover;"
+        />
+      </foreignObject>
+      
+      {countries.map((marker) => (
+        <g class="marker" id={'marker-' + marker.id} transform={`translate(${marker.coords.x}, ${marker.coords.y})`}>
+          <g class="marker-content">
+            <circle cx="20" cy="20" r="22" class="marker-outline" />
+            <foreignObject width="40"  height="40">
+              <Icon name={`flags/${marker.flag}`} style="width: 100%; height: 100%;" />
+            </foreignObject>
+          </g>
+        </g>
+      ))}
+    </svg>
+
+    <aside class="country-widget" aria-label="Условия переводов по странам">
+      <ul class="country-widget__list" role="radiogroup" aria-label="Выберите страну">
+        {countries.map((country) => {
+          const isActive = country.id === defaultActiveId;
+          return (
+            <li class="country-widget__item">
+              <button
+                type="button"
+                class:list={[
+                  'country-widget__option',
+                  { 'country-widget__option--active': isActive }
+                ]}
+                role="radio"
+                aria-checked={isActive ? 'true' : 'false'}
+                data-country={country.id}
+              >
+                <span class="country-widget__info">
+                  <Icon name={'flags/' + country.flag} class="country-widget__flag" aria-hidden="true"/>
+                  <span class="country-widget__name">{country.name}</span>
+                </span>
+
+                <span class="country-widget__metrics">
+                  <span class="country-widget__currency">{country.currency}</span>
+                  <span class="country-widget__fee">{country.comission}</span>
+                  <time datetime={country.isoTime} class="country-widget__time">
+                    {country.timeText}
+                  </time>
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+
+      <button type="button" class="country-widget__cta-btn">
+        Рассчитать условия
+      </button>
+    </aside>
+  </div>
+</section>
+
+<!-- Клиентский скрипт инкапсулирован и выполняется в браузере -->
+<script>
+  function initMapWidget() {
+    const pins = document.querySelectorAll<HTMLButtonElement>('.map-pin');
+    const options = document.querySelectorAll<HTMLButtonElement>('.country-widget__option');
+
+    function setActiveCountry(countryId: string) {
+      // Обновляем пины на карте
+      pins.forEach((pin) => {
+        const isActive = pin.dataset.country === countryId;
+        pin.classList.toggle('map-pin--active', isActive);
+      });
+
+      // Обновляем радио-кнопки в виджете
+      options.forEach((option) => {
+        const isActive = option.dataset.country === countryId;
+        option.classList.toggle('country-widget__option--active', isActive);
+        option.setAttribute('aria-checked', isActive ? 'true' : 'false');
+      });
+    }
+
+    // Слушатели для элементов карты
+    pins.forEach((pin) => {
+      const countryId = pin.dataset.country;
+      if (!countryId) return;
+
+      pin.addEventListener('click', () => setActiveCountry(countryId));
+      pin.addEventListener('mouseenter', () => setActiveCountry(countryId));
+    });
+
+    // Слушатели для радио-кнопок списка
+    options.forEach((option) => {
+      const countryId = option.dataset.country;
+      if (!countryId) return;
+
+      option.addEventListener('click', () => setActiveCountry(countryId));
+      option.addEventListener('mouseenter', () => setActiveCountry(countryId));
+    });
+  }
+
+  // Инициализация при первичной загрузке и при переходах Astro View Transitions
+  initMapWidget();
+  document.addEventListener('astro:page-load', initMapWidget);
+</script>
+
+<style>
+  .world-transfers {
+    display: flex;
+    flex-direction: column;
+    padding-block: var(--gutter);
+    padding-block-end: 88px;
+    gap: 64px;
+  }
+
+  .world-transfers h2 {
+    margin-bottom: 24px;
+  }
+
+  .world-transfers__card {
+    position: relative;
+    height: 740px;
+    background-color: #f4f6fa;
+    border-radius: 24px;
+    overflow: hidden;
+    background: var(--Gradient-3, linear-gradient(205deg, #EAF1FF 12.69%, #F7F8FC 80.73%));
+  }
+
+  .world-transfers__card > svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1916px;
+    height: 1123px;
+    transform: translate(-39.2%, -11.8%);
+  }
+
+  .flag-icon-wrapper {
+    font-size: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .flag-svg-render {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+  }
+
+      .marker { 
+      cursor: pointer; 
+    }
+
+    /* Анимируем только внутренний контент */
+    .marker-content {
+      transition: transform 0.2s ease-in-out;
+      /* Говорим браузеру центрировать масштаб относительно центра флага (20px, 20px) */
+      transform-origin: 20px 20px; 
+    }
+
+    .marker:hover .marker-content {
+      transform: scale(1.2);
+    }
+
+    .marker-outline {
+      transition: stroke 0.2s;
+    }
+
+    .marker:hover .marker-outline {
+      stroke: #2f40b5;
+      stroke-width: 3;
+    }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    70% {
+      transform: scale(2.2);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(2.2);
+      opacity: 0;
+    }
+  }
+
+  .country-widget {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: calc(100% - 80px);;
+    padding: 20px;
+    width: 443px;
+    border-radius: var(--r-lg);
+    background: var(--neutral-10);
+    box-shadow: 16px 16px 32px 0 rgba(21, 23, 34, 0.15);
+    border-radius: var(--r-lg);
+    z-index: 2;
+  }
+
+  .country-widget__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .country-widget__option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 12px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+  }
+
+  .country-widget__option:hover {
+    background-color: #f8fafc;
+  }
+
+  .country-widget__option--active {
+    background-color: #eef2ff;
+    border-color: #c7d2fe;
+  }
+
+  .country-widget__info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: #1e293b;
+  }
+
+  .country-widget__flag {
+    font-size: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .country-widget__metrics {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #64748b;
+    font-size: 13px;
+  }
+
+  .country-widget__currency {
+    font-weight: 600;
+    color: #334155;
+  }
+
+  .country-widget__cta-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: auto;
+    transition: background-color 0.2s ease;
+  }
+
+  .country-widget__cta-btn:hover {
+    background-color: #1d4ed8;
+  }
+</style>

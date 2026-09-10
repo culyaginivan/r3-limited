@@ -1,0 +1,7 @@
+node_modules
+dist
+.astro
+public
+AGENTS.md
+CLAUDE.md
+.vscode

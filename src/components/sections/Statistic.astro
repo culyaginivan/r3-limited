@@ -1,0 +1,89 @@
+---
+import { Image } from "astro:assets";
+import statCommission from "../../assets/img/stat-1.webp";
+import statTerms from "../../assets/img/stat-2.webp";
+import statGeography from "../../assets/img/stat-3.webp";
+
+const statistics = [
+	{ label: "Комиссия", value: "0,6%", image: statCommission },
+	{ label: "Сроки", value: "1 день", image: statTerms },
+	{ label: "География", value: "26 стран", image: statGeography },
+];
+---
+
+<aside data-reveal class="statistic flex w-full flex-col items-start">
+	<h2 class="sr-only">Преимущества R3 Limited</h2>
+    <ul class="grid w-full gap-4 min-[481px]:grid-cols-2 md:grid-cols-3">
+		{statistics.map((statistic) => (
+			<li class="statistic__card relative flex min-w-0 flex-col items-start gap-4 overflow-hidden rounded-[var(--r-2xl)] bg-[var(--secondary-60)] px-10 py-8">
+				<h3 class="statistic__label min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[var(--primary-100)]">
+					{statistic.label}
+				</h3>
+				<p class="h2 statistic__value min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[var(--primary-100)]">
+					{statistic.value}
+				</p>
+				<Image
+                    class="statistic__img"
+					src={statistic.image}
+					alt=""
+					class="pointer-events-none absolute right-5 top-5 size-20 object-cover"
+				/>
+			</li>
+		))}
+	</ul>
+</aside>
+
+<style>
+	.statistic {
+        padding: 44px var(--gutter);
+	}
+
+	.statistic__card {
+        padding: 32px 80px 32px 40px;
+	}
+
+	.statistic__label {
+        font-size: 20px;
+        line-height: 24px;
+	}
+
+    .statistic__value {
+        z-index: 1;
+    }
+
+    .statistic__img {
+        width: 80px;
+        height: 80px;
+    }
+
+	@media (max-width: 1200px) {
+        .statistic__label {
+            font-size: 16px;
+        }
+	}
+
+    @media (max-width: 992px) {
+		.statistic {
+			padding-inline: 32px;
+		}
+        .statistic__card {
+            padding: 24px 64px 24px 24px;
+        }
+        .statistic__img {
+            width: 64px;
+            height: 64px;
+        }
+	}
+
+    @media (max-width: 768px) {
+        .statistic__card:last-child {
+            grid-column: span 2;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .statistic__card:last-child {
+            grid-column: span 1;
+        }
+    }
+</style>

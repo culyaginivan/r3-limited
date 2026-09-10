@@ -1,0 +1,328 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/img/logo.svg";
+import { company } from "../data/company";
+
+interface FooterLink {
+    name: string;
+    link: string;
+}
+
+const year = new Date().getFullYear();
+
+const serviceLinks: FooterLink[] = [
+    {
+        name: 'Международные платежи',
+        link: '#',
+    },
+    {
+        name: 'Быстрая оплата иностранных партнёров',
+        link: '#',
+    },
+    {
+        name: 'Мультивалютные операции',
+        link: '#',
+    },
+    {
+        name: 'Проверка контрагентов',
+        link: '#',
+    },
+    {
+        name: 'Отчётность',
+        link: '#',
+    },
+    {
+        name: 'Консультация',
+        link: '#',
+    },
+];
+
+const companyLinks: FooterLink[] = [
+    {
+        name: 'Как работаем',
+        link: '#',
+    },
+    {
+        name: 'Документы',
+        link: '#',
+    },
+    {
+        name: 'География',
+        link: '#',
+    },
+    {
+        name: 'Кейсы',
+        link: '#',
+    },
+    {
+        name: 'Вопросы',
+        link: '#',
+    },
+];
+
+const documentLinks: FooterLink[] = [
+    {
+        name: 'Договор',
+        link: '#',
+    },
+    {
+        name: 'AML / KYC',
+        link: '#',
+    },
+    {
+        name: 'Конфиденциальность',
+        link: '#',
+    },
+    {
+        name: 'Реквизиты',
+        link: '#',
+    },
+];
+
+---
+
+<footer class="footer" data-reveal>
+	<div class="footer__wrap">
+		<div class="footer__brand">
+            <Image class="footer__logo" src={logo} alt={company.name}/>
+            <address class="footer__legal">
+                ИНН {company.taxId} · КПП {company.kpp}<br>{company.legalAddress}<br>
+                <a href={'tel:' + company.phoneNumber} aria-label={'Телефон: ' + company.phoneNumber}>{company.phoneNumber}</a>
+                &nbsp;·&nbsp;
+                <a href={'mailto:' + company.email} aria-label={'Электронная почта: ' + company.email}>{company.email}</a>
+            </address>
+		</div>
+		<nav class="footer__col" aria-label="Услуги компании">
+		    <p class="footer__col-title">Услуги</p>
+            <ul class="footer__list">
+                {serviceLinks.map((item) => <li><a href={item.link}>{item.name}</a></li>)}
+            </ul>
+		</nav>
+		<nav class="footer__col" aria-label="О компании">
+            <p class="footer__col-title">Компания</p>
+            <ul class="footer__list">
+                {companyLinks.map((item) => <li><a href={item.link}>{item.name}</a></li>)}
+            </ul>
+		</nav>
+		<nav class="footer__col" aria-label="Юридические документы">
+            <p class="footer__col-title">Документы</p>
+            <ul class="footer__list">
+                {documentLinks.map((item) => <li><a href={item.link}>{item.name}</a></li>)}
+            </ul>
+		</nav>
+	</div>
+	<div class="footer__bottom">
+		<p class="footer__copy">© {year} {company.name}</p>
+        <span class="footer__spacer" aria-hidden="true"></span>
+	</div>
+</footer>
+
+<style>
+    .footer {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        width: 100%;
+        max-width: var(--canvas);
+        min-height: 400px;
+        margin-inline: auto;
+        padding: 88px 64px 32px;
+        border-radius: var(--r-2xl) var(--r-2xl) 0 0;
+        background: var(--gradient-2);
+        color: var(--primary-100);
+    }
+
+    .footer__wrap {
+        display: flex;
+        align-items: flex-end;
+        gap: 64px;
+        width: 100%;
+        max-width: 1300px;
+        margin-inline: auto;
+    }
+
+    .footer__brand {
+        display: flex;
+        flex: 1 1 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 17px;
+        min-width: 320px;
+        height: 296px;
+        padding-bottom: 102px;
+    }
+
+    .footer__logo {
+        width: 202px;
+        height: 40px;
+        object-fit: contain;
+    }
+
+    .footer__legal {
+        max-width: 330px;
+        font: 400 16px/24px Onest, sans-serif;
+        font-style: normal;
+    }
+
+    .footer__col {
+        display: flex;
+        flex: 0 1 240px;
+        flex-direction: column;
+        gap: 24px;
+        align-self: stretch;
+        min-width: 160px;
+        font: 400 16px/24px Onest, sans-serif;
+    }
+
+    .footer__col:nth-of-type(2) {
+        padding-bottom: 36px;
+    }
+
+    .footer__col:nth-of-type(3) {
+        padding-bottom: 73px;
+    }
+
+    .footer__col-title {
+        font-weight: 600;
+    }
+
+    .footer__list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .footer__list a {
+        display: block;
+        transition: color 0.15s ease, opacity 0.15s ease;
+    }
+
+    .footer__list a:hover,
+    .footer__list a:focus-visible {
+        color: var(--primary-90);
+    }
+
+    .footer__bottom {
+        display: flex;
+        width: 100%;
+        max-width: 1300px;
+        margin-inline: auto;
+    }
+
+    .footer__copy {
+        color: var(--neutral-70);
+        font: 400 16px/24px Onest, sans-serif;
+    }
+
+    @media (max-width: 1200px) {
+        .footer {
+            padding-inline: 40px;
+        }
+
+        .footer__wrap {
+            gap: 40px;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .footer {
+            padding-inline: 32px;
+        }
+
+        .footer__wrap {
+            flex-wrap: wrap;
+        }
+
+        .footer__brand {
+            flex-basis: 100%;
+            height: auto;
+            padding-bottom: 0;
+        }
+
+        .footer__col {
+            flex: 1 1 180px;
+            align-self: auto;
+            min-height: 0;
+            padding-bottom: 0 !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .footer {
+            gap: 32px;
+            min-height: 0;
+            padding: 64px 24px 24px;
+            border-radius: var(--r-xl) var(--r-xl) 0 0;
+        }
+
+        .footer__wrap {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 40px 24px;
+        }
+
+        .footer__brand {
+            grid-column: 1 / -1;
+            min-width: 0;
+        }
+
+        .footer__col {
+            min-width: 0;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .footer__list {
+            gap: 12px;
+        }
+
+        .footer__copy {
+            font-size: 12px;
+            line-height: 16px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .footer {
+            padding: 40px 16px 24px;
+        }
+
+        .footer__wrap {
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+
+        .footer__brand,
+        .footer__col {
+            grid-column: auto;
+        }
+
+        .footer__logo {
+            width: 160px;
+            height: auto;
+        }
+
+        .footer__legal {
+            font-size: 12px;
+            line-height: 18px;
+        }
+
+        .footer__col-title {
+            font-size: 16px;
+            line-height: 24px;
+        }
+    }
+
+    @media (max-width: 375px) {
+        .footer {
+            padding-inline: 16px;
+        }
+
+        .footer__wrap {
+            gap: 28px;
+        }
+    }
+</style>

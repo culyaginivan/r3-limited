@@ -1,0 +1,429 @@
+@import 'tailwindcss';
+
+/* ==========================================================================
+  Design tokens — mapped 1:1 from the Figma styles on node 404:4150
+   ========================================================================== */
+:root {
+  /* Colour ramps */
+  --primary-60: #eaf1ff;
+  --primary-90: #282dad;
+  --primary-100: #0a0c19;
+  --secondary-60: #f7f8fc;
+  --secondary-70: #e9ebf3;
+  --secondary-80: #d8dbf5;
+  --secondary-90: #c3c6eb;
+  --secondary-100: #8e90d5;
+  --neutral-10: #ffffff;
+  --neutral-20: #f5f5f5;
+  --neutral-30: #ededed;
+  --neutral-50: #c2c2c2;
+  --neutral-40: #e0e0e0;
+  --neutral-70: #757575;
+  --neutral-90: #424242;
+  --neutral-100: #0a0a0a;
+  --success-100: #164c3f;
+  --warning-80: #a82525;
+
+  /* Gradients (angles as emitted by Figma codegen) */
+  --gradient-1: linear-gradient(210.77deg, #eaf1ff 15.243%, #d8dbf5 111.83%);
+  --gradient-2: linear-gradient(192.93deg, #eaf1ff 15.243%, #d8dbf5 111.83%);
+  --gradient-3: linear-gradient(191.59deg, #eaf1ff 15.243%, #d8dbf5 111.83%);
+  --gradient-calc: linear-gradient(198.39deg, #d0ddf7 15.243%, #c3c6eb 111.83%);
+  --gradient-map: linear-gradient(194.43deg, #eaf1ff 12.687%, #f7f8fc 80.735%);
+  --gradient-cases: linear-gradient(
+    211.29deg,
+    rgba(234, 241, 255, 0.8) 15.243%,
+    rgba(218, 219, 243, 0.8) 111.83%
+  );
+  --gradient-cta: linear-gradient(194.89deg, #eaf1ff 15.243%, #d8dbf5 111.83%);
+
+  /* Radii */
+  --r-xs: 4px;
+  --r-sm: 8px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-xl: 32px;
+  --r-2xl: 40px;
+  --r-full: 50%;
+
+  /* Layout */
+  --gutter: 64px;
+  --canvas: 1440px;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--neutral-10);
+  color: var(--primary-100);
+  font:
+    400 16px/24px Onest,
+    system-ui,
+    sans-serif;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+ul {
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* The menu's anchor targets clear the fixed bar, which ends 88px down (78px on
+   a phone), plus a little air. Named rather than [id] so form fields keep the
+   browser's own scroll-into-view. Smooth scrolling is dropped under reduced
+   motion below. */
+html {
+  scroll-behavior: smooth;
+}
+
+#calculator,
+#services,
+#how-we-work,
+#documents,
+#cases,
+#faq,
+#request {
+  scroll-margin-top: 104px;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary-90);
+  outline-offset: 2px;
+}
+
+main {
+  width: 100%;
+  max-width: var(--canvas);
+  margin-top: -68px;
+  margin-inline: auto;
+  position: relative;
+  overflow: clip;
+}
+
+/* Buttons */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font:
+    500 16px/18px Onest,
+    sans-serif;
+  text-align: center;
+  white-space: nowrap;
+  border-radius: var(--r-xl);
+  transition: filter 0.15s ease;
+}
+
+.btn:hover {
+  filter: brightness(0.94);
+}
+
+.btn:active {
+  filter: brightness(0.88);
+}
+
+.btn:disabled,
+.btn[aria-disabled='true'] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.btn--lg {
+  height: 56px;
+  padding: 16px 32px;
+}
+
+.btn--md {
+  height: 44px;
+  padding: 12px 16px;
+  font-size: 14px;
+}
+
+/* content: Icon Only — a square button around a 24px (L) or 20px (M) glyph */
+.btn__icon {
+  display: none;
+}
+
+.btn--lg.btn--icon-only {
+  width: 56px;
+  padding: 16px;
+}
+
+.btn--md.btn--icon-only {
+  width: 44px;
+  padding: 12px;
+}
+
+.btn--map {
+  height: 50px;
+  padding: 16px 32px;
+}
+
+.btn--primary {
+  background: var(--primary-90);
+  color: var(--neutral-10);
+}
+
+.btn--secondary {
+  background: var(--secondary-70);
+  color: var(--primary-100);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn--icon {
+  width: 44px;
+  height: 44px;
+  padding: 12px;
+  background: rgba(6, 22, 98, 0.08);
+  border-radius: var(--r-xl);
+}
+
+/* The list a combobox field opens. Not part of node 355:8123 — same tokens. */
+.dropdown {
+  position: fixed;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 288px;
+  overflow-y: auto;
+  padding: 8px;
+  background: var(--neutral-10);
+  border-radius: var(--r-md);
+  box-shadow: 0 12px 32px rgba(10, 12, 25, 0.14);
+}
+
+.dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--r-sm);
+  font:
+    400 16px/24px Onest,
+    sans-serif;
+  color: var(--primary-100);
+  cursor: pointer;
+}
+
+.dropdown__item[data-active] {
+  background: var(--secondary-60);
+}
+
+.dropdown__item[aria-selected='true'] {
+  color: var(--primary-90);
+}
+
+.dropdown__hint {
+  margin-left: auto;
+  font:
+    400 14px/16px Onest,
+    sans-serif;
+  color: var(--neutral-70);
+}
+
+.field__box[role='combobox'],
+.field__suffix[role='combobox'] {
+  cursor: pointer;
+}
+
+/* The focused hairline is the design's own focus indicator, so the generic ring would double up */
+.field__box[role='combobox']:focus-visible,
+.field__suffix[role='combobox']:focus-visible {
+  outline: none;
+}
+
+.reqform__required--error {
+  color: var(--warning-80);
+}
+
+.reqform__done {
+  font:
+    400 16px/24px Onest,
+    sans-serif;
+  color: var(--success-100);
+}
+
+/* Size M */
+.field--m .field__box {
+  height: 44px;
+  padding: 6px 12px;
+  border-radius: 12px;
+}
+
+.field--m .field__value {
+  font:
+    400 14px/16px Onest,
+    sans-serif;
+}
+
+.field--m .field__suffix p {
+  font:
+    400 14px/16px Onest,
+    sans-serif;
+  width: auto;
+  white-space: nowrap;
+}
+
+/* Focused: the hairline thickens and takes the primary colour */
+.field__box--underline:focus-within {
+  border-bottom: 2px solid var(--primary-90);
+}
+
+/* Error */
+.field--error .field__label {
+  color: var(--warning-80);
+}
+
+.field--error .field__box--underline,
+.field--error .field__box--underline:focus-within {
+  border-bottom: 1px solid var(--warning-80);
+}
+
+/* Disabled */
+.field--disabled .field__label,
+.field--disabled .field__value,
+.field--disabled .field__suffix p {
+  color: var(--neutral-50);
+}
+
+.field--disabled .field__box {
+  background: var(--neutral-20);
+}
+
+.field--disabled .field__box--underline {
+  border-bottom-color: var(--neutral-30);
+}
+
+.field--disabled .flag {
+  opacity: 0.4;
+}
+
+.field__hint {
+  font:
+    400 12px/14px Onest,
+    sans-serif;
+  color: var(--neutral-70);
+  width: 100%;
+}
+
+.field__box:has(input:disabled),
+.field__box:has(textarea:disabled),
+.field__box:has(select:disabled) {
+  background: var(--neutral-20);
+}
+
+.field__value:focus-visible,
+.field__select:focus-visible {
+  outline: none;
+}
+
+.field__box--select {
+  position: relative;
+}
+
+.field__select {
+  appearance: none;
+  width: 100%;
+  height: 100%;
+  padding: 0 32px 0 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.field__select-arrow {
+  position: absolute;
+  right: 16px;
+  width: 10px;
+  height: 10px;
+  object-fit: contain;
+  transform: translateY(-1px);
+  pointer-events: none;
+}
+
+.field--error .field__label {
+  color: var(--warning-80);
+}
+
+.field--error .field__box--underline {
+  border-bottom-color: var(--warning-80);
+}
+
+/* Заголовки */
+.h1, .h2 {
+  font:
+    600 48px/56px Onest,
+    system-ui,
+    sans-serif;
+}
+
+.h3 {
+  font:
+    600 24px/28px Onest,
+    system-ui,
+    sans-serif;
+}
+
+@media (max-width: 786px) {
+  .h1, .h2  {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .h3 {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .h1, .h2 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+}

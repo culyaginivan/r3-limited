@@ -1,0 +1,25 @@
+{
+    "liveServer.settings.port": 5501,
+    "chat.tools.terminal.autoApprove": {
+        "npm.cmd": true,
+        "npm install": true,
+        "npx tsc": true,
+        "npx prettier": true,
+        "/^npm\\.cmd install --save-dev prettier; npx\\.cmd tsc --noEmit; npx\\.cmd prettier --check tsconfig\\.json package\\.json src/components/sections/Calculator\\.tsx$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^npx\\.cmd prettier --write src/components/sections/Calculator\\.tsx; npx\\.cmd tsc --noEmit; npx\\.cmd prettier --check tsconfig\\.json package\\.json src/components/sections/Calculator\\.tsx$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^npx\\.cmd prettier --write src astro\\.config\\.mjs eslint\\.config\\.js package\\.json tsconfig\\.json \\.prettierrc\\.json \\.prettierignore; npm\\.cmd run format:check; npm\\.cmd run lint; npm\\.cmd run build$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^npx\\.cmd eslint src/components/form/IconSprite\\.astro$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

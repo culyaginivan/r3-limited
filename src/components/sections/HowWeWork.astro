@@ -1,0 +1,78 @@
+---
+import { Icon } from "astro-icon/components";
+
+const steps = [
+  {
+	name: 'Заявка',
+	desc: 'Подайте запрос и менеджер свяжется с вами',
+	duration: {
+		value: '30–60 минут',
+		iso8601: 'PT30M/PT1H',
+	}
+  },
+  {
+	name: 'Проверка',
+	desc: 'Автоматизированная проверка документов и уточнение деталей.',
+	duration: {
+		value: '30 минут',
+		iso8601: 'PT30M',
+	}
+  },
+  {
+	name: 'Платёж',
+	desc: 'Проводим операцию в течение рабочего дня.',
+	duration: {
+		value: '3-4 часа',
+		iso8601: 'PT3H/PT4H',
+	}
+  },
+  {
+	name: 'Подтверждение',
+	desc: 'Выдаём PDF-подтверждение о выполнении платежа.',
+	duration: {
+		value: '30–60 минут',
+		iso8601: 'PT30M/PT1H',
+	}
+  },
+  {
+	name: 'Отчётность',
+	desc: 'Предоставляем акт и полный комплект документов.',
+	duration: {
+		value: '10–20 минут',
+		iso8601: 'PT10M/PT20M',
+	}
+  },
+];
+
+---
+
+<section id="how-we-work" data-reveal class="mx-auto flex w-full max-w-[var(--canvas)] flex-col gap-10 rounded-[var(--r-2xl)] bg-[image:var(--gradient-2)] px-4 py-16 text-[var(--primary-100)] sm:px-8 lg:gap-16 lg:px-16 lg:py-[88px]">
+	<h2 class="h2">Как мы работаем</h2>
+
+	<ol class="grid gap-10 lg:grid-cols-5 lg:gap-6">
+		{steps.map((step, index) => (
+			<li class="flex min-w-0 flex-col gap-5 lg:min-h-[229px]">
+				<div class="flex items-center gap-4" aria-hidden="true">
+					<span class:list={["size-4 shrink-0 rounded-full", index === 0 ? "bg-[var(--primary-90)]" : "bg-[var(--primary-100)]"]}></span>
+					<span class:list={["h-0 min-w-0 flex-1 border-t", index === 0 ? "border-[var(--primary-90)]" : "border-[var(--neutral-70)]"]}></span>
+				</div>
+
+				<div class="flex min-h-0 flex-1 flex-col gap-5">
+					<h3 class="h3">{step.name}</h3>
+					<p class="min-h-0 flex-1 text-xs leading-4 lg:text-base lg:leading-6">{step.desc}</p>
+					<div class="flex items-center gap-2 border-t border-[var(--secondary-90)] pt-3">
+						<Icon name="clock" class="size-6 shrink-0" aria-hidden="true" />
+						<time datetime={step.duration.iso8601} class="text-xs font-semibold leading-4 lg:text-base lg:leading-6">{step.duration.value}</time>
+					</div>
+					{index === 0 && (
+						<button type="button" class="btn btn--md btn--primary w-full">
+							Оставить заявку
+						</button>
+					)}
+				</div>
+			</li>
+		))}
+	</ol>
+</section>
+
+

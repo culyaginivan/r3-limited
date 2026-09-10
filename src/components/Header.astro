@@ -1,0 +1,366 @@
+---
+import logo from "../assets/img/logo.svg";
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+
+type currentPageIdType =
+  | "index"
+  | "calculator"
+  | "services"
+  | "how-we-work"
+  | "documents"
+  | "cases"
+  | "faq";
+
+interface Props {
+  current?: currentPageIdType;
+  scrollOffset?: number;
+}
+
+const { current = "index", scrollOffset = 8 } = Astro.props;
+
+const links = [
+  { id: "calculator", label: "Калькулятор", href: "#calculator" },
+  { id: "services", label: "Услуги", href: "#services" },
+  { id: "how-we-work", label: "Как работаем", href: "#how-we-work" },
+  { id: "documents", label: "Документы", href: "#documents" },
+  { id: "cases", label: "Кейсы", href: "#cases" },
+  { id: "faq", label: "Вопросы", href: "#faq" },
+];
+
+const menuId = `menu-panel-${current}`;
+---
+
+<header
+  class="header sticky top-5 z-20 mx-auto flex items-center justify-between gap-3"
+  data-header
+  scroll-offset={scrollOffset}
+>
+  <button
+    class="btn btn--icon header__burger items-center justify-center"
+    type="button"
+    data-menu-toggle
+    aria-expanded="false"
+    aria-controls={menuId}
+    aria-label="Открыть меню"
+  >
+    <Icon
+      name="menu"
+      class="burger-icon burger-icon--menu size-6"
+      aria-hidden="true"
+    />
+    <Icon
+      name="close"
+      class="burger-icon burger-icon--close size-6"
+      aria-hidden="true"
+    />
+  </button>
+
+  <a
+    class="header__logo inline-flex shrink-0 items-center leading-none"
+    href="#"
+    aria-label="R3 Limited — на главную"
+  >
+    <Image src={logo} alt="R3 Limited logo" width={202} height={40} />
+  </a>
+
+  <nav
+    id={menuId}
+    class="header__nav mx-auto flex"
+    aria-label="Основная навигация"
+  >
+    <ul class="flex items-center gap-2 p-0">
+      {
+        links.map((link) => (
+          <li class="list-none">
+            <a
+              class="header__link inline-flex items-center justify-center p-2"
+              href={link.href}
+              aria-current={current === link.id ? "page" : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  <ul class="header__actions flex items-center gap-2 ml-2 p-0">
+    <li>
+      <a
+        class="btn btn--icon"
+        href="https://t.me/vectoroplat"
+        aria-label="Написать в Telegram"
+        rel="noopener noreferrer"
+      >
+        <Icon name="telegram" class="size-6" aria-hidden="true" />
+      </a>
+    </li>
+    <li>
+      <a class="btn btn--primary header__cta" href="#request">Оставить заявку</a
+      >
+    </li>
+  </ul>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>("[data-header]");
+  const panel = header
+    ? document.getElementById(
+        header
+          .querySelector<HTMLButtonElement>("[data-menu-toggle]")
+          ?.getAttribute("aria-controls") || "",
+      )
+    : null;
+  const toggles = header
+    ? Array.from(
+        header.querySelectorAll<HTMLButtonElement>("[data-menu-toggle]"),
+      )
+    : [];
+
+  if (header && panel) {
+    const setOpen = (open: boolean) => {
+      panel.toggleAttribute("data-open", open);
+      toggles.forEach((toggle) => {
+        toggle.setAttribute("aria-expanded", String(open));
+        toggle.setAttribute(
+          "aria-label",
+          open ? "Закрыть меню" : "Открыть меню",
+        );
+      });
+    };
+
+    toggles.forEach((toggle) =>
+      toggle.addEventListener("click", () =>
+        setOpen(!panel.hasAttribute("data-open")),
+      ),
+    );
+    panel.addEventListener("click", (event) => {
+      if ((event.target as HTMLElement).closest("a")) setOpen(false);
+    });
+    document.addEventListener("click", (event) => {
+      if (!header.contains(event.target as Node)) setOpen(false);
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setOpen(false);
+    });
+    window.addEventListener(
+      "scroll",
+      () => {
+        header.classList.toggle(
+          "header--scrolled",
+          window.scrollY > Number(header.dataset.scrollOffset || 8),
+        );
+      },
+      { passive: true },
+    );
+  }
+</script>
+
+<style>
+  :root {
+    --menu-margin: 50px;
+  }
+
+  .header {
+    max-width: calc(var(--canvas) - var(--menu-margin));
+    padding: 12px 12px 12px 24px;
+    border-radius: var(--r-2xl);
+    background: rgba(255, 255, 255, 0);
+    transition:
+      background-color 0.25s ease,
+      backdrop-filter 0.25s ease;
+  }
+
+  .header--scrolled {
+    background: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+
+  .header__logo img {
+    width: 202px;
+    height: 40px;
+    object-fit: contain;
+  }
+
+  .header__nav ul {
+    margin: 0;
+  }
+
+  .header__link {
+    min-height: 36px;
+    font:
+      500 16px/18px Onest,
+      sans-serif;
+    letter-spacing: -0.01em;
+    color: var(--primary-100);
+    transition:
+      opacity 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .header__link:hover,
+  .header__link:focus-visible {
+    color: var(--primary-90);
+  }
+
+  .header__link[aria-current="page"] {
+    color: var(--primary-90);
+    font-weight: 600;
+  }
+
+  .header__actions .btn--icon {
+    width: 44px;
+    height: 44px;
+    padding: 12px;
+    background: rgba(6, 22, 98, 0.08);
+    border-radius: var(--r-xl);
+  }
+
+  .header__cta {
+    min-width: 165px;
+    height: 44px;
+    padding: 12px 16px;
+    border-radius: var(--r-xl);
+    font:
+      500 14px/18px Onest,
+      sans-serif;
+  }
+
+  .header__burger {
+    position: relative;
+    display: none;
+    width: 44px;
+    height: 44px;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--r-full);
+    background: rgba(6, 22, 98, 0.08);
+  }
+
+  .burger-icon {
+    transition:
+      opacity 200ms ease,
+      transform 200ms ease;
+  }
+  .burger-icon--menu {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+  .burger-icon--close {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.7);
+    pointer-events: none;
+  }
+
+  /* When the menu is open, hide the menu icon and show the close icon */
+  [data-menu-toggle][aria-expanded="true"] .burger-icon--menu {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.7);
+  }
+  [data-menu-toggle][aria-expanded="true"] .burger-icon--close {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+
+  @media (max-width: 1440px) {
+    .header {
+      width: calc(100% - var(--menu-margin));
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .header {
+      justify-content: flex-start;
+      gap: 24px;
+      padding: 12px;
+    }
+
+    .header__burger {
+      display: flex;
+    }
+    .header__nav {
+      position: absolute;
+      top: 76px;
+      z-index: 19;
+      display: none;
+      padding: 12px;
+      border-radius: var(--r-lg);
+      background: var(--neutral-10, #fff);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      width: 100%;
+      max-width: 405px;
+    }
+
+    .header__nav[data-open] {
+      display: block;
+    }
+
+    .header__nav ul {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      align-self: stretch;
+    }
+
+    .header__nav ul li {
+      width: 100%;
+    }
+
+    .header__nav ul li a {
+      width: 100%;
+    }
+
+    .header__nav .header__link {
+      justify-content: flex-start;
+      padding: 12px 16px;
+      border-radius: var(--r-md);
+    }
+
+    .header__nav .header__link:hover {
+      background: var(--secondary-60);
+    }
+
+    .header__actions {
+      margin-left: auto;
+    }
+  }
+
+  @media (max-width: 992px) {
+    :root {
+      --menu-margin: 32px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .header {
+      gap: 8px;
+    }
+
+    .header__logo img {
+      width: 141px;
+      height: 28px;
+    }
+
+    .header__burger {
+      order: 4;
+      background: var(--primary-90);
+      color: var(--neutral-10);
+    }
+
+    .header__nav {
+      right: 0;
+      left: auto;
+    }
+
+    .header__actions li:last-child {
+      display: none;
+    }
+  }
+</style>

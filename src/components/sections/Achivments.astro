@@ -1,0 +1,28 @@
+---
+const achivments = [
+    { label: "Клиентов", value: "10 000+" },
+    { label: "Операций", value: "50 000+" },
+    { label: "Кейсов", value: "200+" },
+    { label: "Стран", value: "26" },
+];
+---
+
+<aside
+    class="w-full rounded-[var(--r-2xl)] bg-white px-16 py-14 text-[var(--primary-100)]"
+    data-reveal
+    aria-labelledby="achievements-title"
+>
+    <h2 id="achievements-title" class="sr-only">Наши достижения</h2>
+    <ul class="flex w-full flex-wrap content-start items-start justify-center gap-x-20 gap-y-6">
+        {
+            achivments.map((item) => (
+                <li class="flex min-w-[200px] flex-col items-center gap-4">
+                    <h3 class="order-first text-center text-[48px] font-semibold leading-[1.2]">
+                        {item.value}
+                    </h3>
+                    <p class="text-center text-[20px] leading-6">{item.label}</p>
+                </li>
+            ))
+        }
+    </ul>
+</aside>

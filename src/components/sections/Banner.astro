@@ -1,0 +1,306 @@
+---
+import { Image } from "astro:assets";
+import globeBare from "../../assets/img/hero-globe-bare.webp";
+import { Icon } from "astro-icon/components";
+
+---
+
+<section class="banner" data-reveal>
+	<h1 class="h1 banner__title">Платеж в любую <br />точку мира 0,6%*</h1>
+	<nav class="banner__actions">
+		<ul>
+			<li>
+				<a class="btn btn--lg btn--primary" href="#">Оставить заявку</a>
+			</li>
+			<li>
+				<a class="btn btn--lg btn--secondary" href="#calculator">Рассчитать платеж</a>
+			</li>
+		</ul>
+	</nav>
+	<small class="banner__note">
+		*Фиксированный минимум комиссии действует исключительно для
+		переводов в AED.
+	</small>
+	<div class="banner__art">
+		<div class="globe">
+			<span class="globe__img">
+				<Image
+					src={globeBare}
+					width="501"
+					height="498"
+					alt="Глобус с орбитой платёжного маршрута"
+				/>
+			</span>
+			<div class="globe__stage">
+				<div class="globe__orbit" aria-hidden="true">
+					<span
+						class="coin"
+						style="--phase:0.0;--tx:0.8582;--ty:-0.5134;--sc:0.3041;--z:1"
+					>
+						<span class="coin__label">CNY</span>
+					</span>
+					<span
+						class="coin coin--paid"
+						style="--phase:0.1;--tx:0.6887;--ty:-0.4247;--sc:0.5146;--z:3"
+					>
+						<Icon name="coin-check" class="coin__tick" aria-hidden="true" />
+					</span>
+					<span
+						class="coin"
+						style="--phase:0.2;--tx:0.2562;--ty:-0.1737;--sc:0.8993;--z:3"
+						><span class="coin__label">AED</span></span
+					>
+					<span
+						class="coin"
+						style="--phase:0.3;--tx:-0.2742;--ty:0.1435;--sc:0.8993;--z:3"
+						><span class="coin__label">TRY</span></span
+					>
+					<span
+						class="coin coin--paid"
+						style="--phase:0.4;--tx:-0.6998;--ty:0.4060;--sc:0.5146;--z:3"
+					>
+						<Icon name="coin-check" class="coin__tick" aria-hidden="true" />
+					</span>
+					<span
+						class="coin"
+						style="--phase:0.5;--tx:-0.8582;--ty:0.5134;--sc:0.3041;--z:3"
+					>
+						<span class="coin__label">AED</span>
+					</span>
+					<span
+						class="coin"
+						style="--phase:0.6;--tx:-0.6887;--ty:0.4247;--sc:0.2158;--z:1"
+					>
+						<span class="coin__label">RUB</span>
+					</span>
+					<span
+						class="coin coin--paid"
+						style="--phase:0.7;--tx:-0.2562;--ty:0.1737;--sc:0.1830;--z:1"
+					>
+						<Icon name="coin-check" class="coin__tick" aria-hidden="true" />
+					</span>
+					<span
+						class="coin coin--paid"
+						style="--phase:0.8;--tx:0.2742;--ty:-0.1435;--sc:0.1830;--z:1"
+					>
+						<Icon name="coin-check" class="coin__tick" aria-hidden="true" />
+					</span>
+					<span
+						class="coin"
+						style="--phase:0.9;--tx:0.6998;--ty:-0.4060;--sc:0.2158;--z:1"
+					>
+						<span class="coin__label">USD</span>
+					</span>
+				</div>
+				<figure class="globe__widget" aria-hidden="true">
+					<span class="globe__mark">
+						<Icon name="mini-logo" class="globe__mark-icon" aria-hidden="true" />
+					</span>
+					<figcaption class="globe__lines">
+						<span class="globe__caption">Платеж отправлен</span>
+						<span class="globe__amount">
+							<span class="globe__amount-slot">50 000 EUR</span>
+							<span class="globe__amount-slot">300 000 CNY</span>
+							<span class="globe__amount-slot">1 000 000 AED</span>
+						</span>
+					</figcaption>
+					<span class="globe__check">
+						<Icon name="check" aria-hidden="true" style="--size:1.25rem;"/>
+					</span>
+				</figure>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<style>
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+.banner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 40px;
+  height: 720px;
+  width: 100%;
+  padding: 120px var(--gutter) 56px var(--gutter);
+  border-radius: 0 0 var(--r-2xl) var(--r-2xl);
+  overflow: hidden;
+}
+
+.banner:before {
+  content: "";
+  position: absolute;
+  left: -41px;
+  bottom: -556px;
+
+  width: 876px;
+  height: 876px;
+
+  border-radius: 50%;
+  opacity: 0.4;
+  background-color: var(--secondary-90);
+  filter: blur(120px);
+  z-index: -1;
+}
+
+.banner:after {
+  content: "";
+  position: absolute;
+  right: -85px;
+  bottom: -185px;
+
+  width: 754px;
+  height: 754px;
+
+  border-radius: 50%;
+  opacity: 0.4;
+  background-color: var(--secondary-100);
+  filter: blur(120px);
+  z-index: -1;
+}
+
+.banner__art {
+  position: absolute;
+  right: calc(var(--gutter) + 7px);
+  bottom: 79px;
+  width: 490px;
+  height: 490px
+}
+
+.banner__art:empty {
+  background: #D9D9D9
+}
+
+.banner__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain
+}
+
+.banner__info {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1 0 0;
+  min-height: 0;
+  max-width: 560px;
+}
+
+.banner__col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+  flex: 1 0 0;
+  min-width: 0
+}
+
+.banner__title {
+  max-width: 560px;
+}
+
+.banner__actions ul {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.banner__dots {
+  width: 69px
+}
+
+.banner__note {
+  max-width: 560px;
+  font: 400 14px/16px Onest, sans-serif
+}
+
+@media (max-width: 1440px) {
+  .banner {
+    padding: 120px 32px 56px
+  }
+
+  .banner__art {
+    right: 24px;
+    width: 380px;
+    height: 380px
+  }
+}
+
+@media (max-width: 1200px) {
+  .banner {
+    height: auto;
+    padding-block: 140px 56px
+  }
+
+  .banner__art {
+    display: none
+  }
+}
+
+@media (max-width: 480px) {
+  /* Hero: the art leads, stacked over centred text */
+  .banner {
+    height: auto;
+    gap: 32px;
+    padding: 80px 16px 24px;
+    border-radius: 0 0 24px 24px
+  }
+  .banner__art {
+    position: relative;
+    inset: auto;
+    display: block;
+    width: 100%;
+    height: 280px;
+    border-radius: 24px;
+    flex: none;
+    overflow: hidden
+  }
+
+  .banner__art img {
+    object-fit: cover;
+    object-position: center bottom
+  }
+
+  .banner__row {
+    flex: 0 0 auto;
+    min-height: auto;
+    width: 100%
+  }
+
+  .banner__col {
+    gap: 24px;
+    width: 100%
+  }
+
+  .banner__title {
+    max-width: none;
+  }
+
+  .banner__title br {
+    display: none
+  }
+
+  .banner__actions {
+    flex-wrap: wrap;
+    gap: 16px;
+    width: 100%
+  }
+
+  .banner__actions .btn {
+    flex: 1 0 0;
+    min-width: 200px;
+    height: 44px;
+    padding: 12px 16px;
+    font-size: 14px
+  }
+
+  .banner__note {
+    max-width: none;
+    font: 400 12px/14px Onest, sans-serif
+  }
+}
+</style>

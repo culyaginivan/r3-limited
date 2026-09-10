@@ -1,17 +1,38 @@
 ---
+import MainLayout from "../layouts/Main.astro";
+import "../styles/global.css";
+import "../styles/orbit.css";
 
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import HowWeWork from "../components/sections/HowWeWork.astro";
+import Documents from "../components/sections/Documents.astro";
+import Banner from "../components/sections/Banner.astro";
+import Statistic from "../components/sections/Statistic.astro";
+import Trasted from "../components/sections/Trasted.astro";
+import Cases from "../components/sections/Cases.astro";
+import Achivments from "../components/sections/Achivments.astro";
+import Calculator from "../components/sections/Calculator";
+import Services from "../components/sections/Services.astro";
+import WorldTransfers from "../components/sections/WorldTransfers.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<MainLayout
+	title="R3Limited — Платёж в любую точку мира с комиссией 0,3%"
+	description="Международные платежи R3Limited"
+>
+	<Header current="index"/>
+	<main>
+		<Banner />
+		<Statistic />
+		<Trasted />
+		<Calculator client:load />
+		<Services />
+		<Cases />
+		<Achivments />
+		<HowWeWork />
+		<Documents />
+		<WorldTransfers />
+		<Footer />
+	</main>
+</MainLayout>
