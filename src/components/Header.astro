@@ -178,19 +178,20 @@ const menuId = `menu-panel-${current}`;
       .join(', ')
   ).forEach(section => observer.observe(section))
 
-  navLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
+  // програмная навигация
+  // navLinks.forEach(link => {
+  //   link.addEventListener('click', function(e) {
+  //     e.preventDefault();
 
-      const targetId = link?.dataset.linkId;
+  //     const targetId = link?.dataset.linkId;
 
-      if (!targetId) return;
+  //     if (!targetId) return;
 
-      document
-        .getElementById(targetId)
-        ?.scrollIntoView({ behavior: 'smooth' });
-    });
-  });
+  //     document
+  //       .getElementById(targetId)
+  //       ?.scrollIntoView({ behavior: 'smooth' });
+  //   });
+  // });
 </script>
 
 <style>

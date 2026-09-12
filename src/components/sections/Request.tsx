@@ -7,6 +7,16 @@ import Input from '../form/Input';
 import './Request.css';
 import { Checkbox } from '../form/Checkbox';
 
+interface RequestForm {
+    name: string;
+    company: string;
+    phone: string;
+    email: string;
+    comment: string;
+    privacyAgreement: boolean;
+    marketingAgreement: boolean;
+}
+
 export default function Request() {
     const benefits = [
         'Отвечаем в рабочее время в течение 15 минут',
@@ -14,7 +24,7 @@ export default function Request() {
         'Фиксируем курс на время сделки',
     ];
 
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<RequestForm>({
         name: '',
         company: '',
         phone: '',
@@ -24,12 +34,12 @@ export default function Request() {
         marketingAgreement: false,
     });
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value, type } = e.target;
+    const handleChange = (e: ChangeEvent<HTMLInputElement>, key: keyof RequestForm) => {
+        const { value, type } = e.target;
 
         setFormData((prev) => ({
             ...prev,
-            [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
+            [key]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
         }));
     };
 
@@ -80,7 +90,7 @@ export default function Request() {
                                 required
                                 inputMode="text"
                                 value={formData.name}
-                                onChange={handleChange}
+                                onChange={(e) => handleChange(e, 'name')}
                             />
                         </Field>
                         <Field id="l-company-name" label="Комания" required>
@@ -93,7 +103,7 @@ export default function Request() {
                                 inputMode="text"
                                 required
                                 value={formData.company}
-                                onChange={handleChange}
+                                onChange={(e) => handleChange(e, 'company')}
                             />
                         </Field>
                         <Field id="l-user-phone" label="Телефон" required>
@@ -106,7 +116,7 @@ export default function Request() {
                                 type="tel"
                                 required
                                 value={formData.phone}
-                                onChange={handleChange}
+                                onChange={(e) => handleChange(e, 'phone')}
                             />
                         </Field>
                         <Field id="l-user-email" label="Почта" required>
@@ -119,7 +129,7 @@ export default function Request() {
                                 type="email"
                                 required
                                 value={formData.email}
-                                onChange={handleChange}
+                                onChange={(e) => handleChange(e, 'email')}
                             />
                         </Field>
                         <Field id="l-user-comment" label="Комментарий" className="field-comment" required>
@@ -131,7 +141,7 @@ export default function Request() {
                                 required
                                 type="text"
                                 value={formData.comment}
-                                onChange={handleChange}
+                                onChange={(e) => handleChange(e, 'comment')}
                             />
                         </Field>
                     </div>
@@ -144,14 +154,14 @@ export default function Request() {
                             label="Даю согласие на обработку и передачу персональных данных*"
                             required
                             checked={formData.privacyAgreement}
-                            onChange={handleChange}
+                            onChange={(e) => handleChange(e, 'privacyAgreement')}
                         />
 
                         <Checkbox 
                             id="marketingAgreement" 
                             label="Даю согласие на получение информационной и рекламной рассылки"
                             checked={formData.marketingAgreement}
-                            onChange={handleChange}
+                            onChange={(e) => handleChange(e, 'marketingAgreement')}
                         />
                     </fieldset>
 
