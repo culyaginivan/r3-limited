@@ -40,7 +40,7 @@ export default function Request() {
     };
 
     return (
-        <section id="request" className="lead" aria-labelledby="form-heading">
+        <section id="request" className="lead reveal-box" aria-labelledby="form-heading" suppressHydrationWarning>
             <div className="lead-wrapper">
                 <div className="lead-info">
                     <h2>

@@ -450,3 +450,14 @@ main {
     line-height: 36px;
   }
 }
+
+  /* .reveal-box {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  
+  .reveal-box.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  } */

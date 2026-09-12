@@ -8,7 +8,7 @@ const { title } = Astro.props;
 <MainLayout title={title} description={title}>
     <Header current="cases" />
     <div class="page">
-        <section class="hero hero--project" data-reveal>
+        <section class="hero hero--project reveal-box">
             <span class="hero__glow hero__glow--a"
                 ><span
                     ><img
@@ -72,7 +72,7 @@ const { title } = Astro.props;
         </section>
 
         <section class="intro">
-            <div class="statrow" data-reveal>
+            <div class="statrow reveal-box">
                 <stat-card
                     label="Комиссия"
                     value="1,5%"

@@ -1,54 +1,80 @@
 ---
-import MainLayout from "../layouts/Main.astro";
-import "../styles/global.css";
-import "../styles/orbit.css";
+import MainLayout from '../layouts/Main.astro';
+import '../styles/global.css';
+import '../styles/orbit.css';
 
-import Footer from "../components/Footer.astro";
-import Header from "../components/Header.astro";
-import HowWeWork from "../components/sections/HowWeWork.astro";
-import Documents from "../components/sections/Documents.astro";
-import Banner from "../components/sections/Banner.astro";
-import Statistic from "../components/Statistic.astro";
-import Trasted from "../components/sections/Trasted.astro";
-import Cases from "../components/sections/Cases.astro";
-import Achivments from "../components/sections/Achivments.astro";
-import Calculator from "../components/sections/Calculator";
-import Services from "../components/sections/Services.astro";
-import WorldTransfers from "../components/sections/WorldTransfers.astro";
-import Faq from "../components/sections/Faq.astro";
-import Request from "../components/sections/Request"
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import HowWeWork from '../components/sections/HowWeWork.astro';
+import Documents from '../components/sections/Documents.astro';
+import Banner from '../components/sections/Banner.astro';
+import Statistic from '../components/Statistic.astro';
+import Trasted from '../components/sections/Trasted.astro';
+import Cases from '../components/sections/Cases.astro';
+import Achivments from '../components/sections/Achivments.astro';
+import Calculator from '../components/sections/Calculator';
+import Services from '../components/sections/Services.astro';
+import WorldTransfers from '../components/sections/WorldTransfers.astro';
+import Faq from '../components/sections/Faq.astro';
+import Request from '../components/sections/Request';
 
-import statCommission from "../assets/img/stat-1.webp";
-import statTerms from "../assets/img/stat-2.webp";
-import statGeography from "../assets/img/stat-3.webp";
-
+import statCommission from '../assets/img/stat-1.webp';
+import statTerms from '../assets/img/stat-2.webp';
+import statGeography from '../assets/img/stat-3.webp';
 
 const statistics = [
-	{ label: "Комиссия", value: "0,6%", image: statCommission },
-	{ label: "Сроки", value: "1 день", image: statTerms },
-	{ label: "География", value: "26 стран", image: statGeography },
+  { label: 'Комиссия', value: '0,6%', image: statCommission },
+  { label: 'Сроки', value: '1 день', image: statTerms },
+  { label: 'География', value: '26 стран', image: statGeography },
 ];
-
 ---
 
 <MainLayout
-	title="R3Limited — Платёж в любую точку мира с комиссией 0,3%"
-	description="Международные платежи R3Limited"
+  title="R3Limited — Платёж в любую точку мира с комиссией 0,3%"
+  description="Международные платежи R3Limited"
 >
-	<Header current="index"/>
-	<main>
-		<Banner />
-		<Statistic statistics={statistics} ariaLabel="Преимущества R3 Limited" />
-		<Trasted />
-		<Calculator client:load />
-		<Services />
-		<Cases />
-		<Achivments />
-		<HowWeWork />
-		<Documents />
-		<WorldTransfers />
-		<Faq />
-		<Request client:load />
-		<Footer />
-	</main>
+  <Header current="index" />
+  <main>
+    <Banner />
+    <Statistic statistics={statistics} ariaLabel="Преимущества R3 Limited" />
+    <Trasted />
+    <Calculator client:load />
+    <Services />
+    <Cases />
+    <Achivments />
+    <HowWeWork />
+    <Documents />
+    <WorldTransfers />
+    <Faq />
+    <Request client:load />
+    <Footer />
+  </main>
 </MainLayout>
+
+<script>
+  import ScrollReveal from 'scrollreveal';
+
+  const initScrollReveal = () => {
+    ScrollReveal().reveal('.reveal-box', {
+      delay: 300,
+      distance: '50px',
+      origin: 'bottom',
+      duration: 1000,
+	    mobile: true,
+    });
+  };
+
+  document.addEventListener('astro:page-load', initScrollReveal);
+
+//   const observer = new IntersectionObserver((entries) => {
+//     entries.forEach((entry) => {
+//       if (entry.isIntersecting) {
+//         entry.target.classList.add('is-revealed');
+//       }
+//     });
+//   }, { threshold: 0.3 }); // Сработает, когда 10% элемента покажется на экране
+
+//   document.addEventListener('astro:page-load', () => {
+//     document.querySelectorAll('.reveal-box').forEach((el) => observer.observe(el));
+//   });
+</script>

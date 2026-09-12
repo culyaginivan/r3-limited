@@ -48,7 +48,7 @@ export default function Calculator() {
   };
   const selectedCurrency = currencies.find((item) => item.value === currency);
   return (
-    <section className="calc" id="calculator" data-reveal>
+    <section className="calc reveal-box" id="calculator" suppressHydrationWarning={true}>
       <h2 className="sr-only">Калькулятор платежа</h2>
       <div className="calc__summary">
         <dl className="calc__facts">
@@ -190,9 +190,9 @@ export default function Calculator() {
             <p className="quote__total-label">Сумма платежа</p>
             <p className="quote__total-value">{format(total)} ₽</p>
           </div>
-          <button className="btn btn--lg btn--primary btn--block" type="button">
+          <a href="#request" className="btn btn--lg btn--primary btn--block" type="button">
             Оставить заявку
-          </button>
+          </a>
         </aside>
       </form>
     </section>

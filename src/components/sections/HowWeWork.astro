@@ -46,7 +46,7 @@ const steps = [
 
 ---
 
-<section id="how-we-work" data-reveal class="mx-auto flex w-full max-w-[var(--canvas)] flex-col gap-10 rounded-[var(--r-2xl)] bg-[image:var(--gradient-2)] px-4 py-16 sm:px-8 lg:gap-16 lg:px-16 lg:py-[88px]">
+<section id="how-we-work" class="reveal-box mx-auto flex w-full max-w-[var(--canvas)] flex-col gap-10 rounded-[var(--r-2xl)] bg-[image:var(--gradient-2)] px-4 py-16 sm:px-8 lg:gap-16 lg:px-16 lg:py-[88px]">
 	<h2 class="h2">Как мы работаем</h2>
 
 	<ol class="grid gap-10 lg:grid-cols-5 lg:gap-6">
@@ -65,9 +65,9 @@ const steps = [
 						<time datetime={step.duration.iso8601} class="text-xs font-semibold leading-4 lg:text-base lg:leading-6">{step.duration.value}</time>
 					</div>
 					{index === 0 && (
-						<button type="button" class="btn btn--md btn--primary w-full">
+						<a href="#request" class="btn btn--md btn--primary w-full">
 							Оставить заявку
-						</button>
+						</a>
 					)}
 				</div>
 			</li>

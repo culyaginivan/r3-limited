@@ -1,24 +1,23 @@
 ---
 const achivments = [
-    { label: "Клиентов", value: "10 000+" },
-    { label: "Операций", value: "50 000+" },
-    { label: "Кейсов", value: "200+" },
-    { label: "Стран", value: "26" },
+    { label: "Клиентов", stringValue: "10 000+", value: 10000 },
+    { label: "Операций", stringValue: "50 000+", value: 50000 },
+    { label: "Кейсов", stringValue: "200+", value: 200 },
+    { label: "Стран", stringValue: "26", value: 26 },
 ];
 ---
 
 <aside
-    class="w-full rounded-[var(--r-2xl)] bg-white px-16 py-14"
-    data-reveal
+    class="reveal-box w-full rounded-[var(--r-2xl)] bg-white px-16 py-14"    
     aria-labelledby="achievements-title"
 >
     <h2 id="achievements-title" class="sr-only">Наши достижения</h2>
-    <ul class="flex w-full flex-wrap content-start items-start justify-center gap-x-20 gap-y-6">
+    <ul class="achievement-list flex w-full flex-wrap content-start items-start justify-center gap-x-20 gap-y-6">
         {
             achivments.map((item) => (
                 <li class="flex min-w-[200px] flex-col items-center gap-4">
-                    <h3 class="order-first text-center text-[48px] font-semibold leading-[1.2]">
-                        {item.value}
+                    <h3 data-target={item.value} class="order-first text-center text-[48px] font-semibold leading-[1.2]">
+                        {item.stringValue}
                     </h3>
                     <p class="text-center text-[20px] leading-6">{item.label}</p>
                 </li>
@@ -26,3 +25,54 @@ const achivments = [
         }
     </ul>
 </aside>
+
+<script>
+ (() => {
+  const elements = document.querySelectorAll('.order-first');
+  const block = document.querySelector('.achievement-list');
+  if (!elements.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const DURATION = 1600;
+  // Локальный разделитель (автоматически ставит пробелы для "ru" локали: 10 000)
+  const formatter = new Intl.NumberFormat('ru-RU'); 
+
+  const animate = () => {
+    const start = performance.now();
+    
+    // Фиксируем ширину один раз, чтобы верстка не прыгала при счете
+    elements.forEach(el => el.style.minWidth = `${el.offsetWidth}px`);
+
+    const step = (now) => {
+      const progress = Math.min((now - start) / DURATION, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // Изящный кубический easing
+
+      elements.forEach(el => {
+        const target = +el.dataset.target;
+        if (!target) return;
+        
+        const current = Math.round(target * eased);
+        // Выводим отформатированное число + суффикс (например, "+"), если он был
+        el.textContent = formatter.format(current) + (el.textContent.includes('+') ? '+' : '');
+      });
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        // Возвращаем свободный размер и финальный текст
+        elements.forEach(el => el.style.minWidth = '');
+      }
+    };
+    requestAnimationFrame(step);
+  };
+
+  if (block) {
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        io.disconnect();
+        animate();
+      }
+    }, { rootMargin: '0px 0px -20% 0px' });
+    io.observe(block);
+  }
+})();
+</script>
