@@ -47,7 +47,6 @@
 .calc__note {
   display: block;
   margin-top: 18px;
-  color: var(--primary-100);
   font-size: 12px;
   line-height: 14px;
 }
@@ -80,7 +79,6 @@
   border-radius: var(--r-md);
   outline: 0;
   background: var(--neutral-10);
-  color: var(--primary-100);
   font:
     400 16px/24px Onest,
     sans-serif;
@@ -239,7 +237,6 @@
 .dropzone__icon {
   font-size: 40px;
   flex: 0 0 auto;
-  color: var(--primary-100);
 }
 .dropzone__content {
   display: flex;
@@ -258,7 +255,6 @@
 .dropzone small {
   font-size: 16px;
   line-height: 18px;
-  color: var(--primary-100);
 }
 .dropzone__remove {
   position: absolute;

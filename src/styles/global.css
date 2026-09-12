@@ -206,7 +206,6 @@ main {
 
 .btn--secondary {
   background: var(--secondary-70);
-  color: var(--primary-100);
 }
 
 .btn--block {
@@ -245,7 +244,6 @@ main {
   font:
     400 16px/24px Onest,
     sans-serif;
-  color: var(--primary-100);
   cursor: pointer;
 }
 
@@ -409,7 +407,17 @@ main {
     sans-serif;
 }
 
+@media (max-width: 992px) {
+  :root {
+    --gutter: 40px;
+  }
+}
+
 @media (max-width: 786px) {
+  :root {
+    --gutter: 32px;
+  }
+
   .h1, .h2  {
     font-size: 32px;
     line-height: 40px;
@@ -419,9 +427,24 @@ main {
     font-size: 20px;
     line-height: 24px;
   }
+  .mobile-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
 }
 
 @media (max-width: 480px) {
+  :root {
+    --gutter: 16px;
+  }
+
   .h1, .h2 {
     font-size: 28px;
     line-height: 36px;

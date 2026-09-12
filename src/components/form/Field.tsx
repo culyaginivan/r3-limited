@@ -6,11 +6,12 @@ type FieldProps = {
   required?: boolean;
   error?: string;
   children: ReactNode;
+  className?: string;
 };
 
-export default function Field({ id, label, required = false, error, children }: FieldProps) {
+export default function Field({ id, label, required = false, error, children, className }: FieldProps) {
   return (
-    <div className={`field ${error ? 'field--error' : ''}`}>
+    <div className={`field ${error ? 'field--error' : ''} ${className ?? ''}`}>
       <label className="field__label" htmlFor={id}>
         {label}
         {required && <span aria-hidden="true">*</span>}

@@ -1,0 +1,397 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface FaqData {
+  sectionId: string;
+  question: string;
+  answer: string;
+  open?: boolean;
+}
+
+type SectionIdType = 'Переводы' | 'Документы' | 'Сроки' | 'Комиссии' | 'Риски';
+
+const sectionsIds: SectionIdType[] = ["Переводы", "Документы", "Сроки", "Комиссии", "Риски"];
+const faqList: FaqData[] = [
+  {
+    sectionId: "Переводы",
+    question: "Что происходит после подачи заявки?",
+    answer: "Мы проверяем документы и уточняем детали в течение 30–60 минут.",
+    open: true
+  },
+  {
+    sectionId: "Сроки",
+    question: "Как быстро выполняется платёж?",
+    answer: "Проводим операцию в течение рабочего дня — обычно 3–4 часа. Срок зачисления зависит от страны получателя: от 1 дня до 6 дней."
+  },
+  {
+    sectionId: "Риски",
+    question: "Какие технологии вы используете?",
+    answer: "Текст ответа уточняется."
+  },
+  {
+    sectionId: "Риски",
+    question: "Как обеспечивается безопасность?",
+    answer: "Текст ответа уточняется."
+  },
+  {
+    sectionId: "Переводы",
+    question: "Можно ли оплачивать сразу несколько счетов?",
+    answer: "Текст ответа уточняется."
+  },
+  {
+    sectionId: "Переводы",
+    question: "Какие валюты доступны?",
+    answer: "RUB, CNY, TRY, EUR, EGP, LYD и DZD. Полный список стран, валют и сроков — в таблице покрытия выше."
+  },
+  {
+    sectionId: "Документы",
+    question: "Какие документы вы предоставляете?",
+    answer: "PDF-подтверждение о выполнении платежа, акт и полный комплект документов по сделке."
+  },
+  {
+    sectionId: "Комиссии",
+    question: "Сколько стоит перевод?",
+    answer: "Комиссия 0,3% от суммы платежа, одинаковая для всех направлений. Точные условия по странам — в таблице покрытия выше."
+  }
+];
+
+const topics = sectionsIds.map(id => ({
+  id,
+  count: faqList.filter(item => item.sectionId === id).length
+}));
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqList.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+---
+
+<section id="faq" class="faq-section" data-reveal>
+  <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+
+  <h2 class="h2">Полезно знать</h2>
+
+  <div class="faq-layout">
+    <aside class="faq-aside">
+      <h3 class="h3" aria-hidden="true">Разделы</h3>
+      <nav class="faq-nav" aria-label="Разделы вопросов">
+        <ul class="faq-nav__list" role="tablist" aria-orientation="vertical">
+          {topics.map((topic, index) => (
+            <li role="presentation" class="faq-nav__item">
+              <button
+                type="button"
+                role="tab"
+                id={`faq-tab-${index}`}
+                aria-controls="faq-panel-0"
+                aria-selected={index === 0 ? "true" : "false"}
+                tabindex={index === 0 ? 0 : -1}
+                class={`faq-nav__button ${index === 0 ? 'faq-nav__button--active' : ''}`}
+                data-topic={topic.id}
+              >
+                <span class="faq-nav__name">{topic.id}</span>
+                <span class="faq-nav__count" aria-label={`вопрос-ответов: ${topic.count}`}>{topic.count}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </aside>
+
+    <section class="faq-content">
+      <div 
+        id="faq-panel-0"
+        role="tabpanel" 
+        aria-labelledby="faq-tab-0"
+        tabindex="0"
+      >
+        {faqList.map(item => (
+            <details 
+              class="faq-item" 
+              data-topic={item.sectionId} 
+              open={!!item.open} 
+              name="faq-accordion"
+              style={item.sectionId === sectionsIds[0] ? undefined : "display: none;"}
+            >
+              <summary class="faq-item__question">
+                <span class="faq-item__title">{item.question}</span>
+                <Icon name="chevron" class="faq-item__icon" aria-hidden="true" />  
+              </summary>
+              <p class="faq-item__answer">{item.answer}</p>
+            </details>
+        ))}
+      </div>
+    </section>
+  </div>
+</section>
+
+<script>
+const tabs = document.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+  const items = document.querySelectorAll<HTMLDetailsElement>('.faq-item');
+
+  items.forEach((item) => {
+    item.addEventListener('toggle', () => {
+      if (item.open) {
+        items.forEach((otherItem) => {
+          if (otherItem !== item) {
+            otherItem.open = false;
+          }
+        });
+      }
+    });
+  });
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const selectedTopic = tab.getAttribute('data-topic');
+
+      tabs.forEach((t) => {
+        t.setAttribute('aria-selected', 'false');
+        t.setAttribute('tabindex', '-1');
+        t.classList.remove('faq-nav__button--active');
+      });
+
+      tab.setAttribute('aria-selected', 'true');
+      tab.setAttribute('tabindex', '0');
+      tab.classList.add('faq-nav__button--active');
+
+      let isFirstOpened = false;
+
+      items.forEach((item) => {
+        const itemTopic = item.getAttribute('data-topic');
+
+        if (itemTopic === selectedTopic) {
+          item.style.display = 'block';
+
+          if (!isFirstOpened) {
+            item.open = true;
+            isFirstOpened = true;
+          } else {
+            item.open = false;
+          }
+        } else {
+          item.style.display = 'none';
+          item.open = false;
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .faq-section {
+    padding-inline: var(--gutter);
+    padding-block: 88px 44px;
+  }
+
+  .faq-layout {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 40px;
+    height: 632px;
+    align-items: start;
+    margin-top: 64px;
+  }
+
+  /* Карта боковой панели */
+  .faq-aside {
+    background: var(--gradient-2);
+    border-radius: var(--r-2xl);
+    padding: 40px;
+  }
+
+  .faq-nav__list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+  }
+
+  .faq-nav__item {
+    position: relative;
+    padding-block: 16px;
+  }
+
+  .faq-nav__item:not(:last-child) {
+    border-bottom: 1.5px solid var(--secondary-80);
+  }
+
+  .faq-nav__button {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: var(--r-2xl);
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .faq-nav__name {
+    font-weight: 600;
+  }
+
+  .faq-nav__count {
+    color: var(--neutral-70);
+  }
+
+  /* Активная фиолетово-голубая таблетка */
+  .faq-nav__button--active {
+    background-color: var(--secondary-80);
+  }
+
+  .faq-nav__button--active .faq-nav__count {
+    color: var(--secondary-100);
+  }
+
+  /* Кастомный скроллбар справа (как на макете) */
+  .faq-content {
+    max-height: 100%;
+    overflow-y: auto;
+    padding-right: 10px;
+  }
+
+  .faq-content ul {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .faq-content::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .faq-content::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+  }
+
+  .faq-content::-webkit-scrollbar-thumb {
+    background: #0f172a;
+    border-radius: 4px;
+  }
+
+  .faq-item {
+    background-color: var(--secondary-60);
+    border-radius: var(--r-2xl);
+    padding-inline: 32px 28px;
+    padding-block: 16px;
+    margin-bottom: 12px;
+    transition: background-color 0.2s ease, border-radius 0.2s ease;
+  }
+
+  .faq-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .faq-item[open] {
+    background-color: #f3f4f8;
+  }
+
+  .faq-item__question {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #0f172a;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    user-select: none;
+  }
+
+  .faq-item__question::-webkit-details-marker,
+  .faq-item__question::marker {
+    display: none;
+  }
+
+  .faq-item__title {
+    line-height: 1.3;
+  }
+
+  .faq-item__icon {
+    font-size: 8px;
+    transition: transform 0.25s stroke 0.2s;
+  }
+
+  /* Поворот стрелки вверх при открытом состоянии */
+  .faq-item[open] .faq-item__icon {
+    transform: rotate(180deg);
+  }
+
+  .faq-item__answer {
+    margin-top: 14px;
+    color: #64748b;
+    font-size: 0.925rem;
+    line-height: 1.5;
+  }
+
+  .faq-item__answer p {
+    margin: 0;
+  }
+
+  /* Адаптивность для мобильных устройств */
+  @media (max-width: 992px) {
+    .faq-section {
+      padding-block: 32px 64px;
+    }
+
+    .faq-layout {
+      grid-template-columns: 330px 1fr;
+      height: 560px;
+      margin-top: 40px;
+    }
+
+    .faq-aside {
+      padding: 24px;
+    }
+  }
+
+  @media (max-width: 786px) {
+    .faq-section {
+      padding-block: 40px;
+    }
+
+    .faq-aside h3 {
+      display: none;
+    }
+
+    .faq-layout {
+      align-content: start;
+      grid-template-columns: minmax(0, 1fr);
+      max-height: 600px;
+      height: fit-content;
+      gap: 24px;
+    }
+
+    .faq-aside {
+      background: transparent;
+      padding: 0;
+      height: fit-content;
+    }
+
+    .faq-nav__list {
+      flex-direction: row;
+      gap: 16px;
+      margin-top: 0;
+    }
+
+    .faq-nav__item {
+      padding: 0;
+    }
+
+    .faq-nav__item:not(:last-child) {
+      border-bottom: 0;
+    }
+  }
+</style>

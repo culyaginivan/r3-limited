@@ -1,6 +1,7 @@
 ---
 import { Font } from "astro:assets";
 import IconSprite from "../components/form/IconSprite.astro";
+import { ClientRouter } from "astro:transitions";
 
 interface Props {
     description: string;
@@ -32,6 +33,7 @@ const {
 		<meta name="description" content={description} />
         <!-- slot for additional head content -->
         {Astro.slots.has('head') && (<slot name="head" />)}
+		<ClientRouter />
 	</head>
 	<body>
 	<IconSprite />

@@ -1,6 +1,6 @@
 ---
-import { Icon } from "astro-icon/components";
-import { Image } from "astro:assets";
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
 import worldMap from '../../assets/img/map-optimized.svg';
 
 interface Country {
@@ -21,10 +21,10 @@ const countries: Country[] = [
     name: 'Китай',
     flag: 'china',
     currency: 'CNY',
-    comission: '0,9%',
+    comission: '0,6%',
     timeText: '1 день',
     isoTime: 'P1D',
-    coords: { x: 1425, y: 440 }
+    coords: { x: 1425, y: 440 },
   },
   {
     id: 'usa',
@@ -34,7 +34,7 @@ const countries: Country[] = [
     comission: '0,9%',
     timeText: '1 день',
     isoTime: 'P1D',
-    coords: { x: 300, y: 390 }
+    coords: { x: 300, y: 390 },
   },
   {
     id: 'uae',
@@ -44,7 +44,7 @@ const countries: Country[] = [
     comission: '0,9%',
     timeText: '1 день',
     isoTime: 'P1D',
-    coords: { x: 1185, y: 513 }
+    coords: { x: 1185, y: 513 },
   },
   {
     id: 'turkey',
@@ -54,7 +54,7 @@ const countries: Country[] = [
     comission: '1,1%',
     timeText: '1 день',
     isoTime: 'P1D',
-    coords: { x: 1103, y: 417 }
+    coords: { x: 1103, y: 417 },
   },
   {
     id: 'russia',
@@ -64,20 +64,25 @@ const countries: Country[] = [
     comission: '0,7%',
     timeText: '1 день',
     isoTime: 'P1D',
-    coords: { x: 1281, y: 222 }
-  }
+    coords: { x: 1281, y: 222 },
+  },
 ];
 
 const defaultActiveId = countries[0].id;
 ---
 
 <section class="world-transfers" aria-labelledby="transfers-title">
-  <h2 id="transfers-title" class="h2">
-    Переводы по всему миру
-  </h2>
+  <h2 id="transfers-title" class="h2">Переводы по всему миру</h2>
 
   <div class="world-transfers__card">
-    <svg xmlns="http://www.w3.org/2000/svg" width="1916" height="1123" viewBox="0 0 1916 1123" fill="none">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1916"
+      height="1123"
+      viewBox="0 0 1916 1123"
+      fill="none"
+      aria-hidden="true"
+    >
       <foreignObject x="0" y="0" width="1916" height="1123">
         <Image
           src={worldMap}
@@ -86,98 +91,126 @@ const defaultActiveId = countries[0].id;
           style="width: 100%; height: 100%; object-fit: cover;"
         />
       </foreignObject>
-      
-      {countries.map((marker) => (
-        <g class="marker" id={'marker-' + marker.id} transform={`translate(${marker.coords.x}, ${marker.coords.y})`}>
-          <g class="marker-content">
-            <circle cx="20" cy="20" r="22" class="marker-outline" />
-            <foreignObject width="40"  height="40">
-              <Icon name={`flags/${marker.flag}`} style="width: 100%; height: 100%;" />
-            </foreignObject>
+
+      {
+        countries.map((marker) => (
+          <g
+            class={`marker ${marker.id === defaultActiveId ? 'active' : ''}`}
+            id={'marker-' + marker.id}
+            data-country-id={marker.id}
+            data-x={marker.coords.x}
+            data-y={marker.coords.y}
+            transform={`translate(${marker.coords.x}, ${marker.coords.y})`}
+          >
+            <g class="marker-content">
+              <circle cx="20" cy="20" r="22" class="marker-outline" />
+              <foreignObject width="40" height="40">
+                <Icon name={`flags/${marker.flag}`} style="width: 100%; height: 100%;" />
+              </foreignObject>
+            </g>
           </g>
-        </g>
-      ))}
+        ))
+      }
     </svg>
 
-    <aside class="country-widget" aria-label="Условия переводов по странам">
+    <aside class="country-widget">
+      <h3 class="sr-only">Условия переводов по странам</h3>
       <ul class="country-widget__list" role="radiogroup" aria-label="Выберите страну">
-        {countries.map((country) => {
-          const isActive = country.id === defaultActiveId;
-          return (
-            <li class="country-widget__item">
-              <button
-                type="button"
-                class:list={[
-                  'country-widget__option',
-                  { 'country-widget__option--active': isActive }
-                ]}
-                role="radio"
-                aria-checked={isActive ? 'true' : 'false'}
-                data-country={country.id}
-              >
-                <span class="country-widget__info">
-                  <Icon name={'flags/' + country.flag} class="country-widget__flag" aria-hidden="true"/>
-                  <span class="country-widget__name">{country.name}</span>
-                </span>
+        {
+          countries.map((country) => {
+            const isActive = country.id === defaultActiveId;
+            return (
+              <li class="country-widget__item">
+                <button
+                  type="button"
+                  class:list={[
+                    'country-widget__option',
+                    { 'active': isActive },
+                  ]}
+                  role="radio"
+                  aria-checked={isActive ? 'true' : 'false'}
+                  data-country-id={country.id}
+                >
+                  <span class="country-widget__info">
+                    <Icon
+                      name={'flags/' + country.flag}
+                      class="country-widget__flag"
+                      aria-hidden="true"
+                    />
+                    <span class="country-widget__name">{country.name}</span>
+                  </span>
 
-                <span class="country-widget__metrics">
-                  <span class="country-widget__currency">{country.currency}</span>
-                  <span class="country-widget__fee">{country.comission}</span>
-                  <time datetime={country.isoTime} class="country-widget__time">
-                    {country.timeText}
-                  </time>
-                </span>
-              </button>
-            </li>
-          );
-        })}
+                  <dl class="country-widget__metrics">
+                    <dt class="sr-only">Валюта:</dt>
+                    <dd class="country-widget__currency">{country.currency}</dd>
+
+                    <dt class="sr-only">Комиссия:</dt>
+                    <dd class="country-widget__fee">{country.comission}</dd>
+
+                    <dt class="sr-only">Срок перевода:</dt>
+                    <dd class="transfer-time">
+                      <time datetime={country.isoTime} class="country-widget__time">
+                        {country.timeText}
+                      </time>
+                    </dd>
+                  </dl>
+                </button>
+              </li>
+            );
+          })
+        }
       </ul>
 
-      <button type="button" class="country-widget__cta-btn">
-        Рассчитать условия
-      </button>
+      <footer>
+        <button type="button" class="country-widget__cta-btn"> Рассчитать условия </button>
+      </footer>
     </aside>
   </div>
 </section>
 
-<!-- Клиентский скрипт инкапсулирован и выполняется в браузере -->
 <script>
   function initMapWidget() {
-    const pins = document.querySelectorAll<HTMLButtonElement>('.map-pin');
+    const viewport = document.querySelector<HTMLDivElement>('.world-transfers__card');
+    const widget = document.querySelector<HTMLDivElement>('.country-widget');
+    const pins = document.querySelectorAll<SVGGElement>('.marker');
     const options = document.querySelectorAll<HTMLButtonElement>('.country-widget__option');
 
-    function setActiveCountry(countryId: string) {
-      // Обновляем пины на карте
-      pins.forEach((pin) => {
-        const isActive = pin.dataset.country === countryId;
-        pin.classList.toggle('map-pin--active', isActive);
-      });
+    [...pins, ...options].forEach((el) => {
+      const countryId = el.dataset.countryId;
+      if (countryId) {
+        el.addEventListener('click', () => {
+          let activePin: SVGGElement | undefined;
+          [...pins, ...options].forEach((el) => {
+            const isActive = el.dataset.countryId === countryId;
+            el.classList.toggle('active', isActive);
 
-      // Обновляем радио-кнопки в виджете
-      options.forEach((option) => {
-        const isActive = option.dataset.country === countryId;
-        option.classList.toggle('country-widget__option--active', isActive);
-        option.setAttribute('aria-checked', isActive ? 'true' : 'false');
-      });
+            if (el instanceof HTMLButtonElement) {
+              el.setAttribute('aria-checked', isActive ? 'true' : 'false');
+            } else if (isActive) {
+              activePin = el;
+            }
+          })
+
+          if (activePin) {
+            focusOnPin(activePin);
+          }
+        });
+      }
+    });
+
+    function focusOnPin(pin: SVGGElement) {
+      if (!viewport) return;
+      const widgetWidth = widget?.clientWidth ?? 0;
+      const viewCenterX = (viewport.clientWidth - widgetWidth) / 2;
+      const viewCenterY = viewport.clientHeight / 2;
+      const translateX = parseFloat(pin.dataset.x!);
+      const translateY = parseFloat(pin.dataset.y!);
+
+      viewport.querySelector('svg')?.style.setProperty(
+        'transform', 
+        `translate3d(${viewCenterX - translateX}px, ${viewCenterY - translateY}px, 0)`
+      );
     }
-
-    // Слушатели для элементов карты
-    pins.forEach((pin) => {
-      const countryId = pin.dataset.country;
-      if (!countryId) return;
-
-      pin.addEventListener('click', () => setActiveCountry(countryId));
-      pin.addEventListener('mouseenter', () => setActiveCountry(countryId));
-    });
-
-    // Слушатели для радио-кнопок списка
-    options.forEach((option) => {
-      const countryId = option.dataset.country;
-      if (!countryId) return;
-
-      option.addEventListener('click', () => setActiveCountry(countryId));
-      option.addEventListener('mouseenter', () => setActiveCountry(countryId));
-    });
   }
 
   // Инициализация при первичной загрузке и при переходах Astro View Transitions
@@ -189,7 +222,7 @@ const defaultActiveId = countries[0].id;
   .world-transfers {
     display: flex;
     flex-direction: column;
-    padding-block: var(--gutter);
+    padding-inline: var(--gutter);
     padding-block-end: 88px;
     gap: 64px;
   }
@@ -204,7 +237,7 @@ const defaultActiveId = countries[0].id;
     background-color: #f4f6fa;
     border-radius: 24px;
     overflow: hidden;
-    background: var(--Gradient-3, linear-gradient(205deg, #EAF1FF 12.69%, #F7F8FC 80.73%));
+    background: var(--gradient-3);
   }
 
   .world-transfers__card > svg {
@@ -213,47 +246,37 @@ const defaultActiveId = countries[0].id;
     left: 0;
     width: 1916px;
     height: 1123px;
-    transform: translate(-39.2%, -11.8%);
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+    transform: translate3d(-39.2%, -11.8%, 0);
   }
 
-  .flag-icon-wrapper {
-    font-size: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .marker {
+    cursor: pointer;
   }
 
-  .flag-svg-render {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover;
+  /* Анимируем только внутренний контент */
+  .marker-content {
+    transition: transform 0.2s ease-in-out;
+    /* Говорим браузеру центрировать масштаб относительно центра флага (20px, 20px) */
+    transform-origin: 20px 20px;
+    animation: pulse;
   }
 
-      .marker { 
-      cursor: pointer; 
-    }
+  .marker.active .marker-content,
+  .marker:hover .marker-content {
+    transform: scale(1.2);
+  }
 
-    /* Анимируем только внутренний контент */
-    .marker-content {
-      transition: transform 0.2s ease-in-out;
-      /* Говорим браузеру центрировать масштаб относительно центра флага (20px, 20px) */
-      transform-origin: 20px 20px; 
-    }
+  .marker-outline {
+    transition: stroke 0.2s;
+  }
 
-    .marker:hover .marker-content {
-      transform: scale(1.2);
-    }
-
-    .marker-outline {
-      transition: stroke 0.2s;
-    }
-
-    .marker:hover .marker-outline {
-      stroke: #2f40b5;
-      stroke-width: 3;
-    }
+  .marker.active .marker-outline,
+  .marker:hover .marker-outline {
+    stroke: var(--primary-90);
+    stroke-width: 3;
+  }
 
   @keyframes pulse {
     0% {
@@ -276,14 +299,13 @@ const defaultActiveId = countries[0].id;
     right: 40px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    height: calc(100% - 80px);;
-    padding: 20px;
+    gap: 24px;
+    height: calc(100% - 80px);
+    padding: 32px;
     width: 443px;
-    border-radius: var(--r-lg);
+    border-radius: 24px;
     background: var(--neutral-10);
     box-shadow: 16px 16px 32px 0 rgba(21, 23, 34, 0.15);
-    border-radius: var(--r-lg);
     z-index: 2;
   }
 
@@ -293,7 +315,16 @@ const defaultActiveId = countries[0].id;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+  }
+
+  .country-widget__item {
+    padding-block: 16px;
+  }
+  .country-widget__item:first-child {
+    padding-block-start: 0;
+  }
+  .country-widget__item:not(:last-child) {
+    border-bottom: 1px solid #e9ebf3;
   }
 
   .country-widget__option {
@@ -301,34 +332,35 @@ const defaultActiveId = countries[0].id;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 10px 12px;
+    min-height: 48px;
+    padding: 8px 16px 8px 8px;
     background: transparent;
-    border: 1px solid transparent;
-    border-radius: 12px;
+    border: 0;
     cursor: pointer;
-    font-size: 14px;
-    transition: all 0.2s ease;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 24px;
+    border-radius: 40px;
+    transition: background-color 0.2s ease;
   }
 
+  .country-widget__option.active,
   .country-widget__option:hover {
-    background-color: #f8fafc;
-  }
-
-  .country-widget__option--active {
-    background-color: #eef2ff;
-    border-color: #c7d2fe;
+    background-color: var(--secondary-80);
   }
 
   .country-widget__info {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-weight: 500;
-    color: #1e293b;
+    font-weight: 600;
+    color: #0a0c19;
   }
 
   .country-widget__flag {
-    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
     border-radius: 50%;
     object-fit: cover;
   }
@@ -336,31 +368,46 @@ const defaultActiveId = countries[0].id;
   .country-widget__metrics {
     display: flex;
     align-items: center;
-    gap: 12px;
-    color: #64748b;
-    font-size: 13px;
+    gap: 16px;
+    color: #0a0c19;
+    font-size: 16px;
+    line-height: 24px;
   }
 
   .country-widget__currency {
-    font-weight: 600;
-    color: #334155;
+    width: 40px;
+    font-weight: 400;
+    color: inherit;
   }
 
+  .country-widget__fee {
+    width: 40px;
+  }
+
+  .country-widget__time {
+    width: 56px;
+  }
+
+  footer {
+    margin-top: auto;
+  }
   .country-widget__cta-btn {
     width: 100%;
-    padding: 14px;
-    background-color: #2563eb;
+    min-height: 56px;
+    padding: 16px 32px;
+    background-color: #282dad;
     color: #ffffff;
     border: none;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 600;
+    border-radius: 32px;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
     cursor: pointer;
-    margin-top: auto;
     transition: background-color 0.2s ease;
   }
 
   .country-widget__cta-btn:hover {
-    background-color: #1d4ed8;
+    background-color: #20258f;
   }
 </style>

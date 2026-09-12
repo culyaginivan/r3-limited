@@ -1,25 +1,33 @@
 ---
 import { Image } from "astro:assets";
-import statCommission from "../../assets/img/stat-1.webp";
-import statTerms from "../../assets/img/stat-2.webp";
-import statGeography from "../../assets/img/stat-3.webp";
 
-const statistics = [
-	{ label: "Комиссия", value: "0,6%", image: statCommission },
-	{ label: "Сроки", value: "1 день", image: statTerms },
-	{ label: "География", value: "26 стран", image: statGeography },
-];
+interface Statistic {
+    label: string;
+    value: string;
+    image: ImageMetadata;
+}
+
+interface Props {
+    statistics: Statistic[];
+    ariaLabel: string;
+}
+
+const {
+    statistics,
+    ariaLabel, 
+} = Astro.props;
+
 ---
 
 <aside data-reveal class="statistic flex w-full flex-col items-start">
-	<h2 class="sr-only">Преимущества R3 Limited</h2>
+	<h2 class="sr-only">{ariaLabel}</h2>
     <ul class="grid w-full gap-4 min-[481px]:grid-cols-2 md:grid-cols-3">
 		{statistics.map((statistic) => (
 			<li class="statistic__card relative flex min-w-0 flex-col items-start gap-4 overflow-hidden rounded-[var(--r-2xl)] bg-[var(--secondary-60)] px-10 py-8">
-				<h3 class="statistic__label min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[var(--primary-100)]">
+				<h3 class="statistic__label min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">
 					{statistic.label}
 				</h3>
-				<p class="h2 statistic__value min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-[var(--primary-100)]">
+				<p class="h2 statistic__value min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">
 					{statistic.value}
 				</p>
 				<Image

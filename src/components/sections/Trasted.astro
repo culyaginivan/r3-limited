@@ -9,18 +9,26 @@ const partners = [
     {
         logo: logoPSB,
         label: 'ПСБ банк',
+        width: 103,
+        height: 30,
     },
     {
         logo: logoTBank,
         label: 'T банк',
+        width: 103,
+        height: 30,
     },
     {
         logo: logoAlfa,
         label: 'Альфа банк',
+        width: 103,
+        height: 30,
     },
     {
         logo: logoTochka,
         label: 'Точка банк',
+        width: 103,
+        height: 30,
     },    
 ];
 
@@ -36,8 +44,8 @@ const partners = [
             {Array.from({ length: 2 }).map((_, groupIndex) => (
                 <li class="flex items-center gap-16" aria-hidden={groupIndex > 0}>
                     {partners.map(item => (
-                        <span class="flex h-8 w-[103px] shrink-0 items-center justify-center">
-                            <Image class="max-h-full w-auto object-contain" src={item.logo} alt={groupIndex === 0 ? item.label : ""} />
+                        <span class={`flex h-8 w-[${item.width}px] shrink-0 items-center justify-center`}>
+                            <Image class={`max-h-full w-auto object-contain aspect-[${item.width}/${item.height}]`} width={item.width} height={item.height} src={item.logo} alt={groupIndex === 0 ? item.label : ""} />
                         </span>
                     ))}
                 </li>
