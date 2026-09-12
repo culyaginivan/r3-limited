@@ -20,12 +20,12 @@ interface Props {
 const { current = "index", scrollOffset = 8 } = Astro.props;
 
 const links = [
-  { id: "calculator", label: "Калькулятор", href: "#calculator" },
-  { id: "services", label: "Услуги", href: "#services" },
-  { id: "how-we-work", label: "Как работаем", href: "#how-we-work" },
-  { id: "documents", label: "Документы", href: "#documents" },
-  { id: "cases", label: "Кейсы", href: "#cases" },
-  { id: "faq", label: "Вопросы", href: "#faq" },
+  { id: "calculator", label: "Калькулятор" },
+  { id: "services", label: "Услуги" },
+  { id: "how-we-work", label: "Как работаем" },
+  { id: "documents", label: "Документы" },
+  { id: "cases", label: "Кейсы" },
+  { id: "faq", label: "Вопросы" },
 ];
 
 const menuId = `menu-panel-${current}`;
@@ -74,8 +74,10 @@ const menuId = `menu-panel-${current}`;
         links.map((link) => (
           <li class="list-none">
             <a
+              data-page={current}
+              data-link-id={link.id}
               class="header__link inline-flex items-center justify-center p-2"
-              href={link.href}
+              href={'#' + link.id}
               aria-current={current === link.id ? "page" : undefined}
             >
               {link.label}
@@ -98,8 +100,7 @@ const menuId = `menu-panel-${current}`;
       </a>
     </li>
     <li>
-      <a class="btn btn--primary header__cta" href="#request">Оставить заявку</a
-      >
+      <a class="btn btn--primary header__cta" href="#request">Оставить заявку</a>
     </li>
   </ul>
 </header>
@@ -156,6 +157,40 @@ const menuId = `menu-panel-${current}`;
       { passive: true },
     );
   }
+
+  const navLinks = document.querySelectorAll<HTMLLinkElement>('.header__link');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.dataset.linkId === entry.target.id);
+        });
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll<HTMLElement>(
+    Array
+      .from(navLinks)
+      .map(link => '#' + link.dataset.linkId)
+      .filter(el => !!el)
+      .join(', ')
+  ).forEach(section => observer.observe(section))
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      const targetId = link?.dataset.linkId;
+
+      if (!targetId) return;
+
+      document
+        .getElementById(targetId)
+        ?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
 </script>
 
 <style>
@@ -200,14 +235,11 @@ const menuId = `menu-panel-${current}`;
       color 0.15s ease;
   }
 
+  .header__link.active,
+  .header__link[aria-current="page"]
   .header__link:hover,
   .header__link:focus-visible {
     color: var(--primary-90);
-  }
-
-  .header__link[aria-current="page"] {
-    color: var(--primary-90);
-    font-weight: 600;
   }
 
   .header__actions .btn--icon {
