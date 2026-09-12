@@ -115,12 +115,12 @@ const defaultActiveId = countries[0].id;
 
     <aside class="country-widget">
       <h3 class="sr-only">Условия переводов по странам</h3>
-      <ul class="country-widget__list" role="radiogroup" aria-label="Выберите страну">
+      <div class="country-widget__list" role="radiogroup" aria-label="Выберите страну">
         {
           countries.map((country) => {
             const isActive = country.id === defaultActiveId;
             return (
-              <li class="country-widget__item">
+              <div class="country-widget__item">
                 <button
                   type="button"
                   class:list={[
@@ -155,11 +155,11 @@ const defaultActiveId = countries[0].id;
                     </dd>
                   </dl>
                 </button>
-              </li>
+              </div>
             );
           })
         }
-      </ul>
+      </div>
 
       <footer>
         <button type="button" class="country-widget__cta-btn"> Рассчитать условия </button>

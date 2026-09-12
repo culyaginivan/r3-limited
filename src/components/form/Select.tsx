@@ -15,6 +15,7 @@ type SelectProps = {
   options: Option[];
   placeholder: string;
   onChange: (value: string) => void;
+  ariaLabel?: string;
   className?: string;
   disabled?: boolean;
   selectedTemplate?: (option: Option | undefined) => ReactNode;
@@ -24,6 +25,7 @@ type SelectProps = {
 export default function Select({
   id,
   value,
+  ariaLabel,
   options,
   placeholder,
   onChange,
@@ -50,6 +52,7 @@ export default function Select({
       setOpen(false);
     }
   };
+
   return (
     <div className={`select-root ${open ? 'select-root--open' : ''} ${className}`} ref={rootRef}>
       <input type="hidden" name={id} value={value} />
@@ -61,6 +64,7 @@ export default function Select({
         aria-controls={`${id}-options`}
         aria-expanded={open}
         aria-haspopup="listbox"
+        aria-label={selected?.label ?? ariaLabel ?? placeholder}
         disabled={disabled}
         onClick={() => setOpen(!open)}
         onKeyDown={(event) => {

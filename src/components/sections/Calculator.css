@@ -287,6 +287,9 @@
   gap: 12px;
   padding: 16px 0;
 }
+.quote__row:not(:last-child) {
+  border-bottom: 1.5px solid var(--secondary-70);
+}
 .quote__row dt,
 .quote__row dd {
   margin: 0;
@@ -294,11 +297,6 @@
 .quote__row dd {
   font-weight: 600;
   text-align: right;
-}
-.sep {
-  display: block;
-  height: 1px;
-  background: var(--neutral-30);
 }
 .quote__spacer {
   flex: 1;

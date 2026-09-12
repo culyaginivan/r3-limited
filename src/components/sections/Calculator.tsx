@@ -94,6 +94,7 @@ export default function Calculator() {
               <div className="field-combined">
                 <Input
                   id="c-amount"
+                  inputMode="numeric"
                   value={amount}
                   onChange={(event) => setAmount(event.target.value)}
                 />
@@ -102,6 +103,7 @@ export default function Calculator() {
                   value={currency}
                   options={currencies}
                   placeholder="Валюта"
+                  ariaLabel="Выберите валюту суммы инвойса"
                   onChange={setCurrency}
                   className="field-combined__suffix"
                   selectedTemplate={(option) =>
@@ -164,22 +166,18 @@ export default function Calculator() {
                 {format(numericAmount)} {selectedCurrency?.value}
               </dd>
             </div>
-            <span className="sep" />
             <div className="quote__row">
               <dt>Курс ЦБ</dt>
               <dd>{rate.toLocaleString('ru-RU', { maximumFractionDigits: 3 })} ₽</dd>
             </div>
-            <span className="sep" />
             <div className="quote__row">
               <dt>Тело платежа</dt>
               <dd>{format(body)} ₽</dd>
             </div>
-            <span className="sep" />
             <div className="quote__row">
               <dt>Комиссия ({(feeRate * 100).toFixed(1).replace('.', ',')}%)</dt>
               <dd>{format(fee)} ₽</dd>
             </div>
-            <span className="sep" />
             <div className="quote__row">
               <dt>Срок зачисления</dt>
               <dd>{feeRate === 0.003 ? '30–60 минут' : '1 день'}</dd>

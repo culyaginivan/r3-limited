@@ -16,7 +16,6 @@ export default function Input({
       id={id}
       name={id}
       aria-invalid={invalid || undefined}
-      inputMode="decimal"
       {...props}
     />
   );

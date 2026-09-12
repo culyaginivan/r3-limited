@@ -78,6 +78,7 @@ export default function Request() {
                                 autoComplete="name"
                                 type="text"
                                 required
+                                inputMode="text"
                                 value={formData.name}
                                 onChange={handleChange}
                             />
@@ -87,8 +88,9 @@ export default function Request() {
                                 id="l-company-name"
                                 placeholder="Название компании"
                                 name="l-company-name"
-                                autoComplete="company"
+                                autoComplete="organization"
                                 type="text"
+                                inputMode="text"
                                 required
                                 value={formData.company}
                                 onChange={handleChange}
@@ -99,7 +101,7 @@ export default function Request() {
                                 id="l-user-phone"
                                 placeholder="+7 999 999 99 99"
                                 name="l-user-phone"
-                                pattern="^\+7\s?\(?\d{3}\)?\s?\d{3}[-\s]?\d{2}[-\s]?\d{2}$"
+                                inputMode="tel"
                                 autoComplete="tel"
                                 type="tel"
                                 required
@@ -112,6 +114,7 @@ export default function Request() {
                                 id="l-user-email"
                                 placeholder="Alex.97@gmail.com"
                                 name="l-user-email"
+                                inputMode="email"
                                 autoComplete="email"
                                 type="email"
                                 required
@@ -124,6 +127,7 @@ export default function Request() {
                                 id="l-user-comment"
                                 placeholder="Страна, валюта, сумма"
                                 name="l-user-comment"
+                                inputMode="text"
                                 required
                                 type="text"
                                 value={formData.comment}

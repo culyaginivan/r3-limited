@@ -40,6 +40,7 @@
 .benefits-list li svg {
     width: 20px;
     height: 20px;
+    min-width: 20px;
     color: var(--success-100);
 }
 
