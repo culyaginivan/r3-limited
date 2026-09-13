@@ -1,6 +1,21 @@
 @import 'tailwindcss';
 
 /* ==========================================================================
+  Tailwind breakpoints — переопределены под дизайн-сетку:
+  sm: 480px · md: 768px · lg: 992px · xl: 1200px
+  Обычные варианты (sm:, md:, lg:, xl:) — это min-width (mobile-first).
+  Чтобы сохранить подход max-width, используйте max-sm:, max-md:,
+  max-lg:, max-xl: — они генерируют @media (max-width: …).
+   ========================================================================== */
+@theme {
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-2xl: 1536px;
+}
+
+/* ==========================================================================
   Design tokens — mapped 1:1 from the Figma styles on node 404:4150
    ========================================================================== */
 :root {
@@ -412,7 +427,7 @@ main {
   }
 }
 
-@media (max-width: 786px) {
+@media (max-width: 768px) {
   :root {
     --gutter: 32px;
   }
@@ -444,14 +459,3 @@ main {
     line-height: 36px;
   }
 }
-
-  /* .reveal-box {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-  
-  .reveal-box.is-revealed {
-    opacity: 1;
-    transform: translateY(0);
-  } */
