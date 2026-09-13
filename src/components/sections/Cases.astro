@@ -112,13 +112,16 @@ const cases = [
         flex-direction: column;
         gap: 64px;
         width: 100%;
-        padding: 88px 64px;
+        padding: 88px var(--gutter);
         overflow: hidden;
+        overflow-x: auto;
         border-radius: var(--r-2xl);
         background: var(--gradient-cases);
     }
 
     .cases-section h2 {
+        position: sticky;
+        left: 0;
         font-size: 48px;
         font-weight: 600;
         line-height: 56px;
@@ -220,7 +223,7 @@ const cases = [
         width: 100%;
     }
 
-    @media (max-width: 767px) {
+    @media (max-width: 768px) {
         .cases-section {
             padding: 48px 16px;
             border-radius: var(--r-xl);
@@ -231,24 +234,15 @@ const cases = [
             line-height: 40px;
         }
 
-        .cases-list {
-            width: 100%;
-            flex-direction: column;
-        }
-
         .case-card {
-            flex-basis: auto;
-            min-height: 0;
+            width: 320px;
             padding: 24px 16px;
             gap: 24px;
             border-radius: 20px;
         }
 
         .case-card__image {
-            height: auto;
-            aspect-ratio: 520 / 200;
-            flex-basis: auto;
-            border-radius: var(--r-md);
+            display: none;
         }
 
         .case-card__meta,

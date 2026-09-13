@@ -6,21 +6,23 @@ import { Icon } from "astro-icon/components";
 ---
 
 <section class="banner reveal-box">
-	<h1 class="h1 banner__title">Платеж в любую <br />точку мира 0,6%*</h1>
-	<nav class="banner__actions">
-		<ul>
-			<li>
-				<a class="btn btn--lg btn--primary" href="#request">Оставить заявку</a>
-			</li>
-			<li>
-				<a class="btn btn--lg btn--secondary" href="#calculator">Рассчитать платеж</a>
-			</li>
-		</ul>
-	</nav>
-	<small class="banner__note">
-		*Фиксированный минимум комиссии действует исключительно для
-		переводов в AED.
-	</small>
+  <div class="banner__info">
+    <h1 class="h1 banner__title">Платеж в любую <br />точку мира 0,6%*</h1>
+    <nav class="banner__actions">
+      <ul>
+        <li>
+          <a class="btn btn--lg btn--primary" href="#request">Оставить заявку</a>
+        </li>
+        <li>
+          <a class="btn btn--lg btn--secondary" href="#calculator">Рассчитать платеж</a>
+        </li>
+      </ul>
+    </nav>
+    <small class="banner__note">
+      *Фиксированный минимум комиссии действует исключительно для
+      переводов в AED.
+    </small>
+  </div>
 	<div class="banner__art">
 		<div class="globe">
 			<span class="globe__img">
@@ -29,6 +31,8 @@ import { Icon } from "astro-icon/components";
 					width="501"
 					height="498"
 					alt="Глобус с орбитой платёжного маршрута"
+          loading="eager"
+          fetchpriority="high"
 				/>
 			</span>
 			<div class="globe__stage">
@@ -120,15 +124,18 @@ import { Icon } from "astro-icon/components";
    ========================================================================== */
 .banner {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 40px;
-  height: 720px;
-  width: 100%;
-  padding: 120px var(--gutter) 56px var(--gutter);
+  padding-block: 120px 56px;
+  padding-inline: var(--gutter);
   border-radius: 0 0 var(--r-2xl) var(--r-2xl);
   overflow: hidden;
+}
+
+.banner__info {
+  display: flex;
+  flex-direction: column;
+  width: calc(50% - 40px);
+  padding-block: 132px;
+  gap: 40px;
 }
 
 .banner:before {
@@ -181,15 +188,6 @@ import { Icon } from "astro-icon/components";
   object-fit: contain
 }
 
-.banner__info {
-  position: relative;
-  display: flex;
-  align-items: center;
-  flex: 1 0 0;
-  min-height: 0;
-  max-width: 560px;
-}
-
 .banner__col {
   display: flex;
   flex-direction: column;
@@ -218,89 +216,91 @@ import { Icon } from "astro-icon/components";
   font: 400 14px/16px Onest, sans-serif
 }
 
-@media (max-width: 1440px) {
+@media (max-width: 1200px) {
   .banner {
-    padding: 120px 32px 56px
+    padding-block-end: 96px;
+  }
+
+  .banner__info {
+    padding-block: 84px;
   }
 
   .banner__art {
-    right: 24px;
-    width: 380px;
-    height: 380px
+    width: 400px;
+    height: 400px;
+    right: 56px;
+    bottom: 116px;
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 992px) {
+  .banner__info {
+    position: relative;
+    width: 480px;
+    z-index: 1;
+  }
+  .banner__art {
+    z-index: 0;
+    right: -4px;
+    bottom: 116px;
+  }
+}
+
+@media (max-width: 786px) {
   .banner {
-    height: auto;
-    padding-block: 140px 56px
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    max-height: 600px;
+    gap: 32px;
+    padding-block-end: 40px;
+  }
+  .banner__info {
+    width: 336px;
+    padding-block: 0;
+    align-self: flex-start;
   }
 
   .banner__art {
-    display: none
+    position: relative;
+    height: 417px;
+    min-width: 320px;
+    min-height: 320px;
+    right: 0;
+    bottom: 0;
   }
 }
 
 @media (max-width: 480px) {
-  /* Hero: the art leads, stacked over centred text */
   .banner {
-    height: auto;
-    gap: 32px;
-    padding: 80px 16px 24px;
-    border-radius: 0 0 24px 24px
-  }
-  .banner__art {
-    position: relative;
-    inset: auto;
-    display: block;
-    width: 100%;
-    height: 280px;
-    border-radius: 24px;
-    flex: none;
-    overflow: hidden
-  }
-
-  .banner__art img {
-    object-fit: cover;
-    object-position: center bottom
-  }
-
-  .banner__row {
-    flex: 0 0 auto;
-    min-height: auto;
-    width: 100%
-  }
-
-  .banner__col {
+    flex-direction: column-reverse;
+    flex-wrap: nowrap;
+    height: 600px;
     gap: 24px;
-    width: 100%
+    padding-block: 80px 64px;
+  }
+  .banner__info {
+    width: 100%;
+    gap: 24px;
   }
 
-  .banner__title {
-    max-width: none;
+  .banner__art {
+    width: 100%;
+    height: auto;
+    margin-top: -40%;
   }
 
-  .banner__title br {
-    display: none
-  }
-
-  .banner__actions {
+  .banner__actions ul {
     flex-wrap: wrap;
-    gap: 16px;
-    width: 100%
   }
 
-  .banner__actions .btn {
-    flex: 1 0 0;
-    min-width: 200px;
-    height: 44px;
-    padding: 12px 16px;
-    font-size: 14px
+  .banner__actions ul li {
+    width: 100%;
   }
 
-  .banner__note {
-    max-width: none;
-    font: 400 12px/14px Onest, sans-serif
+  .banner__actions ul li .btn {
+    width: 100%;
   }
 }
 </style>

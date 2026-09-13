@@ -100,7 +100,7 @@ const services = [
     flex-direction: column;
     gap: 64px;
     width: 100%;
-    padding: 88px;
+    margin-block: 88px;
     padding-inline: var(--gutter);
   }
 
@@ -192,7 +192,7 @@ const services = [
 
   @media (max-width: 1200px) {
     .services-section {
-      padding-block: 64px;
+      margin-block: 64px;
     }
 
     .service-card {
@@ -203,6 +203,12 @@ const services = [
   @media (max-width: 992px) {
     .services-section {
       gap: 40px;
+      overflow-y: auto;
+    }
+    
+    .services-section__heading {
+      position: sticky;
+      left: 0;
     }
 
     .service-list {
@@ -229,7 +235,8 @@ const services = [
   @media (max-width: 480px) {
     .services-section {
         gap: 32px;
-        padding: 48px 16px;
+        margin-block: 40px;
+        padding-inline: 16px;
     }
 
     .services-section h2 {
