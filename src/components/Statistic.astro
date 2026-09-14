@@ -19,11 +19,14 @@ const {
 
 ---
 
-<aside class="statistic reveal-box flex w-full flex-col items-start">
+<aside class="statistic reveal-box flex w-full flex-col items-start py-[44px] px-[var(--gutter)] max-lg:px-8">
 	<h2 class="sr-only">{ariaLabel}</h2>
-    <ul class="grid w-full gap-4 min-[481px]:grid-cols-2 md:grid-cols-3">
-		{statistics.map((statistic) => (
-			<li class="statistic__card relative flex min-w-0 flex-col items-start gap-4 overflow-hidden rounded-[var(--r-2xl)] bg-[var(--secondary-60)] px-10 py-8">
+    <ul class="grid w-full gap-4 grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
+		{statistics.map((statistic, i) => (
+			<li class:list={[
+                "statistic__card relative flex min-w-0 flex-col items-start gap-4 overflow-hidden rounded-[var(--r-2xl)] bg-[var(--secondary-60)] px-10 py-8 max-lg:p-6",
+                i === statistics.length - 1 ? 'max-md:col-span-2 max-sm:col-span-1' : '',
+            ]}>
 				<h3 class="statistic__label min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">
 					{statistic.label}
 				</h3>
@@ -33,8 +36,10 @@ const {
 				<Image
                     class="statistic__img"
 					src={statistic.image}
+                    height={80}
+                    width={80}
 					alt=""
-					class="pointer-events-none absolute right-5 top-5 size-20 object-cover"
+					class="pointer-events-none absolute right-5 top-5 size-20 max-lg:size-16 object-cover"
 				/>
 			</li>
 		))}
@@ -42,14 +47,6 @@ const {
 </aside>
 
 <style>
-	.statistic {
-        padding: 44px var(--gutter);
-	}
-
-	.statistic__card {
-        padding: 32px 80px 32px 40px;
-	}
-
 	.statistic__label {
         font-size: 20px;
         line-height: 24px;
@@ -59,39 +56,9 @@ const {
         z-index: 1;
     }
 
-    .statistic__img {
-        width: 80px;
-        height: 80px;
-    }
-
 	@media (max-width: 1200px) {
         .statistic__label {
             font-size: 16px;
         }
 	}
-
-    @media (max-width: 992px) {
-		.statistic {
-			padding-inline: 32px;
-		}
-        .statistic__card {
-            padding: 24px 64px 24px 24px;
-        }
-        .statistic__img {
-            width: 64px;
-            height: 64px;
-        }
-	}
-
-    @media (max-width: 768px) {
-        .statistic__card:last-child {
-            grid-column: span 2;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .statistic__card:last-child {
-            grid-column: span 1;
-        }
-    }
 </style>

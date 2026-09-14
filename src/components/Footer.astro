@@ -123,7 +123,6 @@ const documentLinks: FooterLink[] = [
         flex-direction: column;
         gap: 40px;
         width: 100%;
-        max-width: var(--canvas);
         min-height: 400px;
         margin-inline: auto;
         padding: 88px 64px 32px;
@@ -254,7 +253,7 @@ const documentLinks: FooterLink[] = [
             gap: 32px;
             min-height: 0;
             padding: 64px 24px 24px;
-            border-radius: var(--r-xl) var(--r-xl) 0 0;
+            border-radius: 0;
         }
 
         .footer__wrap {
@@ -287,6 +286,8 @@ const documentLinks: FooterLink[] = [
     @media (max-width: 480px) {
         .footer {
             padding: 40px 16px 24px;
+            border-top-left-radius: var(--r-xl);
+            border-top-right-radius: var(--r-xl);
         }
 
         .footer__wrap {

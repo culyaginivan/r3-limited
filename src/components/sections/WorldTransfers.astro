@@ -112,60 +112,56 @@ const defaultActiveId = countries[0].id;
         ))
       }
     </svg>
-
-    <aside class="country-widget">
-      <h3 class="sr-only">Условия переводов по странам</h3>
-      <div class="country-widget__list" role="radiogroup" aria-label="Выберите страну">
-        {
-          countries.map((country) => {
-            const isActive = country.id === defaultActiveId;
-            return (
-              <div class="country-widget__item">
-                <button
-                  type="button"
-                  class:list={[
-                    'country-widget__option',
-                    { 'active': isActive },
-                  ]}
-                  role="radio"
-                  aria-checked={isActive ? 'true' : 'false'}
-                  data-country-id={country.id}
-                >
-                  <span class="country-widget__info">
-                    <Icon
-                      name={'flags/' + country.flag}
-                      class="country-widget__flag"
-                      aria-hidden="true"
-                    />
-                    <span class="country-widget__name">{country.name}</span>
-                  </span>
-
-                  <dl class="country-widget__metrics">
-                    <dt class="sr-only">Валюта:</dt>
-                    <dd class="country-widget__currency">{country.currency}</dd>
-
-                    <dt class="sr-only">Комиссия:</dt>
-                    <dd class="country-widget__fee">{country.comission}</dd>
-
-                    <dt class="sr-only">Срок перевода:</dt>
-                    <dd class="transfer-time">
-                      <time datetime={country.isoTime} class="country-widget__time">
-                        {country.timeText}
-                      </time>
-                    </dd>
-                  </dl>
-                </button>
-              </div>
-            );
-          })
-        }
-      </div>
-
-      <footer>
-        <button type="button" class="country-widget__cta-btn"> Рассчитать условия </button>
-      </footer>
-    </aside>
   </div>
+  <aside class="country-widget">
+    <h3 class="sr-only">Условия переводов по странам</h3>
+    <div class="country-widget__list" role="radiogroup" aria-label="Выберите страну">
+      {
+        countries.map((country) => {
+          const isActive = country.id === defaultActiveId;
+          return (
+            <div class="country-widget__item">
+              <button
+                type="button"
+                class:list={['country-widget__option', { active: isActive }]}
+                role="radio"
+                aria-checked={isActive ? 'true' : 'false'}
+                data-country-id={country.id}
+              >
+                <span class="country-widget__info">
+                  <Icon
+                    name={'flags/' + country.flag}
+                    class="country-widget__flag"
+                    aria-hidden="true"
+                  />
+                  <span class="country-widget__name">{country.name}</span>
+                </span>
+
+                <dl class="country-widget__metrics">
+                  <dt class="sr-only">Валюта:</dt>
+                  <dd class="country-widget__currency">{country.currency}</dd>
+
+                  <dt class="sr-only">Комиссия:</dt>
+                  <dd class="country-widget__fee">{country.comission}</dd>
+
+                  <dt class="sr-only">Срок перевода:</dt>
+                  <dd class="transfer-time">
+                    <time datetime={country.isoTime} class="country-widget__time">
+                      {country.timeText}
+                    </time>
+                  </dd>
+                </dl>
+              </button>
+            </div>
+          );
+        })
+      }
+    </div>
+
+    <footer>
+      <a href="#calculator" class="inline-block text-center country-widget__cta-btn">Уточнить условия</a>
+    </footer>
+  </aside>
 </section>
 
 <script>
@@ -189,9 +185,9 @@ const defaultActiveId = countries[0].id;
             } else if (isActive) {
               activePin = el;
             }
-          })
+          });
 
-          if (activePin) {
+          if (activePin && window.outerWidth > 480) {
             focusOnPin(activePin);
           }
         });
@@ -200,16 +196,18 @@ const defaultActiveId = countries[0].id;
 
     function focusOnPin(pin: SVGGElement) {
       if (!viewport) return;
-      const widgetWidth = widget?.clientWidth ?? 0;
+      const widgetWidth = window.outerWidth > 768 && widget?.clientWidth ? widget?.clientWidth : 0;
       const viewCenterX = (viewport.clientWidth - widgetWidth) / 2;
       const viewCenterY = viewport.clientHeight / 2;
       const translateX = parseFloat(pin.dataset.x!);
       const translateY = parseFloat(pin.dataset.y!);
 
-      viewport.querySelector('svg')?.style.setProperty(
-        'transform', 
-        `translate3d(${viewCenterX - translateX}px, ${viewCenterY - translateY}px, 0)`
-      );
+      viewport
+        .querySelector('svg')
+        ?.style.setProperty(
+          'transform',
+          `translate3d(${viewCenterX - translateX}px, ${viewCenterY - translateY}px, 0)`,
+        );
     }
   }
 
@@ -237,7 +235,6 @@ const defaultActiveId = countries[0].id;
     background-color: #f4f6fa;
     border-radius: 24px;
     overflow: hidden;
-    background: var(--gradient-3);
   }
 
   .world-transfers__card > svg {
@@ -295,12 +292,12 @@ const defaultActiveId = countries[0].id;
 
   .country-widget {
     position: absolute;
-    top: 40px;
-    right: 40px;
+    bottom: calc(40px + 88px);
+    right: calc(40px + var(--gutter));
     display: flex;
     flex-direction: column;
     gap: 24px;
-    height: calc(100% - 80px);
+    height: calc(740px - 80px);
     padding: 32px;
     width: 443px;
     border-radius: 24px;
@@ -409,5 +406,53 @@ const defaultActiveId = countries[0].id;
 
   .country-widget__cta-btn:hover {
     background-color: #20258f;
+  }
+
+  @media (max-width: 1440px) {
+    .world-transfers__card > svg {
+      transform: translate3d(-48.2%, -11.8%, 0);
+    }
+  }
+  @media (max-width: 1200px) {
+    .world-transfers__card > svg {
+      transform: translate3d(-53%, -2%, 0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .world-transfers {
+      padding-bottom: 506px;
+      padding-inline: 0;
+    }
+    .world-transfers h2 {
+      padding-inline: var(--gutter);
+    }
+    .world-transfers__card {
+      height: 400px;
+      border-radius: var(--r-xl);
+    }
+    .world-transfers__card > svg {
+      transform: translate3d(-53%, -18%, 0);
+    }
+    .country-widget {
+      left: 0;
+      bottom: 0;
+      height: 506px;
+      width: 100%;
+      box-shadow: none;
+      border-radius: var(--r-lg);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .world-transfers__card > svg {
+      width: 587.159px;
+      height: 344.441px;
+      transform: translate3d(-16%, 8%, 0);
+    }
+    .country-widget {
+      padding-block: 32px 0;
+      padding-inline: 16px;
+    }
   }
 </style>

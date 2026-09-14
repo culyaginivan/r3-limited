@@ -65,8 +65,9 @@ export default function Calculator() {
             <dd>{feeRate === 0.003 ? '30–60 минут' : '1 день'}</dd>
           </div>
         </dl>
-        <button className="btn btn--lg btn--secondary" type="button" onClick={reset}>
-          Сбросить
+        <button aria-label="Сбросить" className="calc__refresh-btn btn btn--lg btn--secondary" type="button" onClick={reset}>
+          <span aria-hidden="true">Сбросить</span>
+          <Icon name="refresh" aria-hidden="true"/>
         </button>
       </div>
       <form className="calc__body" onSubmit={(event) => event.preventDefault()}>

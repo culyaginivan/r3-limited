@@ -34,7 +34,7 @@ const statistics = [
   description="Международные платежи R3Limited"
 >
   <Header current="index" />
-  <main>
+  <main class="relative overflow-clip mt-[-68px]">
     <Banner />
     <Statistic statistics={statistics} ariaLabel="Преимущества R3 Limited" />
     <Trasted />
@@ -65,16 +65,4 @@ const statistics = [
   };
 
   document.addEventListener('astro:page-load', initScrollReveal);
-
-//   const observer = new IntersectionObserver((entries) => {
-//     entries.forEach((entry) => {
-//       if (entry.isIntersecting) {
-//         entry.target.classList.add('is-revealed');
-//       }
-//     });
-//   }, { threshold: 0.3 }); // Сработает, когда 10% элемента покажется на экране
-
-//   document.addEventListener('astro:page-load', () => {
-//     document.querySelectorAll('.reveal-box').forEach((el) => observer.observe(el));
-//   });
 </script>

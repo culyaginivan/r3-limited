@@ -133,3 +133,17 @@
         border-bottom-right-radius: 0;
     }
 }
+
+@media (max-width: 480px) {
+   .lead {
+        padding-block-end: 40px;
+   }
+
+    .lead-wrapper {
+        border-radius: var(--r-2xl);
+    }
+
+    .lead-info__separator {
+        width: 100%;
+    }
+}

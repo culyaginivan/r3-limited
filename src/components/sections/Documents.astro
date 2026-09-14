@@ -45,24 +45,35 @@ const documents = [
         Доверие и документы
     </h2>
 
-    <div class="grid gap-4 lg:grid-cols-[minmax(320px,418px)_minmax(0,1fr)]">
-        <aside class="flex flex-col gap-8 rounded-[var(--r-2xl)] bg-[image:var(--gradient-2)] p-6 sm:p-8 lg:gap-10 lg:p-10" aria-labelledby="details-title">
+    <div class="
+        grid gap-4 grid-cols-[minmax(320px,420px)_minmax(0,1fr)] 
+        max-xl:grid-cols-[minmax(320px,320px)_minmax(0,1fr)]
+        max-lg:grid-cols-1 max-md:overflow-auto
+    ">
+        <aside
+            class="
+                flex flex-col rounded-[var(--r-2xl)] max-lg:rounded-[var(--r-lg)] 
+                bg-[image:var(--gradient-2)] gap-10 p-10 max-xl:p-6
+                max-md:sticky max-md:left-0 
+            " 
+            aria-labelledby="details-title"
+        >
             <h3 id="details-title" class="text-xl font-semibold leading-6 lg:text-2xl lg:leading-7">Реквизиты</h3>
 
             <dl class="flex flex-col gap-5 text-xs leading-4 lg:gap-6 lg:text-base lg:leading-6">
-                <div class="flex items-center justify-between gap-4 border-b border-[var(--secondary-70)] pb-4 lg:pb-5">
+                <div class="flex items-center justify-between gap-4 border-b border-[var(--secondary-80)] pb-4 lg:pb-5">
                     <dt>Наименование</dt>
                     <dd class="text-right font-semibold">{company.name}</dd>
                 </div>
-                <div class="flex items-center justify-between gap-4 border-b border-[var(--secondary-70)] pb-4 lg:pb-5">
+                <div class="flex items-center justify-between gap-4 border-b border-[var(--secondary-80)] pb-4 lg:pb-5">
                     <dt>Регистрационный №</dt>
                     <dd class="text-right font-semibold">{company.registrationNumber}</dd>
                 </div>
-                <div class="flex items-center justify-between gap-4 border-b border-[var(--secondary-70)] pb-4 lg:pb-5">
+                <div class="flex items-center justify-between gap-4 border-b border-[var(--secondary-80)] pb-4 lg:pb-5">
                     <dt>ИНН</dt>
                     <dd class="text-right font-semibold">{company.taxId}</dd>
                 </div>
-                <div class="flex items-center justify-between gap-4 border-b border-[var(--secondary-70)] pb-4 lg:pb-5">
+                <div class="flex items-center justify-between gap-4 border-b border-[var(--secondary-80)] pb-4 lg:pb-5">
                     <dt>КПП</dt>
                     <dd class="text-right font-semibold">{company.kpp}</dd>
                 </div>
@@ -73,11 +84,28 @@ const documents = [
             </dl>
         </aside>
 
-        <div class="grid gap-4 sm:grid-cols-2">
+        <div class="grid gap-4 grid-cols-2 max-lg:grid-cols-2 max-md:grid-cols-4 max-md:w-[max-content]">
             {documents.map((document) => (
-                <article class="relative flex min-h-[240px] flex-col overflow-hidden rounded-[var(--r-2xl)] bg-[var(--secondary-60)] p-6 sm:p-8 lg:min-h-[240px] lg:p-10">
-                    <Image src={document.image} alt="" width={100} height={100} class="absolute bottom-5 right-5 h-[100px] w-[100px] object-contain" />
-                    <div class="relative flex h-full max-w-[280px] flex-col gap-5 lg:gap-6">
+                <article class="
+                    relative flex flex-col overflow-hidden gap-4
+                    rounded-[var(--r-2xl)] max-lg:rounded-[var(--r-lg)] 
+                    bg-[var(--secondary-60)] p-10 max-xl:p-6 max-md:p-6
+                    max-md:w-[340px]
+                "> 
+                    <Image 
+                        src={document.image} 
+                        alt="" 
+                        width={100} 
+                        height={100} 
+                        class="
+                            absolute bottom-5 right-5
+                            max-xl:relative max-xl:bottom-[unset] max-xl:right-[unset]
+                            h-[100px] w-[100px] object-contain
+                            max-md:absolute max-md:bottom-5 max-md:right-5 
+                            max-md:w-20 max-md:h-20
+                        " 
+                    />
+                    <div class="relative flex h-full max-w-[280px] flex-col gap-6 max-md:justify-between">
                         <h3 class="text-xl font-semibold leading-6 lg:text-2xl lg:leading-7">{document.title}</h3>
                         <div class="flex flex-col items-start gap-1 text-xs leading-4 lg:text-base lg:leading-6">
                             <p>[{document.file} · {document.type} · {document.size}]</p>

@@ -35,8 +35,8 @@ const {
         {Astro.slots.has('head') && (<slot name="head" />)}
 		<ClientRouter />
 	</head>
-	<body>
-	<IconSprite />
+	<body class="px-[60px] max-2xl:px-0">
+		<IconSprite />
         <slot/>
     </body>
 </html>

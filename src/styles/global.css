@@ -12,7 +12,7 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --breakpoint-2xl: 1536px;
+  --breakpoint-2xl: 1440px;
 }
 
 /* ==========================================================================
@@ -63,7 +63,6 @@
 
   /* Layout */
   --gutter: 64px;
-  --canvas: 1440px;
 }
 
 /* ==========================================================================
@@ -143,15 +142,6 @@ button {
 :focus-visible {
   outline: 2px solid var(--primary-90);
   outline-offset: 2px;
-}
-
-main {
-  width: 100%;
-  max-width: var(--canvas);
-  margin-top: -68px;
-  margin-inline: auto;
-  position: relative;
-  overflow: clip;
 }
 
 /* Buttons */
@@ -421,7 +411,7 @@ main {
     sans-serif;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1200px) {
   :root {
     --gutter: 40px;
   }
