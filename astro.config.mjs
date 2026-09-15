@@ -10,7 +10,7 @@ export default defineConfig({
   output: 'static',
 
   integrations: [icon({ iconDir: 'src/assets/icons' }), react()],
-
+  
   vite: {
     build: {
       cssCodeSplit: true, // Изолированный CSS для ускорения первой загрузки
