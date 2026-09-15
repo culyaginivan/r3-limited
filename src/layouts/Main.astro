@@ -2,15 +2,20 @@
 import { Font } from "astro:assets";
 import IconSprite from "../components/form/IconSprite.astro";
 import { ClientRouter } from "astro:transitions";
+import Header, { type currentPageIdType } from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import '../styles/global.css';
 
 interface Props {
     description: string;
     title: string;
+	page: currentPageIdType;
 }
 
 const {
     description,
     title,
+	page = 'index',
 } = Astro.props;
 
 ---
@@ -19,12 +24,12 @@ const {
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-		<link rel="icon" href="./favicon.ico" />
-		<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
-		<link rel="manifest" href="./site.webmanifest">
+		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+		<link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} />
+		<link rel="apple-touch-icon" sizes="180x180" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`}>
+		<link rel="icon" type="image/png" sizes="32x32" href={`${import.meta.env.BASE_URL}favicon-32x32.png`}>
+		<link rel="icon" type="image/png" sizes="16x16" href={`${import.meta.env.BASE_URL}favicon-16x16.png`}>
+		<link rel="manifest" href={`${import.meta.env.BASE_URL}site.webmanifest`}>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<Font cssVariable="--font-onest" />
@@ -37,6 +42,26 @@ const {
 	</head>
 	<body class="px-[60px] max-2xl:px-0">
 		<IconSprite />
-        <slot/>
+		<Header transition:persist current={page} />
+		<main transition:animate="slide" class="relative overflow-clip mt-[-68px]">
+			<slot/>
+			<Footer transition:persist />
+		</main>
+
+		<script>
+			import ScrollReveal from 'scrollreveal';
+
+			const initScrollReveal = () => {
+				ScrollReveal().reveal('.reveal-box', {
+					delay: 300,
+					distance: '50px',
+					origin: 'bottom',
+					duration: 1000,
+					mobile: true,
+				});
+			};
+
+			document.addEventListener('astro:page-load', initScrollReveal);
+		</script>
     </body>
 </html>

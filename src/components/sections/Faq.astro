@@ -133,56 +133,60 @@ const schemaData = {
 </section>
 
 <script>
-const tabs = document.querySelectorAll<HTMLButtonElement>('[role="tab"]');
-  const items = document.querySelectorAll<HTMLDetailsElement>('.faq-item');
+  function initFaq() {
+    const tabs = document.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+    const items = document.querySelectorAll<HTMLDetailsElement>('.faq-item');
 
-  items.forEach((item) => {
-    item.addEventListener('toggle', () => {
-      if (item.open) {
-        items.forEach((otherItem) => {
-          if (otherItem !== item) {
-            otherItem.open = false;
-          }
-        });
-      }
-    });
-  });
-
-  tabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-      const selectedTopic = tab.getAttribute('data-topic');
-
-      tabs.forEach((t) => {
-        t.setAttribute('aria-selected', 'false');
-        t.setAttribute('tabindex', '-1');
-        t.classList.remove('faq-nav__button--active');
-      });
-
-      tab.setAttribute('aria-selected', 'true');
-      tab.setAttribute('tabindex', '0');
-      tab.classList.add('faq-nav__button--active');
-
-      let isFirstOpened = false;
-
-      items.forEach((item) => {
-        const itemTopic = item.getAttribute('data-topic');
-
-        if (itemTopic === selectedTopic) {
-          item.style.display = 'block';
-
-          if (!isFirstOpened) {
-            item.open = true;
-            isFirstOpened = true;
-          } else {
-            item.open = false;
-          }
-        } else {
-          item.style.display = 'none';
-          item.open = false;
+    items.forEach((item) => {
+      item.addEventListener('toggle', () => {
+        if (item.open) {
+          items.forEach((otherItem) => {
+            if (otherItem !== item) {
+              otherItem.open = false;
+            }
+          });
         }
       });
     });
-  });
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const selectedTopic = tab.getAttribute('data-topic');
+
+        tabs.forEach((t) => {
+          t.setAttribute('aria-selected', 'false');
+          t.setAttribute('tabindex', '-1');
+          t.classList.remove('faq-nav__button--active');
+        });
+
+        tab.setAttribute('aria-selected', 'true');
+        tab.setAttribute('tabindex', '0');
+        tab.classList.add('faq-nav__button--active');
+
+        let isFirstOpened = false;
+
+        items.forEach((item) => {
+          const itemTopic = item.getAttribute('data-topic');
+
+          if (itemTopic === selectedTopic) {
+            item.style.display = 'block';
+
+            if (!isFirstOpened) {
+              item.open = true;
+              isFirstOpened = true;
+            } else {
+              item.open = false;
+            }
+          } else {
+            item.style.display = 'none';
+            item.open = false;
+          }
+        });
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initFaq);
 </script>
 
 <style>

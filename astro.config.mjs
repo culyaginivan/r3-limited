@@ -6,7 +6,6 @@ import icon from 'astro-icon';
 import react from '@astrojs/react';
 
 export default defineConfig({
-  site: 'https://yurka1605.github.io',
   base: '/r3-limited/',
   output: 'static',
 
@@ -37,3 +36,5 @@ export default defineConfig({
     },
   ],
 });
+
+

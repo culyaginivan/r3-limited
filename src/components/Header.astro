@@ -3,7 +3,7 @@ import logo from "../assets/img/logo.svg";
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 
-type currentPageIdType =
+export type currentPageIdType =
   | "index"
   | "calculator"
   | "services"
@@ -62,7 +62,7 @@ const menuId = `menu-panel-${current}`;
 
   <a
     class="header__logo inline-flex shrink-0 items-center leading-none"
-    href="#"
+    href={import.meta.env.BASE_URL}
     aria-label="R3 Limited — на главную"
   >
     <Image 
@@ -116,92 +116,81 @@ const menuId = `menu-panel-${current}`;
 </header>
 
 <script>
-  const header = document.querySelector<HTMLElement>("[data-header]");
-  const panel = header
-    ? document.getElementById(
-        header
-          .querySelector<HTMLButtonElement>("[data-menu-toggle]")
-          ?.getAttribute("aria-controls") || "",
-      )
-    : null;
-  const toggles = header
-    ? Array.from(
-        header.querySelectorAll<HTMLButtonElement>("[data-menu-toggle]"),
-      )
-    : [];
+  function initHeader () {
+    const header = document.querySelector<HTMLElement>("[data-header]");
+    const panel = header
+      ? document.getElementById(
+          header
+            .querySelector<HTMLButtonElement>("[data-menu-toggle]")
+            ?.getAttribute("aria-controls") || "",
+        )
+      : null;
+    const toggles = header
+      ? Array.from(
+          header.querySelectorAll<HTMLButtonElement>("[data-menu-toggle]"),
+        )
+      : [];
 
-  if (header && panel) {
-    const setOpen = (open: boolean) => {
-      panel.toggleAttribute("data-open", open);
-      toggles.forEach((toggle) => {
-        toggle.setAttribute("aria-expanded", String(open));
-        toggle.setAttribute(
-          "aria-label",
-          open ? "Закрыть меню" : "Открыть меню",
-        );
+    if (header && panel) {
+      const setOpen = (open: boolean) => {
+        panel.toggleAttribute("data-open", open);
+        toggles.forEach((toggle) => {
+          toggle.setAttribute("aria-expanded", String(open));
+          toggle.setAttribute(
+            "aria-label",
+            open ? "Закрыть меню" : "Открыть меню",
+          );
+        });
+      };
+
+      toggles.forEach((toggle) =>
+        toggle.addEventListener("click", () =>
+          setOpen(!panel.hasAttribute("data-open")),
+        ),
+      );
+      panel.addEventListener("click", (event) => {
+        if ((event.target as HTMLElement).closest("a")) setOpen(false);
       });
-    };
+      document.addEventListener("click", (event) => {
+        if (!header.contains(event.target as Node)) setOpen(false);
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") setOpen(false);
+      });
+      window.addEventListener(
+        "scroll",
+        () => {
+          header.classList.toggle(
+            "header--scrolled",
+            window.scrollY > Number(header.dataset.scrollOffset || 8),
+          );
+        },
+        { passive: true },
+      );
+    }
 
-    toggles.forEach((toggle) =>
-      toggle.addEventListener("click", () =>
-        setOpen(!panel.hasAttribute("data-open")),
-      ),
-    );
-    panel.addEventListener("click", (event) => {
-      if ((event.target as HTMLElement).closest("a")) setOpen(false);
-    });
-    document.addEventListener("click", (event) => {
-      if (!header.contains(event.target as Node)) setOpen(false);
-    });
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") setOpen(false);
-    });
-    window.addEventListener(
-      "scroll",
-      () => {
-        header.classList.toggle(
-          "header--scrolled",
-          window.scrollY > Number(header.dataset.scrollOffset || 8),
-        );
-      },
-      { passive: true },
-    );
+    const navLinks = document.querySelectorAll<HTMLLinkElement>('.header__link');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.dataset.linkId === entry.target.id);
+          });
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll<HTMLElement>(
+      Array
+        .from(navLinks)
+        .map(link => '#' + link.dataset.linkId)
+        .filter(el => !!el)
+        .join(', ')
+    ).forEach(section => observer.observe(section))
   }
 
-  const navLinks = document.querySelectorAll<HTMLLinkElement>('.header__link');
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        navLinks.forEach(link => {
-          link.classList.toggle('active', link.dataset.linkId === entry.target.id);
-        });
-      }
-    });
-  }, { threshold: 0.5 });
-
-  document.querySelectorAll<HTMLElement>(
-    Array
-      .from(navLinks)
-      .map(link => '#' + link.dataset.linkId)
-      .filter(el => !!el)
-      .join(', ')
-  ).forEach(section => observer.observe(section))
-
-  // програмная навигация
-  // navLinks.forEach(link => {
-  //   link.addEventListener('click', function(e) {
-  //     e.preventDefault();
-
-  //     const targetId = link?.dataset.linkId;
-
-  //     if (!targetId) return;
-
-  //     document
-  //       .getElementById(targetId)
-  //       ?.scrollIntoView({ behavior: 'smooth' });
-  //   });
-  // });
+  document.addEventListener('astro:page-load', initHeader);
 </script>
 
 <style>

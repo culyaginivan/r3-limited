@@ -1,10 +1,7 @@
 ---
 import MainLayout from '../layouts/Main.astro';
-import '../styles/global.css';
 import '../styles/orbit.css';
 
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
 import HowWeWork from '../components/sections/HowWeWork.astro';
 import Documents from '../components/sections/Documents.astro';
 import Banner from '../components/sections/Banner.astro';
@@ -32,9 +29,9 @@ const statistics = [
 <MainLayout
   title="R3Limited — Платёж в любую точку мира с комиссией 0,6%"
   description="Международные платежи R3Limited"
+  page="index"
 >
-  <Header current="index" />
-  <main class="relative overflow-clip mt-[-68px]">
+  <>
     <Banner />
     <Statistic statistics={statistics} ariaLabel="Преимущества R3 Limited" />
     <Trasted />
@@ -47,22 +44,5 @@ const statistics = [
     <WorldTransfers />
     <Faq />
     <Request client:load />
-    <Footer />
-  </main>
+  </>
 </MainLayout>
-
-<script>
-  import ScrollReveal from 'scrollreveal';
-
-  const initScrollReveal = () => {
-    ScrollReveal().reveal('.reveal-box', {
-      delay: 300,
-      distance: '50px',
-      origin: 'bottom',
-      duration: 1000,
-	    mobile: true,
-    });
-  };
-
-  document.addEventListener('astro:page-load', initScrollReveal);
-</script>

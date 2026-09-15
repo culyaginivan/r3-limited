@@ -14,15 +14,6 @@
    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
    <link rel="stylesheet" href="assets/styles.css">
    <link rel="stylesheet" href="assets/notfound.css">
-   <script>document.documentElement.classList.add('js');
-      /* This page carries no app.js, so it keeps its own copy of the guard: a
-         decorative image that fails to load must not leave the browser's framed
-         placeholder behind. */
-      const hideBroken = (i: HTMLImageElement) => { if (!i.alt) i.style.visibility = 'hidden' };
-      addEventListener('error', e => { if (e.target instanceof HTMLImageElement) hideBroken(e.target) }, true);
-      const sweep = () => document.querySelectorAll('img').forEach(i => { if (i.complete && !i.naturalWidth) hideBroken(i) });
-      addEventListener('DOMContentLoaded', sweep); addEventListener('load', sweep);
-    </script>
 </head>
 
 <body>

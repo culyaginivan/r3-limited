@@ -7,7 +7,16 @@ import caseTwoImage from "../../assets/img/case-2.webp";
 import caseThreeImage from "../../assets/img/case-3.webp";
 import caseFourImage from "../../assets/img/case-4.webp";
 
-const cases = [
+interface Case {
+    name: string;
+    location: string;
+    duration: string;
+    title: string;
+    image: ImageMetadata;
+    results: string[];
+}
+
+const cases: Case[] = [
     {
         location: "США / Мексика / Канада",
         duration: "10 часов",
@@ -18,7 +27,7 @@ const cases = [
             "Сэкономили деньги и снизили финансовые риски. При неуспешной оплате могли возникнуть штрафные санкции или отмена бронирования.",
             "<strong>Оформили сделку по официальному ВЭД-контракту.</strong><br> Туроператор официально перечислил денежные средства на наш счёт.",
         ],
-        href: "/cases/vip/",
+        name: "vip",
     },
     {
         location: "ОАЭ",
@@ -30,7 +39,7 @@ const cases = [
             "Заказ оперативно отгрузили и передали в обработку логистической службе.",
             "Провели оплату в соответствии со всеми требованиями законодательства РФ и предоставили полный комплект закрывающих документов.",
         ],
-        href: "#request",
+        name: "uae",
     },
     {
         location: "Китай (Гонконг)",
@@ -43,7 +52,7 @@ const cases = [
             "Клиент получил полный комплект закрывающих документов: инвойсы, платёжные поручения и акты сверки.",
             "Сроки поставки сохранены — оборудование уже в пути к клиенту.",
         ],
-        href: "#request",
+        name: "china",
     },
     {
         location: "Великобритания",
@@ -55,7 +64,7 @@ const cases = [
             "Рейс выполнен по расписанию — все аэропортовые службы получили оплату вовремя.",
             "Клиент получил полный комплект закрывающих документов по операции.",
         ],
-        href: "#request",
+        name: "britan",
     },
 ];
 ---
@@ -98,7 +107,7 @@ const cases = [
                     </section>
 
                     <footer class="case-card__footer">
-                        <a class="btn btn--lg btn--secondary" href={item.href}>Открыть кейс</a>
+                        <a class="btn btn--lg btn--secondary" href={`${import.meta.env.BASE_URL}cases/${item.name}`}>Открыть кейс</a>
                     </footer>
                 </article>
             </li>
