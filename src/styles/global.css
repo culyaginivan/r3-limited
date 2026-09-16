@@ -2,14 +2,14 @@
 
 /* ==========================================================================
   Tailwind breakpoints — переопределены под дизайн-сетку:
-  sm: 480px · md: 768px · lg: 992px · xl: 1200px
+  sm: 480px · md: 786px · lg: 992px · xl: 1200px
   Обычные варианты (sm:, md:, lg:, xl:) — это min-width (mobile-first).
   Чтобы сохранить подход max-width, используйте max-sm:, max-md:,
   max-lg:, max-xl: — они генерируют @media (max-width: …).
    ========================================================================== */
 @theme {
   --breakpoint-sm: 480px;
-  --breakpoint-md: 768px;
+  --breakpoint-md: 786px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
   --breakpoint-2xl: 1440px;
@@ -36,6 +36,7 @@
   --neutral-70: #757575;
   --neutral-90: #424242;
   --neutral-100: #0a0a0a;
+  --success-90: #1B5F4E;
   --success-100: #164c3f;
   --warning-80: #a82525;
 
@@ -134,7 +135,6 @@ html {
 button {
   font: inherit;
   color: inherit;
-  background: none;
   border: 0;
   cursor: pointer;
 }
@@ -224,178 +224,6 @@ button {
   border-radius: var(--r-xl);
 }
 
-/* The list a combobox field opens. Not part of node 355:8123 — same tokens. */
-.dropdown {
-  position: fixed;
-  z-index: 30;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  max-height: 288px;
-  overflow-y: auto;
-  padding: 8px;
-  background: var(--neutral-10);
-  border-radius: var(--r-md);
-  box-shadow: 0 12px 32px rgba(10, 12, 25, 0.14);
-}
-
-.dropdown__item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: var(--r-sm);
-  font:
-    400 16px/24px Onest,
-    sans-serif;
-  cursor: pointer;
-}
-
-.dropdown__item[data-active] {
-  background: var(--secondary-60);
-}
-
-.dropdown__item[aria-selected='true'] {
-  color: var(--primary-90);
-}
-
-.dropdown__hint {
-  margin-left: auto;
-  font:
-    400 14px/16px Onest,
-    sans-serif;
-  color: var(--neutral-70);
-}
-
-.field__box[role='combobox'],
-.field__suffix[role='combobox'] {
-  cursor: pointer;
-}
-
-/* The focused hairline is the design's own focus indicator, so the generic ring would double up */
-.field__box[role='combobox']:focus-visible,
-.field__suffix[role='combobox']:focus-visible {
-  outline: none;
-}
-
-.reqform__required--error {
-  color: var(--warning-80);
-}
-
-.reqform__done {
-  font:
-    400 16px/24px Onest,
-    sans-serif;
-  color: var(--success-100);
-}
-
-/* Size M */
-.field--m .field__box {
-  height: 44px;
-  padding: 6px 12px;
-  border-radius: 12px;
-}
-
-.field--m .field__value {
-  font:
-    400 14px/16px Onest,
-    sans-serif;
-}
-
-.field--m .field__suffix p {
-  font:
-    400 14px/16px Onest,
-    sans-serif;
-  width: auto;
-  white-space: nowrap;
-}
-
-/* Focused: the hairline thickens and takes the primary colour */
-.field__box--underline:focus-within {
-  border-bottom: 2px solid var(--primary-90);
-}
-
-/* Error */
-.field--error .field__label {
-  color: var(--warning-80);
-}
-
-.field--error .field__box--underline,
-.field--error .field__box--underline:focus-within {
-  border-bottom: 1px solid var(--warning-80);
-}
-
-/* Disabled */
-.field--disabled .field__label,
-.field--disabled .field__value,
-.field--disabled .field__suffix p {
-  color: var(--neutral-50);
-}
-
-.field--disabled .field__box {
-  background: var(--neutral-20);
-}
-
-.field--disabled .field__box--underline {
-  border-bottom-color: var(--neutral-30);
-}
-
-.field--disabled .flag {
-  opacity: 0.4;
-}
-
-.field__hint {
-  font:
-    400 12px/14px Onest,
-    sans-serif;
-  color: var(--neutral-70);
-  width: 100%;
-}
-
-.field__box:has(input:disabled),
-.field__box:has(textarea:disabled),
-.field__box:has(select:disabled) {
-  background: var(--neutral-20);
-}
-
-.field__value:focus-visible,
-.field__select:focus-visible {
-  outline: none;
-}
-
-.field__box--select {
-  position: relative;
-}
-
-.field__select {
-  appearance: none;
-  width: 100%;
-  height: 100%;
-  padding: 0 32px 0 0;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  cursor: pointer;
-}
-
-.field__select-arrow {
-  position: absolute;
-  right: 16px;
-  width: 10px;
-  height: 10px;
-  object-fit: contain;
-  transform: translateY(-1px);
-  pointer-events: none;
-}
-
-.field--error .field__label {
-  color: var(--warning-80);
-}
-
-.field--error .field__box--underline {
-  border-bottom-color: var(--warning-80);
-}
-
 /* Заголовки */
 .h1, .h2 {
   font:
@@ -410,6 +238,204 @@ button {
     system-ui,
     sans-serif;
 }
+.input,
+.select {
+  width: 100%;
+  height: 48px;
+  padding: 8px 16px;
+  border: 0;
+  border-bottom: 1px solid var(--neutral-40);
+  border-radius: var(--r-md);
+  outline: 0;
+  background: var(--neutral-10);
+  font:
+    400 16px/24px Onest,
+    sans-serif;
+}
+.input:focus-visible,
+.select:focus-visible,
+.select-root--open .select {
+  border-bottom: 2px solid var(--primary-90);
+}
+.input:disabled,
+.select:disabled {
+  background: var(--neutral-20);
+  border-bottom-color: var(--neutral-30);
+  color: var(--neutral-50);
+  cursor: default;
+}
+.input[aria-invalid='true'],
+.field--error .input,
+.field--error .select {
+  border-bottom-color: var(--warning-80);
+}
+.select-root {
+  position: relative;
+  width: 100%;
+}
+.select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  text-align: left;
+  cursor: pointer;
+}
+.select__content {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 16px;
+}
+.select__content.list-placeholder {
+  color: var(--neutral-70);
+}
+.select__icon {
+  font-size: 32px;
+  flex: 0 0 auto;
+}
+.chevron {
+  width: 14px;
+  height: 8px;
+  flex: 0 0 auto;
+}
+.select__options {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 4px);
+  right: 0;
+  left: 0;
+  min-width: 200px;
+  max-height: 288px;
+  margin: 0;
+  padding: 8px;
+  overflow-y: auto;
+  gap: 2px;
+  border-radius: 16px;
+  background: var(--neutral-10);
+  box-shadow: 0 12px 32px rgba(10, 12, 25, 0.14);
+  list-style: none;
+}
+.select__option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.select__option:hover,
+.select__option:focus-visible {
+  background: var(--secondary-60);
+}
+.select__option.list-selected {
+  color: var(--primary-90);
+}
+.select__hint {
+  min-width: 0;
+  margin-left: auto;
+  color: var(--neutral-70);
+  font-size: 14px;
+  line-height: 16px;
+  text-align: right;
+}
+.field-combined {
+  display: grid;
+  position: relative;
+}
+.field-combined__suffix {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 16px;
+  width: 121px;
+  height: 32px;
+  z-index: 3;
+}
+.field-combined input {
+  padding-inline-end: 145px;
+}
+.field-combined__suffix .select {
+  height: 32px;
+  padding: 0;
+  gap: 16px;
+  border: 0;
+}
+.field-combined__suffix .select__options {
+  left: auto;
+  width: 200px;
+  padding: 8px;
+  gap: 2px;
+}
+.dropzone {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 106px;
+  padding: 24px 16px;
+  border: 2px dashed var(--secondary-100);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  transition:
+    background-color 0.3s linear,
+    border-color 0.3s linear;
+}
+.dropzone:focus-visible {
+  background: var(--secondary-80);
+  border-color: var(--primary-90);
+}
+.dropzone--hover {
+  background: var(--secondary-80);
+  border-color: var(--primary-90);
+}
+.dropzone--filled,
+.dropzone--error {
+  align-items: center;
+  border-style: solid;
+}
+.dropzone--filled {
+  border-color: var(--primary-90);
+}
+.dropzone--error {
+  border-color: var(--warning-80);
+}
+.dropzone__icon {
+  font-size: 40px;
+  flex: 0 0 auto;
+}
+.dropzone__content {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+.dropzone strong {
+  overflow: hidden;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+}
+.dropzone small {
+  font-size: 16px;
+  line-height: 18px;
+}
+.dropzone__remove {
+  position: absolute;
+  top: 10px;
+  right: 11px;
+  font-size: 24px;
+  padding: 0;
+  color: var(--neutral-80, #616161);
+}
+.dropzone__remove svg {
+  font-size: inherit;
+}
 
 @media (max-width: 1200px) {
   :root {
@@ -417,7 +443,7 @@ button {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 786px) {
   :root {
     --gutter: 32px;
   }

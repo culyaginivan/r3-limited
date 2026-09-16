@@ -1,0 +1,67 @@
+---
+import { Image } from "astro:assets";
+import { cases, type Case  } from "../../data/cases";
+import MainLayout from "../../layouts/Main.astro";
+import Documents from "../../components/sections/Documents.astro";
+import HowWeWork from "../../components/sections/HowWeWork.astro";
+import Statistic, {type Statistic as StatisticType} from "../../components/sections/Statistic.astro";
+
+import statCommission from '../../assets/img/stat-1.webp';
+import statTerms from '../../assets/img/stat-2.webp';
+import statGeography from '../../assets/img/stat-3.webp';
+import Banner from "../../components/Banner.astro";
+import WorkProgress from "../../components/sections/WorkProgress.astro";
+
+export async function getStaticPaths() {
+  return cases.map((item) => ({
+    params: { id: item.id },
+    props: { item },
+  }));
+}
+
+interface Props {
+  item: Case;
+}
+
+const { item } = Astro.props;
+
+const statistics: StatisticType[] = [
+  { label: 'Комиссия', value: item.params.commission, image: statCommission },
+  { label: 'Сроки', value: item.params.terms, image: statTerms },
+  { label: 'География', value: item.params.geo, image: statGeography },
+];
+
+const bannerClassName = `bg-[image:var(--gradient-${item.id === 'uae' ? 3 : 2})]`;
+
+---
+
+<MainLayout
+    page="cases" 
+    title={item.title} 
+    description={item.title}
+>
+    <Banner 
+        title={item.title}
+        category={item.category}
+        className={bannerClassName}
+    >
+      <Image
+        src={item.image.banner}
+        width="580"
+        height="580"
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+        aria-hidden="true"
+      />
+    </Banner>
+    <Statistic statistics={statistics} ariaLabel="Параметры оплаты" />
+    <WorkProgress 
+        problem={item.work_progress.problem} 
+        solution={item.work_progress.solution}
+        results={item.results}
+        invoice={item.invoice}
+    />
+    <HowWeWork/>
+    <Documents/>
+</MainLayout>

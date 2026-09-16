@@ -136,7 +136,7 @@
 
 @media (max-width: 480px) {
    .lead {
-        padding-block-end: 40px;
+        padding-block-end: 60px;
    }
 
     .lead-wrapper {

@@ -1,0 +1,152 @@
+---
+import { Image } from "astro:assets";
+import type { WorkProgress } from "../../data/cases";
+import { Icon } from "astro-icon/components";
+
+interface Props extends WorkProgress {
+    invoice: ImageMetadata;
+    results: string[];
+}
+
+const { problem, solution, invoice, results } = Astro.props;
+---
+
+<article 
+    class="
+        work-progress reveal-box flex flex-col w-full 
+        column gap-8 py-[84px] max-lg:py-[64px] max-md:py-[40px] 
+        px-[var(--gutter)]
+    " 
+    aria-labelledby="case-title"
+>
+    <header class="case-title">
+        <h2 class="h2">Ход работы</h2>
+    </header>
+
+    <div class="
+        grid grid-cols-[minmax(0,1fr)_minmax(320px,426px)] 
+        max-lg:grid-cols-[minmax(0,1fr)_minmax(320px,320px)] 
+        max-md:grid-cols-1
+        gap-4">
+        <div class="flex flex-col gap-4">
+            <section class="flex flex-col gap-6 p-10 bg-(--secondary-60) rounded-(--r-2xl)" aria-labelledby="problem-title">
+                <h3 id="problem-title" class="h3">Задача</h3>
+                <p>{problem}</p>
+            </section>
+            <section class="flex flex-col gap-6 p-10 bg-(--secondary-60) rounded-(--r-2xl)" aria-labelledby="solution-title">
+                <h3 id="solution-title" class="h3">Решение</h3>
+                <p>{solution}</p>
+            </section>
+            <section class="flex flex-col gap-6 p-10 bg-[image:var(--gradient-2)] rounded-(--r-2xl)" aria-labelledby="results-title">
+                <h3 id="results-title" class="h3">Результат</h3>
+                <ul class="flex flex-col gap-4">
+                    {results.map((result) => 
+                        <li class="flex gap-2">
+                            <Icon class="block mt-1 min-h-6 min-w-6 text-(--success-90)" height={24} width={24} name="check" aria-hidden="true"/>
+                            <span set:html={result}></span>
+                        </li>
+                    )}
+                </ul>
+            </section>
+        </div>
+
+        <aside 
+            class="
+                relative h-fit rounded-(--r-2xl) overflow-hidden
+                border border-solid border-[#CFCFCF]
+            " 
+            aria-label="Квитация по платежу"
+        >
+            <Image
+                class="w-full"
+                src={invoice}
+                width={426}
+                height={557}
+                densities={[1, 1.5, 2]}
+                format="webp"
+                alt="Официальное подтверждение успешного платежа"
+            />
+            <button 
+                id="open-image-viewer"
+                class="
+                    absolute flex items-center justify-center p-[16px] t-[-18px] 
+                    right-[18px] bottom-[18px] rounded-4xl bg-(--secondary-70)
+                " 
+                type="button" 
+                aria-label="Полноэкранный режим просмотра квитанции"
+            >
+                <Icon
+                    class="block size-6" 
+                    name="maximize" 
+                    aria-hidden="true"
+                />
+            </button>
+        </aside>
+    </div>
+
+    <dialog id="image-viewer" class="select-none w-fit h-fit m-auto bg-transparent">
+        <button 
+            id="close-image-viewer"
+            type="button"
+            class="absolute top-[53px] max-lg:top-[-20px] max-md:top-[-30px] right-[-50%] max-lg:right-[-60px] max-md:right-[14px] flex items-center justify-center"
+            aria-label="Закрыть полноэкранный режим"
+        >
+            <Icon name="close"/>
+        </button>
+        <Image
+            class="w-auto max-sm:w-[100vw] h-[calc(100vh_-_100px)] max-sm:h-auto rounded-4xl border border-solid border-[#CFCFCF]"
+            src={invoice}
+            width={582}
+            height={760}
+            densities={[1, 1.5, 2]}
+            format="webp"
+            alt="Полноэкранная версия квитанции официальное подтверждения успешного платежа"
+        />
+    </dialog>
+</article>
+
+<script>
+    function initWorkProgress() {
+        const dialog = document.getElementById('image-viewer') as HTMLDialogElement;
+        const openBtn = document.getElementById('open-image-viewer');
+        const closeBtn = document.getElementById('close-image-viewer');
+
+        if (openBtn && dialog && closeBtn) {
+            openBtn.addEventListener('click', () => {
+                dialog.showModal();
+                document.body.style.overflow = 'hidden';
+            });
+
+            closeBtn.addEventListener('click', () => {
+                dialog.close();
+                document.body.style.overflow = 'unset';
+            });
+
+            dialog.addEventListener('click', (e) => {
+                if (e.target === dialog) {
+                    dialog.close();
+                    document.body.style.overflow = 'unset';
+                }
+            });
+        }
+    }
+
+    document.addEventListener('astro:page-load', initWorkProgress);
+</script>
+
+<style>
+    dialog {
+        max-width: 100%;
+        overflow: unset;
+    }
+
+    dialog::backdrop {
+        background-color: rgba(10, 12, 25, 0.40);
+    }
+
+    .modal-content {
+        /* padding: 40px;
+        position: relative;
+        background: #ffffff; */
+    }
+</style>

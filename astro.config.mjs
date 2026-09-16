@@ -18,13 +18,10 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  // Настройки обработки и оптимизации изображений
   image: {
-    // Включаем встроенный сервис оптимизации на базе Sharp
     service: {
       entrypoint: 'astro/assets/services/sharp',
     },
-    // Разрешенные внешние домены (если картинки подтягиваются по URL из внешних CDN)
     domains: [],
   },
 

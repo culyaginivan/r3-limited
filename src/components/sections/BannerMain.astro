@@ -1,0 +1,104 @@
+---
+import { Image } from "astro:assets";
+import globeBare from "../../assets/img/hero-globe-bare.webp";
+import { Icon } from "astro-icon/components";
+import Banner from "../Banner.astro";
+
+---
+
+<Banner 
+  className="banner" 
+  title="Платеж в любую <br />точку мира 0,6%*"
+  note="*Фиксированный минимум комиссии действует исключительно для переводов в AED."
+>
+  	<div class="globe">
+			<span class="globe__img">
+				<Image
+					src={globeBare}
+					width="501"
+					height="498"
+					alt="Глобус с орбитой платёжного маршрута"
+          loading="eager"
+          fetchpriority="high"
+				/>
+			</span>
+			<div class="globe__stage">
+				<div class="globe__orbit" aria-hidden="true">
+					<span
+						class="coin"
+						style="--phase:0.0;--tx:0.8582;--ty:-0.5134;--sc:0.3041;--z:1"
+					>
+						<span class="coin__label">CNY</span>
+					</span>
+					<span
+						class="coin coin--paid"
+						style="--phase:0.1;--tx:0.6887;--ty:-0.4247;--sc:0.5146;--z:3"
+					>
+						<Icon name="coin-check" class="coin__tick" aria-hidden="true" />
+					</span>
+					<span
+						class="coin"
+						style="--phase:0.2;--tx:0.2562;--ty:-0.1737;--sc:0.8993;--z:3"
+						><span class="coin__label">AED</span></span
+					>
+					<span
+						class="coin"
+						style="--phase:0.3;--tx:-0.2742;--ty:0.1435;--sc:0.8993;--z:3"
+						><span class="coin__label">TRY</span></span
+					>
+					<span
+						class="coin coin--paid"
+						style="--phase:0.4;--tx:-0.6998;--ty:0.4060;--sc:0.5146;--z:3"
+					>
+						<Icon name="coin-check" class="coin__tick" aria-hidden="true" />
+					</span>
+					<span
+						class="coin"
+						style="--phase:0.5;--tx:-0.8582;--ty:0.5134;--sc:0.3041;--z:3"
+					>
+						<span class="coin__label">AED</span>
+					</span>
+					<span
+						class="coin"
+						style="--phase:0.6;--tx:-0.6887;--ty:0.4247;--sc:0.2158;--z:1"
+					>
+						<span class="coin__label">RUB</span>
+					</span>
+					<span
+						class="coin coin--paid"
+						style="--phase:0.7;--tx:-0.2562;--ty:0.1737;--sc:0.1830;--z:1"
+					>
+						<Icon name="coin-check" class="coin__tick" aria-hidden="true" />
+					</span>
+					<span
+						class="coin coin--paid"
+						style="--phase:0.8;--tx:0.2742;--ty:-0.1435;--sc:0.1830;--z:1"
+					>
+						<Icon name="coin-check" class="coin__tick" aria-hidden="true" />
+					</span>
+					<span
+						class="coin"
+						style="--phase:0.9;--tx:0.6998;--ty:-0.4060;--sc:0.2158;--z:1"
+					>
+						<span class="coin__label">USD</span>
+					</span>
+				</div>
+				<figure class="globe__widget" aria-hidden="true">
+					<span class="globe__mark">
+						<Icon name="mini-logo" class="globe__mark-icon" aria-hidden="true" />
+					</span>
+					<figcaption class="globe__lines">
+						<span class="globe__caption">Платеж отправлен</span>
+						<span class="globe__amount">
+							<span class="globe__amount-slot">50 000 EUR</span>
+							<span class="globe__amount-slot">300 000 CNY</span>
+							<span class="globe__amount-slot">1 000 000 AED</span>
+						</span>
+					</figcaption>
+					<span class="globe__check">
+						<Icon name="check" aria-hidden="true" style="--size:1.25rem;"/>
+					</span>
+				</figure>
+			</div>
+		</div>
+</Banner>

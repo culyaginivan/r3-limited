@@ -40,23 +40,23 @@ const serviceLinks: FooterLink[] = [
 const companyLinks: FooterLink[] = [
     {
         name: 'Как работаем',
-        link: '#',
+        link: `#how-we-work`,
     },
     {
         name: 'Документы',
-        link: '#',
+        link: '#documents',
     },
     {
         name: 'География',
-        link: '#',
+        link: `${import.meta.env.BASE_URL}#geo`,
     },
     {
         name: 'Кейсы',
-        link: '#',
+        link: `${import.meta.env.BASE_URL}#cases`,
     },
     {
         name: 'Вопросы',
-        link: '#',
+        link: `${import.meta.env.BASE_URL}#faq`,
     },
 ];
 
@@ -248,7 +248,7 @@ const documentLinks: FooterLink[] = [
         }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 786px) {
         .footer {
             gap: 32px;
             min-height: 0;

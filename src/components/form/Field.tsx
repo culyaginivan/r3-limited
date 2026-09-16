@@ -11,13 +11,13 @@ type FieldProps = {
 
 export default function Field({ id, label, required = false, error, children, className }: FieldProps) {
   return (
-    <div className={`field ${error ? 'field--error' : ''} ${className ?? ''}`}>
-      <label className="field__label" htmlFor={id}>
+    <div className={`group field flex flex-col gap-1 ${error ? 'field--error' : ''} ${className ?? ''}`}>
+      <label className="field__label text-[12px] leading-[14px] text-[var(--neutral-90)]" htmlFor={id}>
         {label}
         {required && <span aria-hidden="true">*</span>}
       </label>
       {children}
-      <div className="field__error" role={error ? 'alert' : undefined}>
+      <div className="field__error min-h-0 text-[var(--warning-80)] text-[12px] leading-[14px] group-[.field--error]:text-warning-80" role={error ? 'alert' : undefined}>
         {error}
       </div>
     </div>

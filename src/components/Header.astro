@@ -20,12 +20,12 @@ interface Props {
 const { current = "index", scrollOffset = 8 } = Astro.props;
 
 const links = [
-  { id: "calculator", label: "Калькулятор" },
-  { id: "services", label: "Услуги" },
-  { id: "how-we-work", label: "Как работаем" },
-  { id: "documents", label: "Документы" },
-  { id: "cases", label: "Кейсы" },
-  { id: "faq", label: "Вопросы" },
+  { id: "calculator", label: "Калькулятор", onlyMain: true },
+  { id: "services", label: "Услуги", onlyMain: true },
+  { id: "how-we-work", label: "Как работаем", onlyMain: false },
+  { id: "documents", label: "Документы", onlyMain: false },
+  { id: "cases", label: "Кейсы", onlyMain: true },
+  { id: "faq", label: "Вопросы", onlyMain: true },
 ];
 
 const menuId = `menu-panel-${current}`;
@@ -69,8 +69,8 @@ const menuId = `menu-panel-${current}`;
       class="object-contain w-[202px] h-[40px]" 
       src={logo} 
       alt="R3 Limited logo" 
-      width={202} 
-      height={40} 
+      width={202}
+      height={40}
     />
   </a>
 
@@ -87,7 +87,7 @@ const menuId = `menu-panel-${current}`;
               data-page={current}
               data-link-id={link.id}
               class="header__link inline-flex items-center justify-center p-2"
-              href={'#' + link.id}
+              href={`${link.onlyMain ? import.meta.env.BASE_URL : ''}#${link.id}`}
               aria-current={current === link.id ? "page" : undefined}
             >
               {link.label}
@@ -315,7 +315,7 @@ const menuId = `menu-panel-${current}`;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 786px) {
     .header {
       gap: 8px;
     }
@@ -342,6 +342,11 @@ const menuId = `menu-panel-${current}`;
   }
 
   @media (max-width: 480px) {
+    .header {
+      background: rgba(255, 255, 255, 0.1);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+    }
     .header__nav {
       right: 0;
       left: none;

@@ -46,10 +46,14 @@ const steps = [
 
 ---
 
-<section id="how-we-work" class="reveal-box mx-auto flex w-full max-w-[var(--canvas)] flex-col gap-10 rounded-[var(--r-2xl)] bg-[image:var(--gradient-2)] gap-16 px-16 py-[88px] max-xl:px-[40px] max-xl:py-[64px] max-md:px-8 max-sm:px-4 max-sm:py-16">
+<section id="how-we-work" class="
+	reveal-box mx-auto flex w-full flex-col gap-10 
+	rounded-[var(--r-2xl)] bg-[image:var(--gradient-2)] 
+	gap-16 px-16 max-xl:px-[40px] max-md:px-8 max-sm:px-6 
+	py-[88px] max-xl:py-16 max-md:py-10 max-sm:py-8">
 	<h2 class="h2">Как мы работаем</h2>
 
-	<ol class="steps flex gap-6 pb-10 overflow-auto">
+	<ol class="steps flex max-sm:flex-col gap-6 pb-10 overflow-auto">
 		{steps.map((step, index) => (
 			<li class="group flex min-w-0 flex-col gap-5 min-w-[160px]" data-active={index === 0 ? 'true' : null}>
 				<div class="flex items-center gap-4" aria-hidden="true">

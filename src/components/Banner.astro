@@ -1,0 +1,205 @@
+---
+interface Props {
+  title: string;
+  className: string;
+  category?: string;
+  note?: string;
+}
+
+const { title, category, note, className } = Astro.props;
+
+---
+
+<section class:list={[
+  "banner reveal-box relative overflow-hidden py-[120px_56px] px-(--gutter) rounded-b-(--r-2xl)",
+  className ?? ''
+]}>
+  <div class="banner__info">
+    {category && <span class="text-xl" aria-label="Категория кейса">{category}</span>}
+    <h1 class="h1 banner__title" set:html={title}/>
+    <nav class="banner__actions">
+      <ul>
+        <li>
+          <a class="btn btn--lg btn--primary" href="#request">Оставить заявку</a>
+        </li>
+        <li>
+          <a class="btn btn--lg btn--secondary" href={`${import.meta.env.BASE_URL}#calculator`}>Рассчитать платеж</a>
+        </li>
+      </ul>
+    </nav>
+    {note && <small class="banner__note" aria-label="Примечание">{note}</small>}
+  </div>
+	<div class="banner__art">
+    <slot/>
+	</div>
+</section>
+
+
+<style>
+.banner__info {
+  display: flex;
+  flex-direction: column;
+  width: calc(50% - 40px);
+  padding-block: 132px;
+  gap: 40px;
+}
+
+.banner:before {
+  content: "";
+  position: absolute;
+  left: -41px;
+  bottom: -556px;
+
+  width: 876px;
+  height: 876px;
+
+  border-radius: 50%;
+  opacity: 0.4;
+  background-color: var(--secondary-90);
+  filter: blur(120px);
+  z-index: -1;
+}
+
+.banner:after {
+  content: "";
+  position: absolute;
+  right: -85px;
+  bottom: -185px;
+
+  width: 754px;
+  height: 754px;
+
+  border-radius: 50%;
+  opacity: 0.4;
+  background-color: var(--secondary-100);
+  filter: blur(120px);
+  z-index: -1;
+}
+
+.banner__art {
+  position: absolute;
+  right: calc(var(--gutter) + 7px);
+  bottom: 79px;
+  width: 490px;
+  height: 490px;
+}
+
+.banner__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.banner__col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+  flex: 1 0 0;
+  min-width: 0
+}
+
+.banner__title {
+  max-width: 560px;
+}
+
+.banner__actions ul {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.banner__note {
+  max-width: 560px;
+  font: 400 14px/16px Onest, sans-serif
+}
+
+@media (max-width: 1200px) {
+  .banner {
+    padding-block-end: 96px;
+  }
+
+  .banner__info {
+    padding-block: 84px;
+  }
+
+  .banner__art {
+    width: 400px;
+    height: 400px;
+    right: 56px;
+    bottom: 116px;
+  }
+}
+
+@media (max-width: 992px) {
+  .banner__info {
+    position: relative;
+    width: 480px;
+    z-index: 1;
+  }
+  .banner__art {
+    z-index: 0;
+    right: -4px;
+    bottom: 116px;
+  }
+}
+
+@media (max-width: 786px) {
+  .banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    max-height: 610px;
+    gap: 32px;
+    padding-block-end: 40px;
+  }
+  .banner__info {
+    width: auto;
+    padding-block: 0;
+    align-self: flex-start;
+  }
+
+  .banner__art {
+    position: relative;
+    height: 417px;
+    min-width: 320px;
+    min-height: 320px;
+    right: 0;
+    bottom: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner {
+    flex-direction: column-reverse;
+    flex-wrap: nowrap;
+    height: 610px;
+    gap: 24px;
+    padding-block: 80px 64px;
+  }
+  .banner__info {
+    width: 100%;
+    gap: 24px;
+  }
+
+  .banner__art {
+    width: 100%;
+    height: auto;
+    margin-top: -40%;
+    bottom: 0;
+  }
+
+  .banner__actions ul {
+    flex-wrap: wrap;
+  }
+
+  .banner__actions ul li {
+    width: 100%;
+  }
+
+  .banner__actions ul li .btn {
+    width: 100%;
+  }
+}
+</style>

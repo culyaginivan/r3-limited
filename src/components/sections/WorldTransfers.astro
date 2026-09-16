@@ -71,7 +71,7 @@ const countries: Country[] = [
 const defaultActiveId = countries[0].id;
 ---
 
-<section class="world-transfers reveal-box" aria-labelledby="transfers-title">
+<section id="geo" class="world-transfers reveal-box" aria-labelledby="transfers-title">
   <h2 id="transfers-title" class="h2">Переводы по всему миру</h2>
 
   <div class="world-transfers__card">
@@ -88,6 +88,10 @@ const defaultActiveId = countries[0].id;
           src={worldMap}
           alt="Карта подложка"
           loading="lazy"
+          width="1916" 
+          height="1123"
+          densities={[1, 1.5, 2]}
+          format="svg"
           style="width: 100%; height: 100%; object-fit: cover;"
         />
       </foreignObject>
@@ -417,7 +421,7 @@ const defaultActiveId = countries[0].id;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 786px) {
     .world-transfers {
       padding-bottom: 506px;
       padding-inline: 0;
