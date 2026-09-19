@@ -34,12 +34,16 @@ const partners = [
 
 ---
 
-<section class="reveal-box flex w-full flex-col items-start gap-8 overflow-hidden px-4 py-8 sm:px-8 sm:py-11 lg:flex-row lg:items-center lg:gap-16 lg:px-16">
-    <h2 class="shrink-0 text-xl font-normal leading-6 text-[var(--primary-100)] lg:w-[172px]">
-        Нам доверяют<br />банки и партнеры
+<section class="
+    reveal-box flex w-full flex-col-2 items-center overflow-hidden 
+    px-(--gutter) py-11 max-lg:py-8 max-md:py-6
+    max-md:flex-col max-md:items-start max-md:gap-10 max-sm:gap-6
+">
+    <h2 class="text-xl/6 w-[196px] my-6 max-md:my-[0px] max-md:w-fit pr-6 max-md:py-3 border-r border-[var(--secondary-70)] max-md:border-r-0">
+        Нам доверяют банки и партнеры
     </h2>
 
-    <div class="relative min-w-0 flex-1 overflow-hidden border-t border-[var(--secondary-70)] pt-8 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
+    <div class="relative min-w-0 flex-1 overflow-hidden pl-16 max-md:pl-[0px]">
         <ul class="marquee-track flex w-max items-center gap-16" aria-label="Банки и партнеры">
             {Array.from({ length: 2 }).map((_, groupIndex) => (
                 <li class="flex items-center gap-16" aria-hidden={groupIndex > 0}>

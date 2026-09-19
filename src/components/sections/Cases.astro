@@ -5,10 +5,10 @@ import { cases } from "../../data/cases";
 
 ---
 
-<section id="cases" class="cases-section reveal-box">
+<section id="cases" class="cases-section reveal-box horizontal-section">
     <h2 class="h2">Кейсы</h2>
 
-    <ul class="cases-list" aria-label="Истории успешных платежей">
+    <ul class="cases-list horizontal-wrapper" aria-label="Истории успешных платежей">
         {cases.map((item) => (
             <li>
                 <article class="case-card">
@@ -59,7 +59,6 @@ import { cases } from "../../data/cases";
         width: 100%;
         padding: 88px var(--gutter);
         overflow: hidden;
-        overflow-x: auto;
         border-radius: var(--r-2xl);
         background: var(--gradient-cases);
     }
@@ -77,12 +76,14 @@ import { cases } from "../../data/cases";
         gap: 16px;
         width: max-content;
         align-items: stretch;
+        padding-right: 60px;
     }
 
     .case-card {
         display: flex;
         flex-direction: column;
         width: 600px;
+        max-width: calc(100vw - 32px);
         min-height: 100%;
         padding: 40px;
         overflow: hidden;
@@ -168,9 +169,21 @@ import { cases } from "../../data/cases";
         width: 100%;
     }
 
+    @media (max-width: 1200px) {
+        .cases-section {
+            padding: 64px 40px;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .cases-section {
+            gap: 40px;
+        }
+    }
+
     @media (max-width: 786px) {
         .cases-section {
-            padding: 48px 16px;
+            padding: 40px 32px;
             border-radius: var(--r-xl);
         }
 
@@ -186,14 +199,28 @@ import { cases } from "../../data/cases";
             border-radius: 20px;
         }
 
+        .case-card__header {
+            padding-block-start: 0px;
+        }
+
         .case-card__image {
             display: none;
+        }
+
+        .case-card__results {
+            margin: 0;
         }
 
         .case-card__meta,
         .case-card__results li,
         .case-card__link {
             font-size: 14px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .cases-section {
+            padding: 32px 24px;
         }
     }
 </style>

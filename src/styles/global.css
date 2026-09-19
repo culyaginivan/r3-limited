@@ -15,11 +15,7 @@
   --breakpoint-2xl: 1440px;
 }
 
-/* ==========================================================================
-  Design tokens — mapped 1:1 from the Figma styles on node 404:4150
-   ========================================================================== */
 :root {
-  /* Colour ramps */
   --primary-60: #eaf1ff;
   --primary-90: #282dad;
   --primary-100: #0a0c19;
@@ -40,7 +36,6 @@
   --success-100: #164c3f;
   --warning-80: #a82525;
 
-  /* Gradients (angles as emitted by Figma codegen) */
   --gradient-1: linear-gradient(210.77deg, #eaf1ff 15.243%, #d8dbf5 111.83%);
   --gradient-2: linear-gradient(192.93deg, #eaf1ff 15.243%, #d8dbf5 111.83%);
   --gradient-3: linear-gradient(191.59deg, #eaf1ff 15.243%, #d8dbf5 111.83%);
@@ -53,7 +48,7 @@
   );
   --gradient-cta: linear-gradient(194.89deg, #eaf1ff 15.243%, #d8dbf5 111.83%);
 
-  /* Radii */
+  /* Rounded */
   --r-xs: 4px;
   --r-sm: 8px;
   --r-md: 16px;
@@ -64,11 +59,8 @@
 
   /* Layout */
   --gutter: 64px;
+  --container-max: 1800px;
 }
-
-/* ==========================================================================
-   Base
-   ========================================================================== */
 
 *,
 *::before,
@@ -96,10 +88,6 @@ img {
 }
 
 p,
-h1,
-h2,
-h3,
-h4,
 ul {
   margin: 0;
 }
@@ -144,8 +132,6 @@ button {
   outline-offset: 2px;
 }
 
-/* Buttons */
-
 .btn {
   display: inline-flex;
   align-items: center;
@@ -183,7 +169,6 @@ button {
   font-size: 14px;
 }
 
-/* content: Icon Only — a square button around a 24px (L) or 20px (M) glyph */
 .btn__icon {
   display: none;
 }
@@ -224,7 +209,6 @@ button {
   border-radius: var(--r-xl);
 }
 
-/* Заголовки */
 .h1, .h2 {
   font:
     600 48px/56px Onest,

@@ -1,8 +1,6 @@
 ---
 import MainLayout from '../layouts/Main.astro';
 import '../styles/orbit.css';
-import HowWeWork from '../components/sections/HowWeWork.astro';
-import Documents from '../components/sections/Documents.astro';
 import BannerMain from '../components/sections/BannerMain.astro';
 import Statistic from '../components/sections/Statistic.astro';
 import Trasted from '../components/sections/Trasted.astro';
@@ -10,8 +8,6 @@ import Cases from '../components/sections/Cases.astro';
 import Achivments from '../components/sections/Achivments.astro';
 import Calculator from '../components/sections/Calculator';
 import Services from '../components/sections/Services.astro';
-import WorldTransfers from '../components/sections/WorldTransfers.astro';
-import Faq from '../components/sections/Faq.astro';
 import statCommission from '../assets/img/stat-1.webp';
 import statTerms from '../assets/img/stat-2.webp';
 import statGeography from '../assets/img/stat-3.webp';
@@ -33,12 +29,8 @@ const statistics = [
     <Statistic statistics={statistics} ariaLabel="Преимущества R3 Limited" />
     <Trasted />
     <Calculator client:visible />
-    <Services />
-    <Cases />
     <Achivments />
-    <HowWeWork />
-    <Documents />
-    <WorldTransfers />
-    <Faq />
+    <Cases />
+    <Services />
   </>
 </MainLayout>

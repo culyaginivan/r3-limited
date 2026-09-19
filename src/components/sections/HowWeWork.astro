@@ -47,29 +47,38 @@ const steps = [
 ---
 
 <section id="how-we-work" class="
-	reveal-box mx-auto flex w-full flex-col gap-10 
+	reveal-box mx-auto flex w-full flex-col gap-16 max-md:gap-10
 	rounded-[var(--r-2xl)] bg-[image:var(--gradient-2)] 
-	gap-16 px-16 max-xl:px-[40px] max-md:px-8 max-sm:px-6 
-	py-[88px] max-xl:py-16 max-md:py-10 max-sm:py-8">
+	px-16 max-xl:px-[40px] max-md:px-8 max-sm:px-6 
+	py-[88px] max-xl:py-16 max-md:py-10 max-sm:py-8
+">
 	<h2 class="h2">Как мы работаем</h2>
 
-	<ol class="steps flex max-sm:flex-col gap-6 pb-10 overflow-auto">
+	<ol class="steps flex max-lg:flex-col gap-6">
 		{steps.map((step, index) => (
-			<li class="group flex min-w-0 flex-col gap-5 min-w-[160px]" data-active={index === 0 ? 'true' : null}>
-				<div class="flex items-center gap-4" aria-hidden="true">
+			<li class="
+					group flex-1 flex flex-col gap-5 min-w-40
+					max-lg:flex-row max-lg:gap-4
+				" 
+				data-active={index === 0 ? 'true' : null}>
+				<div class="flex items-center gap-4 max-lg:flex-col" aria-hidden="true">
 					<span class="size-4 shrink-0 rounded-full bg-[var(--primary-100)] group-data-[active]:bg-[var(--primary-90)]"></span>
-					<span class="h-0 min-w-0 flex-1 border-t border-[var(--neutral-70)] group-data-[active]:border-[var(--primary-90)]"></span>
+					<span class="
+						h-px w-full min-w-0 flex-1 bg-(--neutral-70) 
+						group-data-[active]:bg-(--primary-90)
+						max-lg:w-px max-lg:h-full max-lg:mx-auto
+					"></span>
 				</div>
 
-				<div class="flex min-h-0 flex-1 flex-col gap-5">
-					<h3 class="h3 break-all">{step.name}</h3>
+				<div class={`flex min-h-0 flex-1 flex-col gap-5${index !== 0 ? ' max-lg:pb-7' : ''}`}>
+					<h3 class="text-6/7 font-semibold break-all max-lg:text-xl/[1.2]">{step.name}</h3>
 					<p class="min-h-0 flex-1 text-xs leading-4 lg:text-base lg:leading-6">{step.desc}</p>
-					<div class="flex items-center gap-2 border-t border-[var(--secondary-90)] pt-3">
+					<div class="flex items-center gap-2 border-t border-[var(--secondary-90)] pt-3 max-lg:pt-[0px] max-lg:border-t-[0px]">
 						<Icon name="clock" class="size-6 shrink-0" aria-hidden="true" />
 						<time datetime={step.duration.iso8601} class="text-xs font-semibold leading-4 lg:text-base lg:leading-6">{step.duration.value}</time>
 					</div>
 					{index === 0 && (
-						<a href="#request" class="btn btn--md btn--primary w-full">
+						<a href="#request" class="btn btn--md btn--primary w-full max-w-75">
 							Оставить заявку
 						</a>
 					)}

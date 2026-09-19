@@ -1,70 +1,153 @@
 ---
-
+import { Font } from "astro:assets";
+import { Image } from "astro:assets";
+import nfPlanet from "../assets/img/nf-planet.webp";
+import nfAstronaut from "../assets/img/nf-astronaut.webp";
+import "../styles/global.css";
 ---
 
-
 <html lang="ru">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>404 — страница не найдена · R3Limited</title>
+		<meta
+			name="description"
+			content="Ошибка 404 — страница не найдена. Попробуйте перезагрузить эту страницу или вернуться на главную страницу R3 Limited."
+		/>
+		<meta property="og:title" content="404 — страница не найдена · R3Limited" />
+		<meta
+			property="og:description"
+			content="Ошибка 404 — страница не найдена. Вернитесь на главную страницу R3 Limited."
+		/>
+		<meta property="og:type" content="website" />
+		<Font cssVariable="--font-onest" />
+	</head>
 
-<head>
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1">
-   <title>404 — страница не найдена · R3Limited</title>
-   <link rel="preconnect" href="https://fonts.googleapis.com">
-   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
-   <link rel="stylesheet" href="assets/styles.css">
-   <link rel="stylesheet" href="assets/notfound.css">
-</head>
+	<body>
+		<main class="nf relative isolate min-h-screen overflow-hidden bg-[image:var(--gradient-2)] text-(--primary-100)">
+			<section
+				class="nf__block relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-(--gutter)"
+			>
+				<!-- Тёплые пятна света — та же подпись, что у баннеров сайта -->
+				<div
+					class="absolute left-[-180px] top-[6%] h-[700px] w-[700px] rounded-full bg-(--secondary-90) opacity-40 blur-[110px]"
+					aria-hidden="true"
+				></div>
+				<div
+					class="absolute bottom-[-320px] right-[-260px] h-[860px] w-[860px] rounded-full bg-(--secondary-100) opacity-40 blur-[120px]"
+					aria-hidden="true"
+				></div>
 
-<body>
-   <main class="nf">
-      <section class="nf__block">
-         <div class="nf__inner">
+				<!-- Мобильный кадр 480 px отдаёт эллипс со своим bleed ratio, поэтому два
+				варианта меняются брейкпоинтом, а не растягиваются один на оба -->
+				<span class="nf__deco nf__glow absolute pointer-events-none z-0" aria-hidden="true">
+					<span
+						class="absolute left-[3%] top-[12%] hidden max-sm:block h-[280px] w-[400px] rounded-[50%] bg-[linear-gradient(140deg,rgba(234,241,255,0.9),rgba(216,219,243,0.55))] opacity-80 blur-[46px]"
+					></span>
+					<span
+						class="absolute left-[6%] top-[20%] max-sm:hidden h-[560px] w-[820px] rounded-[50%] bg-[linear-gradient(140deg,rgba(234,241,255,0.9),rgba(216,219,243,0.55))] opacity-80 blur-[70px]"
+					></span>
+				</span>
 
-            <!-- The 480 frame exports its own ellipse with a different bleed ratio, so the
-     two are swapped by <picture> rather than one being stretched to both -->
-            <span class="nf__deco nf__glow" aria-hidden="true"><span>
-                  <picture>
-                     <source media="(max-width:480px)"
-                        srcset="https://www.figma.com/api/mcp/asset/a2943e5b-6a26-4dc8-9cb9-2ce06ffc846f.svg"><img
-                        src="https://www.figma.com/api/mcp/asset/d8a6dbfd-742d-495c-9b71-d86485ef5aec.svg" alt="">
-                  </picture>
-               </span></span>
+				<div
+					class="nf__text relative z-10 flex w-full max-w-[620px] flex-col items-center gap-9 sm:gap-10 lg:items-start"
+				>
+					<div class="nf__lines flex w-full flex-col items-center gap-5 sm:items-start sm:gap-6">
+						<h1
+							class="nf__code text-(--primary-90) font-semibold leading-[0.92] tracking-[-0.01em] text-[96px] sm:text-[120px] md:text-[150px] lg:text-[190px] xl:text-[240px] 2xl:text-[280px]"
+						>
+							404
+						</h1>
+						<p
+							class="nf__note max-w-[460px] text-center text-(--neutral-70) text-[17px] leading-7 sm:max-w-[520px] sm:text-[18px] sm:leading-7 lg:text-left"
+						>
+							Ошибка, страница не найдена. <br />Попробуйте перезагрузить эту страницу или вернуться на
+							главную.
+						</p>
+					</div>
+					<a class="btn btn--lg btn--primary w-full min-w-[220px] sm:w-auto" href={import.meta.env.BASE_URL}>
+						На главную
+					</a>
+				</div>
 
-            <div class="nf__text">
-               <div class="nf__lines">
-                  <h1 class="nf__code">404</h1>
-                  <p class="nf__note">Ошибка, страница не наййдена. <br>Попробуйте перезагрузить эту страницу или
-                     вернуться на главную.</p>
-               </div>
-               <div><a class="btn btn--lg btn--primary" href="index.html">На главную</a></div>
-            </div>
+				<span
+					class="nf__deco nf__planet absolute bottom-[-18%] right-[-7%] z-[1] aspect-square w-[150px] sm:w-[220px] md:w-[310px] lg:w-[420px] xl:w-[520px] 2xl:w-[580px]"
+					aria-hidden="true"
+				>
+					<Image
+						src={nfPlanet}
+						width={1199}
+						height={1199}
+						alt=""
+						loading="lazy"
+						class="h-full w-full object-contain drop-shadow-[0_16px_32px_rgba(10,12,25,0.2)]"
+					/>
+				</span>
 
-            <span class="nf__deco nf__planet" aria-hidden="true"><img src="assets/img/nf-planet.webp" alt=""></span>
-            <span class="nf__deco nf__card" aria-hidden="true"><img src="assets/img/nf-astronaut.webp" alt=""></span>
-
-            <span class="nf__deco nf__stars" aria-hidden="true"><span class="nf__stars-rot"><span
-                     class="nf__stars-field">
-                     <span style="inset:9.68% 19.82% 3.95% 21.66%"><img
-                           src="https://www.figma.com/api/mcp/asset/4b1d1c0d-622e-4ae7-ae13-d2dc3a51a72b.svg"
-                           alt=""></span>
-                     <span style="inset:21.23% 31.58% 12.8% 28.12%"><img
-                           src="https://www.figma.com/api/mcp/asset/d4a7edc0-3846-4307-97c9-9797b9787a21.svg"
-                           alt=""></span>
-                     <span style="inset:4.59% 54.13% 29.44% 5.57%"><img
-                           src="https://www.figma.com/api/mcp/asset/6aed7123-6877-4249-b60d-029f6281a95e.svg"
-                           alt=""></span>
-                     <span style="inset:27.64% 7.58% 6.39% 52.12%"><img
-                           src="https://www.figma.com/api/mcp/asset/123828c1-a22f-4833-900b-fbcb6d49cc3b.svg"
-                           alt=""></span>
-                     <span style="inset:23.36% 35.63% 13.44% 34.54%"><img
-                           src="https://www.figma.com/api/mcp/asset/293ba034-d301-453d-a99d-91dee5ad2845.svg"
-                           alt=""></span>
-                  </span></span></span>
-
-         </div>
-      </section>
-   </main>
-</body>
-
+				<span
+					class="nf__deco nf__card nf-card absolute bottom-[6%] right-[13%] z-20 aspect-[347/379] w-[96px] sm:w-[130px] md:w-[160px] lg:w-[200px] xl:w-[230px] 2xl:w-[250px]"
+					aria-hidden="true"
+				>
+					<Image
+						src={nfAstronaut}
+						width={347}
+						height={379}
+						alt=""
+						loading="lazy"
+						class="h-full w-full object-contain drop-shadow-[0_16px_32px_rgba(10,12,25,0.22)]"
+					/>
+				</span>
+			</section>
+		</main>
+	</body>
 </html>
+
+<style>
+	@keyframes nf-twinkle {
+		0%,
+		100% {
+			opacity: 0.15;
+			transform: scale(0.6);
+		}
+		50% {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+
+	@keyframes nf-spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	@keyframes nf-float {
+		0%,
+		100% {
+			transform: rotate(-8deg) translateY(0);
+		}
+		50% {
+			transform: rotate(-5deg) translateY(-12px);
+		}
+	}
+
+	.nf-card {
+		transform: rotate(-8deg);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.nf-star {
+			animation: nf-twinkle 3.4s ease-in-out infinite;
+			animation-delay: var(--twinkle-delay, 0s);
+		}
+
+		.nf__stars-rot {
+			animation: nf-spin 180s linear infinite;
+		}
+
+		.nf-card {
+			animation: nf-float 7s ease-in-out infinite;
+		}
+	}
+</style>

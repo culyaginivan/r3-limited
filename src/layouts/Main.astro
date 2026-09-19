@@ -6,6 +6,10 @@ import Header, { type currentPageIdType } from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Request from "../components/sections/Request";
 import '../styles/global.css';
+import Documents from "../components/sections/Documents.astro";
+import Faq from "../components/sections/Faq.astro";
+import HowWeWork from "../components/sections/HowWeWork.astro";
+import WorldTransfers from "../components/sections/WorldTransfers.astro";
 
 interface Props {
     description: string;
@@ -42,26 +46,64 @@ const {
 	<body class="px-[60px] max-2xl:px-0">
 		<IconSprite />
 		<Header transition:persist current={page} />
-		<main transition:animate="slide" class="relative overflow-clip mt-[-68px]">
+		<main transition:animate="slide" class="relative overflow-clip max-w-(--container-max) mx-auto mt-[-68px] max-sm:flex max-sm:flex-col max-sm:gap-10">
 			<slot/>
+			<HowWeWork />
+			<Documents />
+			{page === 'index' && <WorldTransfers />}
+			<Faq />
 			<Request client:idle />
 			<Footer transition:persist />
 		</main>
 
 		<script>
-			import ScrollReveal from 'scrollreveal';
+			import { gsap } from "gsap";
+			// TODO: Разобраться со скролом горизонтальным при вертикальном скроле
+  			import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-			const initScrollReveal = () => {
-				ScrollReveal().reveal('.reveal-box', {
-					delay: 300,
-					distance: '50px',
-					origin: 'bottom',
-					duration: 1000,
-					mobile: true,
+			gsap.registerPlugin(ScrollTrigger);
+
+			const initScroll = () => {
+				// const wrapper = document.querySelector(".horizontal-wrapper") as HTMLElement;
+				
+				// if (wrapper) {
+				// 	gsap.to(wrapper, {
+				// 			x: () => -(wrapper.scrollWidth - window.innerWidth),
+				// 			ease: "none",
+				// 			scrollTrigger: {
+				// 				trigger: ".horizontal-section",
+				// 			pin: true,
+				// 			scrub: 1,
+				// 			start: "top top",
+				// 			end: () => "+=" + (wrapper.scrollWidth - window.innerWidth),
+				// 			invalidateOnRefresh: true,
+				// 		}
+				// 	});
+				// }
+
+				const revealBoxes = gsap.utils.toArray(".reveal-box") as HTMLElement[];
+				revealBoxes.forEach((box) => {
+					gsap.fromTo(box, 
+						{
+							opacity: 0,
+							y: 60 
+						}, 
+						{
+							opacity: 1,
+							y: 0,
+							duration: 1,
+							ease: "power2.out",
+							scrollTrigger: {
+								trigger: box,
+								start: "top 85%", // Анимация начнется, когда верх блока пересечет 85% экрана
+								toggleActions: "play none none reverse", // Воспроизвести при скролле вниз, вернуть назад при скролле вверх
+							}
+						}
+					);
 				});
 			};
 
-			document.addEventListener('astro:page-load', initScrollReveal);
+			document.addEventListener("astro:page-load", initScroll);
 		</script>
     </body>
 </html>

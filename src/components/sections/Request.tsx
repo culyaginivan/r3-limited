@@ -45,7 +45,6 @@ export default function Request() {
 
     const handleSubmit: ChangeEventHandler<HTMLFormElement> = (event) => {
         event.preventDefault();
-        // Здесь логика отправки на бэкенд (например, fetch или axios)
         console.log('Данные формы для отправки:', formData);
     };
 
@@ -66,11 +65,12 @@ export default function Request() {
                         ))}
                     </ul>
 
-                    <span className="lead-info__separator" aria-hidden="true"></span>
+                    <span className="lead-info__separator max-md:hidden" aria-hidden="true"></span>
 
                     <address className="contacts-block">
                         <span id="email-label">Почта</span>
                         <a 
+                            className="font-semibold text-2xl/7 max-md:text-xl/6"
                             href={'mailto:' + company.email} 
                             aria-labelledby="email-label" 
                             itemProp="email"

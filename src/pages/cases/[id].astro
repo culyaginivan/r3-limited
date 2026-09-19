@@ -2,8 +2,6 @@
 import { Image } from "astro:assets";
 import { cases, type Case  } from "../../data/cases";
 import MainLayout from "../../layouts/Main.astro";
-import Documents from "../../components/sections/Documents.astro";
-import HowWeWork from "../../components/sections/HowWeWork.astro";
 import Statistic, {type Statistic as StatisticType} from "../../components/sections/Statistic.astro";
 
 import statCommission from '../../assets/img/stat-1.webp';
@@ -62,6 +60,4 @@ const bannerClassName = `bg-[image:var(--gradient-${item.id === 'uae' ? 3 : 2})]
         results={item.results}
         invoice={item.invoice}
     />
-    <HowWeWork/>
-    <Documents/>
 </MainLayout>

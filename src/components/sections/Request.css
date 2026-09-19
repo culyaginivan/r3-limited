@@ -135,10 +135,6 @@
 }
 
 @media (max-width: 480px) {
-   .lead {
-        padding-block-end: 60px;
-   }
-
     .lead-wrapper {
         border-radius: var(--r-2xl);
     }

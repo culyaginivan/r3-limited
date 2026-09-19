@@ -199,12 +199,12 @@ const schemaData = {
     display: grid;
     grid-template-columns: 420px 1fr;
     gap: 40px;
-    height: 632px;
+    max-height: 632px;
+    height: fit-content;
     align-items: start;
     margin-top: 64px;
   }
 
-  /* Карта боковой панели */
   .faq-aside {
     background: var(--gradient-2);
     border-radius: var(--r-2xl);
@@ -248,7 +248,6 @@ const schemaData = {
     color: var(--neutral-70);
   }
 
-  /* Активная фиолетово-голубая таблетка */
   .faq-nav__button--active {
     background-color: var(--secondary-80);
   }
@@ -257,7 +256,6 @@ const schemaData = {
     color: var(--secondary-100);
   }
 
-  /* Кастомный скроллбар справа (как на макете) */
   .faq-content {
     max-height: 100%;
     overflow-y: auto;
@@ -328,7 +326,6 @@ const schemaData = {
     transition: transform 0.25s stroke 0.2s;
   }
 
-  /* Поворот стрелки вверх при открытом состоянии */
   .faq-item[open] .faq-item__icon {
     transform: rotate(180deg);
   }
@@ -344,7 +341,6 @@ const schemaData = {
     margin: 0;
   }
 
-  /* Адаптивность для мобильных устройств */
   @media (max-width: 992px) {
     .faq-section {
       padding-block: 32px 64px;
@@ -352,7 +348,7 @@ const schemaData = {
 
     .faq-layout {
       grid-template-columns: 330px 1fr;
-      height: 560px;
+      max-height: 560px;
       margin-top: 40px;
     }
 
@@ -374,7 +370,6 @@ const schemaData = {
       align-content: start;
       grid-template-columns: minmax(0, 1fr);
       max-height: 600px;
-      height: fit-content;
       gap: 24px;
     }
 
@@ -386,7 +381,6 @@ const schemaData = {
 
     .faq-nav__list {
       flex-direction: row;
-      overflow-x: auto;
       gap: 16px;
       margin-top: 0;
     }
@@ -397,6 +391,11 @@ const schemaData = {
 
     .faq-nav__item:not(:last-child) {
       border-bottom: 0;
+    }
+  }
+  @media (max-width: 480px) {
+    .faq-section {
+      padding-block: 16px;
     }
   }
 </style>

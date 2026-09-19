@@ -11,7 +11,6 @@ interface Country {
   comission: string;
   timeText: string;
   isoTime: string;
-  // Процентные координаты пина на карте (x, y)
   coords: { x: number; y: number };
 }
 
@@ -71,7 +70,7 @@ const countries: Country[] = [
 const defaultActiveId = countries[0].id;
 ---
 
-<section id="geo" class="world-transfers reveal-box" aria-labelledby="transfers-title">
+<section id="geo" class="world-transfers reveal-box max-lg:world-transfers.gap-10" aria-labelledby="transfers-title">
   <h2 id="transfers-title" class="h2">Переводы по всему миру</h2>
 
   <div class="world-transfers__card">
@@ -227,10 +226,6 @@ const defaultActiveId = countries[0].id;
     gap: 64px;
   }
 
-  .world-transfers h2 {
-    margin-bottom: 24px;
-  }
-
   .world-transfers__card {
     position: relative;
     height: 740px;
@@ -245,6 +240,12 @@ const defaultActiveId = countries[0].id;
     left: 0;
     width: 1916px;
     height: 1123px;
+    /* TODO: Разобраться с масштабом на разных устройствах
+     *  
+     * width: 114.6%;
+     * height: auto;
+     * aspect-ratio: 1916 / 1123; 
+     */
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     will-change: transform;
     transform: translate3d(-39.2%, -11.8%, 0);
@@ -254,10 +255,8 @@ const defaultActiveId = countries[0].id;
     cursor: pointer;
   }
 
-  /* Анимируем только внутренний контент */
   .marker-content {
     transition: transform 0.2s ease-in-out;
-    /* Говорим браузеру центрировать масштаб относительно центра флага (20px, 20px) */
     transform-origin: 20px 20px;
     animation: pulse;
   }
@@ -420,7 +419,6 @@ const defaultActiveId = countries[0].id;
       transform: translate3d(-53%, -2%, 0);
     }
   }
-
   @media (max-width: 786px) {
     .world-transfers {
       padding-bottom: 506px;

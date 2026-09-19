@@ -60,7 +60,6 @@
   opacity: 1;
 }
 
-/* Состояние 4: Заблокирован (Disabled) */
 .checkbox-label input[type="checkbox"]:disabled + .custom-checkbox {
   background-color: var(--neutral-50);
   border-color: transparent;
@@ -76,7 +75,6 @@
   user-select: none;
 }
 
-/* Курсор "запрещено" для disabled элементов */
 .checkbox-label:has(input:disabled) {
   cursor: not-allowed;
 }

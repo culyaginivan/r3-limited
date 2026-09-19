@@ -13,7 +13,7 @@ export default defineConfig({
   
   vite: {
     build: {
-      cssCodeSplit: true, // Изолированный CSS для ускорения первой загрузки
+      cssCodeSplit: true,
     },
     plugins: [tailwindcss()],
   },
