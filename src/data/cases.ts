@@ -9,7 +9,7 @@ import ukBanner from "../assets/img/banner-case-4.webp";
 import vipInvoice from "../assets/img/invoice-1.webp";
 import uaeInvoice from "../assets/img/invoice-2.webp";
 import chinaInvoice from "../assets/img/invoice-3.webp";
-import ukInvoice from "../assets/img/invoice-4.webp"; 
+import ukInvoice from "../assets/img/invoice-4.webp";
 
 export interface Params {
     commission: string;
@@ -35,6 +35,7 @@ export interface Case {
 
     category: string;
     invoice: ImageMetadata;
+    fullViewInvoice?: string;
     description: string;
     params: Params,
     work_progress: WorkProgress;
@@ -57,6 +58,7 @@ export const cases: Case[] = [
         ],
         category: "Оплата мероприятий",
         invoice: vipInvoice,
+        fullViewInvoice: `${import.meta.env.BASE_URL}/documents/VERVE_VISION_MEDIA_MT66CFTE28004000000000005481505_b000ad26_24bd.pdf`,
         description: "",
         params: {
             commission: "1,5%",
@@ -84,6 +86,7 @@ export const cases: Case[] = [
         ],
         category: "Медицина",
         invoice: uaeInvoice,
+        fullViewInvoice: `${import.meta.env.BASE_URL}/documents/PI2025090002-V1.0+.pdf`,
         description: "",
         params: {
             commission: "1,3%",
@@ -112,6 +115,7 @@ export const cases: Case[] = [
         ],
         category: "Оплата электроники",
         invoice: chinaInvoice,
+        fullViewInvoice: `${import.meta.env.BASE_URL}/documents/USD 529,347.53.PDF`,
         description: "",
         params: {
             commission: "0,9%",
@@ -139,6 +143,7 @@ export const cases: Case[] = [
         ],
         category: "Воздушное судно",
         invoice: ukInvoice,
+        fullViewInvoice: `${import.meta.env.BASE_URL}/documents/Invoice 147 USD.pdf`,
         description: "",
         params: {
             commission: "1,1%",

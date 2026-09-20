@@ -6,9 +6,10 @@ import { Icon } from "astro-icon/components";
 interface Props extends WorkProgress {
     invoice: ImageMetadata;
     results: string[];
+    fullViewInvoice?: string;
 }
 
-const { problem, solution, invoice, results } = Astro.props;
+const { problem, solution, invoice, results, fullViewInvoice } = Astro.props;
 ---
 
 <article 
@@ -93,8 +94,21 @@ const { problem, solution, invoice, results } = Astro.props;
         >
             <Icon name="close"/>
         </button>
+        <div class="
+            overflow-hidden max-md:hidden 
+            h-[calc(100vh_-_100px)] w-[calc(100vw_-_100px)] 
+            max-sm:w-[100vw] 
+            rounded-4xl border border-solid border-[#CFCFCF]">
+            <object
+                data={fullViewInvoice} 
+                type="application/pdf" 
+                width="100%"
+                height="100%"
+            />
+        </div>
+
         <Image
-            class="w-auto max-sm:w-[100vw] h-[calc(100vh_-_100px)] max-sm:h-auto rounded-4xl border border-solid border-[#CFCFCF]"
+            class="!hidden w-auto max-md:!block max-sm:w-[100vw] h-[calc(100vh_-_100px)] max-sm:h-auto rounded-4xl border border-solid border-[#CFCFCF]"
             src={invoice}
             width={582}
             height={760}
