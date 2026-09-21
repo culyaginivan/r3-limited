@@ -13,27 +13,27 @@ const year = new Date().getFullYear();
 const serviceLinks: FooterLink[] = [
     {
         name: 'Международные платежи',
-        link: '#',
+        link: '#services',
     },
     {
         name: 'Быстрая оплата иностранных партнёров',
-        link: '#',
+        link: '#services',
     },
     {
         name: 'Мультивалютные операции',
-        link: '#',
+        link: '#services',
     },
     {
         name: 'Проверка контрагентов',
-        link: '#',
+        link: '#services',
     },
     {
         name: 'Отчётность',
-        link: '#',
+        link: '#services',
     },
     {
         name: 'Консультация',
-        link: '#',
+        link: '#services',
     },
 ];
 
@@ -63,19 +63,19 @@ const companyLinks: FooterLink[] = [
 const documentLinks: FooterLink[] = [
     {
         name: 'Договор',
-        link: '#',
+        link: `${import.meta.env.BASE_URL}documents/contracts.zip`,
     },
     {
         name: 'AML / KYC',
-        link: '#',
+        link: `${import.meta.env.BASE_URL}documents/R3_Limited_Политика_KYC_AML_редакция_1_1.docx`,
     },
     {
         name: 'Конфиденциальность',
-        link: '#',
+        link: `${import.meta.env.BASE_URL}documents/R3_Limited_Политика_конфиденциальности_редакция_1_1.docx`,
     },
     {
         name: 'Реквизиты',
-        link: '#',
+        link: `${import.meta.env.BASE_URL}documents/requisites.pdf`,
     },
 ];
 
@@ -107,7 +107,7 @@ const documentLinks: FooterLink[] = [
 		<nav class="footer__col" aria-label="Юридические документы">
             <p class="footer__col-title">Документы</p>
             <ul class="footer__list">
-                {documentLinks.map((item) => <li><a href={item.link}>{item.name}</a></li>)}
+                {documentLinks.map((item) => <li><a href={item.link} download>{item.name}</a></li>)}
             </ul>
 		</nav>
 	</div>

@@ -11,31 +11,27 @@ import { company } from "../../data/company";
 const documents = [
     {
         title: "Юридическое лицо",
-        file: "выписка",
-        type: "PDF",
-        size: "000 КБ",
+        meta: 'выписка · PDF · 313 КБ',
         image: doc1Image,
+        link: `${import.meta.env.BASE_URL}documents/requisites.pdf`,
     },
     {
         title: "Договор",
-        file: "образец",
-        type: "PDF",
-        size: "000 КБ",
+        meta: '2 DOCX шаблона · ZIP',
         image: doc2Image,
+        link: `${import.meta.env.BASE_URL}documents/contracts.zip`,
     },
     {
         title: "AML / KYC",
-        file: "политика",
-        type: "PDF",
-        size: "000 КБ",
+        meta: 'политика · PDF · 47 КБ',
         image: doc3Image,
+        link: `${import.meta.env.BASE_URL}documents/R3_Limited_Политика_KYC_AML_редакция_1_1.docx`,
     },
     {
         title: "Политика конфиденциальности",
-        file: "документ",
-        type: "PDF",
-        size: "000 КБ",
+        meta: 'документ · PDF · 46 КБ',
         image: doc4Image,
+        link: `${import.meta.env.BASE_URL}documents/R3_Limited_Политика_конфиденциальности_редакция_1_1.docx`,
     },
 ];
 ---
@@ -109,11 +105,11 @@ const documents = [
                         <div class="relative flex h-full max-w-[280px] flex-col gap-6 max-md:justify-between">
                             <h3 class="text-xl font-semibold leading-6 lg:text-2xl lg:leading-7">{document.title}</h3>
                             <div class="flex flex-col items-start gap-1 text-xs leading-4 lg:text-base lg:leading-6">
-                                <p>[{document.file} · {document.type} · {document.size}]</p>
-                                <button type="button" class="flex items-center gap-2 font-semibold" aria-label={`Скачать: ${document.title}`}>
+                                <p>[{document.meta}]</p>
+                                <a href={document.link} download class="flex items-center gap-2 font-semibold" aria-label={`Скачать: ${document.title}`}>
                                     <span>Скачать</span>
                                     <Icon name="download" class="h-6 w-6" aria-hidden="true" />
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </article>
