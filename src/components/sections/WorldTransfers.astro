@@ -174,11 +174,17 @@ const defaultActiveId = countries[0].id;
     const pins = document.querySelectorAll<SVGGElement>('.marker');
     const options = document.querySelectorAll<HTMLButtonElement>('.country-widget__option');
 
+    let currentPin: SVGGElement | undefined; 
+    let resizeFrame: number | null = null;
+    const leftPinId = 'usa';
+    const rightPinId = 'china';
+    let leftPin: SVGGElement | undefined;
+    let rightPin: SVGGElement | undefined;
+
     [...pins, ...options].forEach((el) => {
       const countryId = el.dataset.countryId;
       if (countryId) {
         el.addEventListener('click', () => {
-          let activePin: SVGGElement | undefined;
           [...pins, ...options].forEach((el) => {
             const isActive = el.dataset.countryId === countryId;
             el.classList.toggle('active', isActive);
@@ -186,35 +192,100 @@ const defaultActiveId = countries[0].id;
             if (el instanceof HTMLButtonElement) {
               el.setAttribute('aria-checked', isActive ? 'true' : 'false');
             } else if (isActive) {
-              activePin = el;
+              currentPin = el;
             }
           });
 
-          if (activePin && window.outerWidth > 480) {
-            focusOnPin(activePin);
-          }
+          focusOnPin(currentPin);
         });
+      }
+
+      if (el instanceof SVGGElement) {
+        if (countryId === rightPinId) rightPin = el;
+        if (countryId === leftPinId) leftPin = el;
+        if (el.classList.contains('active')) currentPin = el;
       }
     });
 
-    function focusOnPin(pin: SVGGElement) {
-      if (!viewport) return;
-      const widgetWidth = window.outerWidth > 768 && widget?.clientWidth ? widget?.clientWidth : 0;
+    setMobileMapCenter();
+    focusOnPin(currentPin);
+
+    function focusOnPin(pin: SVGGElement | undefined) {
+      if (!viewport || !pin || window.innerWidth <= 480) return; 
+      const widgetWidth = window.innerWidth > 786 && widget?.clientWidth ? widget?.clientWidth : 0;
       const viewCenterX = (viewport.clientWidth - widgetWidth) / 2;
       const viewCenterY = viewport.clientHeight / 2;
       const translateX = parseFloat(pin.dataset.x!);
       const translateY = parseFloat(pin.dataset.y!);
 
-      viewport
-        .querySelector('svg')
-        ?.style.setProperty(
-          'transform',
-          `translate3d(${viewCenterX - translateX}px, ${viewCenterY - translateY}px, 0)`,
-        );
+      moveMap(`${viewCenterX - translateX}px`, `${viewCenterY - translateY}px`);
     }
+
+    function handleResize() {
+      if (!currentPin || resizeFrame !== null) return;
+      
+      resizeFrame = requestAnimationFrame(() => { 
+        resizeFrame = null;
+        setMobileMapCenter();
+        focusOnPin(currentPin); 
+      });
+
+      window.addEventListener('resize', handleResize); 
+       
+      return () => { 
+        window.removeEventListener('resize', handleResize); 
+        if (resizeFrame !== null) { 
+          cancelAnimationFrame(resizeFrame);
+        } 
+      };
+    }
+
+    function moveMap(x: string, y: string): void {
+      if (!viewport) return;
+      viewport.querySelector('svg')?.style.setProperty(
+        'transform',
+        `translate3d(${x}, ${y}, 0)`,
+      );
+    }
+
+    
+    function setMobileMapCenter() {
+      if (!leftPin || !rightPin || !viewport || window.innerWidth > 480) return;
+
+      const map = viewport.querySelector('svg');
+
+      if (!map) return;
+
+      const centerWindow = window.innerWidth/2;
+      const mapRect = map.getBoundingClientRect();
+      const leftPinRect = leftPin.getBoundingClientRect();
+      const rightPinRect = rightPin.getBoundingClientRect();
+      const centerOffset = (rightPinRect.left - leftPinRect.left)/2;
+      const distanceToLeftPin = Math.abs(mapRect.left - leftPinRect.left);
+      const centerDistaceToMapLeft = distanceToLeftPin + centerOffset + leftPinRect.width/2;
+      const x = centerWindow - centerDistaceToMapLeft;
+
+      moveMap(`${x}px`, '15%');
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    return () => { 
+      window.removeEventListener('resize', handleResize); 
+      if (resizeFrame !== null) { 
+        cancelAnimationFrame(resizeFrame); 
+      } 
+    };
   }
 
-  document.addEventListener('astro:page-load', initMapWidget);
+  let cleanup: (() => void) | undefined;
+  const setCleanup = (value?: () => void) => {
+    if (cleanup) cleanup();
+    cleanup = value;
+  }
+  
+  document.addEventListener('astro:page-load', () => setCleanup(initMapWidget())); 
+  document.addEventListener('astro:before-swap', () => setCleanup());
 </script>
 
 <style>
@@ -248,7 +319,6 @@ const defaultActiveId = countries[0].id;
      */
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     will-change: transform;
-    transform: translate3d(-39.2%, -11.8%, 0);
   }
 
   .marker {
@@ -409,16 +479,6 @@ const defaultActiveId = countries[0].id;
     background-color: #20258f;
   }
 
-  @media (max-width: 1440px) {
-    .world-transfers__card > svg {
-      transform: translate3d(-48.2%, -11.8%, 0);
-    }
-  }
-  @media (max-width: 1200px) {
-    .world-transfers__card > svg {
-      transform: translate3d(-53%, -2%, 0);
-    }
-  }
   @media (max-width: 786px) {
     .world-transfers {
       padding-bottom: 506px;
@@ -430,9 +490,6 @@ const defaultActiveId = countries[0].id;
     .world-transfers__card {
       height: 400px;
       border-radius: var(--r-xl);
-    }
-    .world-transfers__card > svg {
-      transform: translate3d(-53%, -18%, 0);
     }
     .country-widget {
       left: 0;
@@ -446,9 +503,8 @@ const defaultActiveId = countries[0].id;
 
   @media (max-width: 480px) {
     .world-transfers__card > svg {
-      width: 587.159px;
-      height: 344.441px;
-      transform: translate3d(-16%, 8%, 0);
+      width: 520px;
+      height: auto;
     }
     .country-widget {
       padding-block: 32px 0;
