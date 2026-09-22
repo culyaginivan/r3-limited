@@ -67,13 +67,31 @@ const { problem, solution, invoice, results, fullViewInvoice } = Astro.props;
                 format="webp"
                 alt="Официальное подтверждение успешного платежа"
             />
+
+            <a 
+                class="
+                    hidden absolute items-center justify-center p-[16px] t-[-18px] 
+                    right-[18px] bottom-[18px] rounded-4xl bg-(--secondary-70)
+                    max-md:flex
+                "
+                href={fullViewInvoice} 
+                download="Пример_квитанции"
+                aria-label="Скачать пример квитанции"
+            >
+                <Icon
+                    class="block size-6" 
+                    name="download-minimalistic"
+                    aria-hidden="true"
+                />
+            </a>
             <button 
                 id="open-image-viewer"
                 class="
                     absolute flex items-center justify-center p-[16px] t-[-18px] 
                     right-[18px] bottom-[18px] rounded-4xl bg-(--secondary-70)
+                    max-md:hidden
                 " 
-                type="button" 
+                type="button"
                 aria-label="Полноэкранный режим просмотра квитанции"
             >
                 <Icon
@@ -89,7 +107,7 @@ const { problem, solution, invoice, results, fullViewInvoice } = Astro.props;
         <button 
             id="close-image-viewer"
             type="button"
-            class="absolute top-[53px] max-lg:top-[-20px] max-md:top-[-30px] right-[-50%] max-lg:right-[-60px] max-md:right-[14px] flex items-center justify-center"
+            class="absolute top-[-30px] right-[14px] flex items-center justify-center"
             aria-label="Закрыть полноэкранный режим"
         >
             <Icon name="close"/>
@@ -106,16 +124,6 @@ const { problem, solution, invoice, results, fullViewInvoice } = Astro.props;
                 height="100%"
             />
         </div>
-
-        <Image
-            class="!hidden w-auto max-md:!block max-sm:w-[100vw] h-[calc(100vh_-_100px)] max-sm:h-auto rounded-4xl border border-solid border-[#CFCFCF]"
-            src={invoice}
-            width={582}
-            height={760}
-            densities={[1, 1.5, 2]}
-            format="webp"
-            alt="Полноэкранная версия квитанции официальное подтверждения успешного платежа"
-        />
     </dialog>
 </article>
 
