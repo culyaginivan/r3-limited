@@ -6,7 +6,6 @@ import icon from 'astro-icon';
 import react from '@astrojs/react';
 
 export default defineConfig({
-  base: '/r3-limited/',
   output: 'static',
 
   integrations: [icon({ iconDir: 'src/assets/icons' }), react()],
