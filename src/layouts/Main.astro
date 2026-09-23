@@ -58,29 +58,11 @@ const {
 
 		<script>
 			import { gsap } from "gsap";
-			// TODO: Разобраться со скролом горизонтальным при вертикальном скроле
   			import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 			gsap.registerPlugin(ScrollTrigger);
 
 			const initScroll = () => {
-				// const wrapper = document.querySelector(".horizontal-wrapper") as HTMLElement;
-				
-				// if (wrapper) {
-				// 	gsap.to(wrapper, {
-				// 			x: () => -(wrapper.scrollWidth - window.innerWidth),
-				// 			ease: "none",
-				// 			scrollTrigger: {
-				// 				trigger: ".horizontal-section",
-				// 			pin: true,
-				// 			scrub: 1,
-				// 			start: "top top",
-				// 			end: () => "+=" + (wrapper.scrollWidth - window.innerWidth),
-				// 			invalidateOnRefresh: true,
-				// 		}
-				// 	});
-				// }
-
 				const revealBoxes = gsap.utils.toArray(".reveal-box") as HTMLElement[];
 				revealBoxes.forEach((box) => {
 					gsap.fromTo(box, 
@@ -100,6 +82,31 @@ const {
 							}
 						}
 					);
+				});
+
+				const wrapper = document.querySelector<HTMLElement>(".horizontals-wrapper")!;
+				const horizontals = wrapper.querySelector<HTMLElement>(".horizontals")!;
+				const width = wrapper.offsetWidth - horizontals.offsetLeft;
+
+				function getScrollAmount() {
+					return horizontals.scrollWidth - width;
+				}
+
+				const tween = gsap.to(horizontals, {
+					x: () => -getScrollAmount(),
+					ease: "none",
+					paused: true
+				});
+
+				ScrollTrigger.create({
+					trigger: wrapper,
+					start: "top 20%",
+					end: () => `+=${getScrollAmount()}`,
+					pin: true,
+					scrub: true,
+					animation: tween,
+					invalidateOnRefresh: true,
+					markers: false
 				});
 			};
 
