@@ -29,7 +29,7 @@ jobs:
 
       # 3. Собираем проект (команда сгенерирует папку dist)
       - name: Build Astro site
-        run: npm run build -- --base=/r3-limited/ --site=https://yurka1605.github.io
+        run: npm run build -- --base=/r3-limited/ --site=https://culyaginivan.github.io
 
       # 4. Архивация собранных файлов для деплоя
       - name: Upload artifact
