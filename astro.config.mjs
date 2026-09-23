@@ -8,6 +8,10 @@ import react from '@astrojs/react';
 export default defineConfig({
   output: 'static',
 
+  server: {
+    host: true,
+  },
+
   integrations: [icon({ iconDir: 'src/assets/icons' }), react()],
   
   vite: {
