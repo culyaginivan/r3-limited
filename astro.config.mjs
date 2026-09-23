@@ -33,6 +33,8 @@ export default defineConfig({
       provider: fontProviders.fontsource(),
       name: 'Onest',
       cssVariable: '--font-onest',
+      weights: [400, 500, 600, 700],
+      subsets: ['cyrillic', 'latin'],
     },
   ],
 });

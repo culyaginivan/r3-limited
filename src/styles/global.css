@@ -77,7 +77,7 @@ body {
   background: var(--neutral-10);
   color: var(--primary-100);
   font:
-    400 16px/24px Onest,
+    400 16px/24px var(--font-onest),
     system-ui,
     sans-serif;
   overflow-x: hidden;
@@ -137,7 +137,7 @@ button {
   align-items: center;
   justify-content: center;
   font:
-    500 16px/18px Onest,
+    500 16px/18px var(--font-onest),
     sans-serif;
   text-align: center;
   white-space: nowrap;
@@ -211,14 +211,14 @@ button {
 
 .h1, .h2 {
   font:
-    600 48px/56px Onest,
+    600 48px/56px var(--font-onest),
     system-ui,
     sans-serif;
 }
 
 .h3 {
   font:
-    600 24px/28px Onest,
+    600 24px/28px var(--font-onest),
     system-ui,
     sans-serif;
 }
@@ -233,7 +233,7 @@ button {
   outline: 0;
   background: var(--neutral-10);
   font:
-    400 16px/24px Onest,
+    400 16px/24px var(--font-onest),
     sans-serif;
 }
 .input:focus-visible,

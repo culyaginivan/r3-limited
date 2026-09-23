@@ -109,7 +109,7 @@
 
 .coin__label {
   font:
-    700 calc(12px * var(--u))/1 Onest,
+    700 calc(12px * var(--u))/1 var(--font-onest),
     sans-serif;
   color: var(--neutral-10);
   letter-spacing: 0;
@@ -169,7 +169,7 @@
 
 .globe__caption {
   font:
-    400 calc(20px * var(--w))/1.2 Onest,
+    400 calc(20px * var(--w))/1.2 var(--font-onest),
     sans-serif;
   color: var(--primary-100);
 }
@@ -186,7 +186,7 @@
 .globe__amount-slot {
   grid-area: 1/1;
   font:
-    600 calc(24px * var(--w))/1.2 Onest,
+    600 calc(24px * var(--w))/1.2 var(--font-onest),
     sans-serif;
   color: #0b0f12;
   opacity: 0;
