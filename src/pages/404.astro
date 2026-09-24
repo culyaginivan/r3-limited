@@ -25,43 +25,27 @@ import "../styles/global.css";
 	</head>
 
 	<body>
-		<main class="nf relative isolate min-h-screen overflow-hidden bg-[image:var(--gradient-2)] text-(--primary-100)">
+		<main class="relative isolate w-screen h-screen overflow-hidden bg-[image:var(--gradient-2)] text-(--primary-100)">
 			<section
 				class="nf__block relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-(--gutter)"
 			>
-				<!-- Тёплые пятна света — та же подпись, что у баннеров сайта -->
-				<div
-					class="absolute left-[-180px] top-[6%] h-[700px] w-[700px] rounded-full bg-(--secondary-90) opacity-40 blur-[110px]"
-					aria-hidden="true"
-				></div>
-				<div
-					class="absolute bottom-[-320px] right-[-260px] h-[860px] w-[860px] rounded-full bg-(--secondary-100) opacity-40 blur-[120px]"
-					aria-hidden="true"
-				></div>
-
-				<!-- Мобильный кадр 480 px отдаёт эллипс со своим bleed ratio, поэтому два
-				варианта меняются брейкпоинтом, а не растягиваются один на оба -->
-				<span class="nf__deco nf__glow absolute pointer-events-none z-0" aria-hidden="true">
-					<span
-						class="absolute left-[3%] top-[12%] hidden max-sm:block h-[280px] w-[400px] rounded-[50%] bg-[linear-gradient(140deg,rgba(234,241,255,0.9),rgba(216,219,243,0.55))] opacity-80 blur-[46px]"
-					></span>
-					<span
-						class="absolute left-[6%] top-[20%] max-sm:hidden h-[560px] w-[820px] rounded-[50%] bg-[linear-gradient(140deg,rgba(234,241,255,0.9),rgba(216,219,243,0.55))] opacity-80 blur-[70px]"
-					></span>
-				</span>
 
 				<div
-					class="nf__text relative z-10 flex w-full max-w-[620px] flex-col items-center gap-9 sm:gap-10 lg:items-start"
+					class="relative z-10 flex w-full max-w-[620px] flex-col items-center gap-9 sm:gap-10 lg:items-start"
 				>
-					<div class="nf__lines flex w-full flex-col items-center gap-5 sm:items-start sm:gap-6">
-						<h1
-							class="nf__code text-(--primary-90) font-semibold leading-[0.92] tracking-[-0.01em] text-[96px] sm:text-[120px] md:text-[150px] lg:text-[190px] xl:text-[240px] 2xl:text-[280px]"
-						>
+					<div class="flex w-full flex-col items-center gap-5 sm:items-start sm:gap-6">
+						<h1 class="
+							text-(--primary-90) font-semibold leading-[0.92] tracking-[-0.01em] 
+							text-[96px] sm:text-[120px] md:text-[150px] lg:text-[190px] 
+							xl:text-[240px] 2xl:text-[280px]
+						">
 							404
 						</h1>
-						<p
-							class="nf__note max-w-[460px] text-center text-(--neutral-70) text-[17px] leading-7 sm:max-w-[520px] sm:text-[18px] sm:leading-7 lg:text-left"
-						>
+						<p class="
+							max-w-[460px] text-center text-(--neutral-70) text-[17px] 
+							leading-7 sm:max-w-[520px] 
+							sm:text-[18px] sm:leading-7 lg:text-left
+						">
 							Ошибка, страница не найдена. <br />Попробуйте перезагрузить эту страницу или вернуться на
 							главную.
 						</p>
@@ -72,7 +56,7 @@ import "../styles/global.css";
 				</div>
 
 				<span
-					class="nf__deco nf__planet absolute bottom-[-18%] right-[-7%] z-[1] aspect-square w-[150px] sm:w-[220px] md:w-[310px] lg:w-[420px] xl:w-[520px] 2xl:w-[580px]"
+					class="nf__deco absolute bottom-[-18%] right-[-7%] z-[1] aspect-square w-[150px] sm:w-[220px] md:w-[310px] lg:w-[420px] xl:w-[520px] 2xl:w-[580px]"
 					aria-hidden="true"
 				>
 					<Image
@@ -104,34 +88,6 @@ import "../styles/global.css";
 </html>
 
 <style>
-	@keyframes nf-twinkle {
-		0%,
-		100% {
-			opacity: 0.15;
-			transform: scale(0.6);
-		}
-		50% {
-			opacity: 1;
-			transform: scale(1);
-		}
-	}
-
-	@keyframes nf-spin {
-		to {
-			transform: rotate(360deg);
-		}
-	}
-
-	@keyframes nf-float {
-		0%,
-		100% {
-			transform: rotate(-8deg) translateY(0);
-		}
-		50% {
-			transform: rotate(-5deg) translateY(-12px);
-		}
-	}
-
 	.nf-card {
 		transform: rotate(-8deg);
 	}

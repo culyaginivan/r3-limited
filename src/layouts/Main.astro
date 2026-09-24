@@ -83,31 +83,6 @@ const {
 						}
 					);
 				});
-
-				// const wrapper = document.querySelector<HTMLElement>(".horizontals-wrapper")!;
-				// const horizontals = wrapper.querySelector<HTMLElement>(".horizontals")!;
-				// const matchMedia = gsap.matchMedia();
-
-				// function getScrollAmount() {
-				// 	return horizontals.scrollWidth - (wrapper.offsetWidth - horizontals.offsetLeft);
-				// }
-
-				// matchMedia.add("(min-width: 1200px)", () => {
-				// 	gsap.to(horizontals, {
-				// 		x: () => -getScrollAmount(),
-				// 		paused: true,
-				// 		ease: "none",
-				// 		scrollTrigger: {
-				// 			trigger: wrapper,
-				// 			start: "top top",
-				// 			end: () => `+=${getScrollAmount()}`,
-				// 			pin: true,
-				// 			scrub: true,
-				// 			invalidateOnRefresh: true,
-				// 			markers: false
-				// 		}
-				// 	});
-				// });
 			};
 
 			document.addEventListener("astro:page-load", initScroll);

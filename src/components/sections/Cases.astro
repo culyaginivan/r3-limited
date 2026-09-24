@@ -1,234 +1,347 @@
 ---
-import { Image } from "astro:assets";
-import { Icon } from "astro-icon/components";
-import { cases } from "../../data/cases";
-
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import { cases } from '../../data/cases';
 ---
 
-<section id="cases" class="cases-section reveal-box horizontals-wrapper">
-    <h2 class="h2">Кейсы</h2>
+<section id="cases" class="cases-section reveal-box">
+  <h2 class="h2">Кейсы</h2>
 
-    <ul class="cases-list horizontals" aria-label="Истории успешных платежей">
-        {cases.map((item) => (
-            <li>
-                <article class="case-card">
-                    <Image
-                        class="case-card__image" 
-                        src={item.image.preview} 
-                        alt="" 
-                        height={200}
-                        aria-hidden="true" 
-                    />
+  <div class="cases-wrapper">
+    <div class="cases__viewport">
+      <ul class="cases__container cases-list" aria-label="Истории успешных платежей">
+        {
+          cases.map((item) => (
+            <li class="cases__slide">
+              <article class="case-card">
+                <Image
+                  class="case-card__image"
+                  src={item.image.preview}
+                  alt=""
+                  height={200}
+                  aria-hidden="true"
+                />
 
-                    <header class="case-card__header">
-                        <h3 class="h3">{item.title}</h3>
+                <header class="case-card__header">
+                  <h3 class="h3">{item.title}</h3>
 
-                        <p class="case-card__meta">
-                            <span>{item.location}</span>
-                            <span aria-hidden="true">•</span>
-                            <time>{item.duration}</time>
-                        </p>
-                    </header>
+                  <p class="case-card__meta">
+                    <span>{item.location}</span>
+                    <span aria-hidden="true">•</span>
+                    <time>{item.duration}</time>
+                  </p>
+                </header>
 
-                    <section class="case-card__results">
-                        <h4>Результат</h4>
-                        <ul>
-                            {item.results.map((result) => (
-                                <li>
-                                    <Icon name="check" class="case-card__check" aria-hidden="true"/>
-                                    <span set:html={result}></span>
-                                </li>
-                            ))}
-                        </ul>
-                    </section>
+                <section class="case-card__results">
+                  <h4>Результат</h4>
+                  <ul>
+                    {item.results.map((result) => (
+                      <li>
+                        <Icon name="check" class="case-card__check" aria-hidden="true" />
+                        <span set:html={result} />
+                      </li>
+                    ))}
+                  </ul>
+                </section>
 
-                    <footer class="case-card__footer">
-                        <a class="btn btn--lg btn--secondary" href={`${import.meta.env.BASE_URL}cases/${item.id}`}>Открыть кейс</a>
-                    </footer>
-                </article>
+                <footer class="case-card__footer">
+                  <a
+                    class="btn btn--lg btn--secondary"
+                    href={`${import.meta.env.BASE_URL}cases/${item.id}`}
+                  >
+                    Открыть кейс
+                  </a>
+                </footer>
+              </article>
             </li>
-        ))}
-    </ul>
+          ))
+        }
+      </ul>
+    </div>
+
+    <button class="max-md:hidden cases-btn cases__prev flex items-center justify-center">
+        <Icon name="chevron" class="transform-[rotate(90deg)] " aria-hidden="true"/>
+    </button>
+    <button class="max-md:hidden cases-btn cases__next flex items-center justify-center">
+        <Icon name="chevron" class="transform-[rotate(-90deg)]" aria-hidden="true"/>
+    </button>
+  </div>
 </section>
 
 <style>
+  .cases__viewport {
+    transform: translateZ(0);
+    z-index: 1;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+
+  .cases-btn {
+    position: absolute;
+    top: 50%;
+    left: 32px;
+    transform: translateY(-50%);
+    height: 48px;
+    width: 48px;
+    background: #0000001a;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    border-radius: var(--r-full);
+    font-size: 12px;
+  }
+
+  .cases-btn.cases__next {
+    right: 32px;
+    left: auto;
+  }
+
+  .cases-section {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+    width: 100%;
+    padding-block: 88px;
+    overflow: hidden;
+    border-radius: var(--r-2xl);
+    background: var(--gradient-cases);
+  }
+
+  .cases-section h2 {
+    padding-inline: var(--gutter);
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 56px;
+  }
+
+  .cases-list {
+    display: flex;
+    align-items: stretch;
+    touch-action: pan-y pinch-zoom;
+    margin-left: -16px;
+  }
+
+  .cases__slide {
+    transform: translate3d(0, 0, 0);
+    flex: 0 0 600px;
+    max-width: calc(100vw - 32px);
+    min-height: 100%;
+    min-width: 0;
+    padding-left: 16px;
+  }
+
+  .case-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+    overflow: hidden;
+    border-radius: var(--r-2xl);
+    background: var(--neutral-10);
+    transform: scale(1);
+    transition: transform 0.3s ease;
+  }
+
+  .cases__slide.is-selected .case-card {
+    transform: scale(1);
+  }
+
+  .case-card__header {
+    display: flex;
+    flex-direction: column;
+    padding-block-start: 40px;
+  }
+
+  .case-card__image {
+    order: 0;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: var(--r-lg);
+  }
+
+  .case-card h3 {
+    font-size: 24px;
+    padding-block: 24px;
+    font-weight: 600;
+    line-height: 28px;
+    order: 2;
+    border-bottom: 1px solid var(--secondary-80);
+  }
+
+  .case-card__meta {
+    order: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    align-items: center;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .case-card__results {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 24px;
+    margin-bottom: 40px;
+  }
+
+  .case-card__results h4 {
+    color: var(--success-100);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  .case-card__results ul {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .case-card__results li {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 10px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .case-card__check {
+    display: block;
+    color: var(--success-90);
+    font-size: 24px;
+    margin-top: 2px;
+  }
+
+  .case-card__footer {
+    margin-top: auto;
+  }
+
+  .case-card__footer a {
+    height: 50px;
+    width: 100%;
+  }
+
+  @media (max-width: 1200px) {
     .cases-section {
-        display: flex;
-        flex-direction: column;
-        gap: 64px;
-        width: 100%;
-        padding: 88px var(--gutter);
-        overflow: hidden;
-        border-radius: var(--r-2xl);
-        background: var(--gradient-cases);
+      padding: 64px 40px;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .cases-section {
+      gap: 40px;
+    }
+  }
+
+  @media (max-width: 786px) {
+    .cases-section {
+      padding: 40px 32px;
+      border-radius: var(--r-xl);
     }
 
     .cases-section h2 {
-        position: sticky;
-        left: 0;
-        font-size: 48px;
-        font-weight: 600;
-        line-height: 56px;
+      font-size: 32px;
+      line-height: 40px;
     }
 
     .cases-list {
-        display: flex;
-        gap: 16px;
-        width: max-content;
-        align-items: stretch;
-        padding-right: 60px;
+      margin-left: -15px;
+    }
+
+    .cases__slide {
+      flex: 0 0 400px;
     }
 
     .case-card {
-        display: flex;
-        flex-direction: column;
-        width: 600px;
-        max-width: calc(100vw - 32px);
-        min-height: 100%;
-        padding: 40px;
-        overflow: hidden;
-        border-radius: var(--r-2xl);
-        background: var(--neutral-10);
-    }
-
-    .case-card__header {
-        display: flex;
-        flex-direction: column;
-        padding-block-start: 40px;
-    }
-
-    .case-card__image {
-        order: 0;
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        border-radius: var(--r-lg);
-    }
-
-    .case-card h3 {
-        font-size: 24px;
-        padding-block: 24px;
-        font-weight: 600;
-        line-height: 28px;
-        order: 2;
-        border-bottom: 1px solid var(--secondary-80);
-    }
-
-    .case-card__meta {
-        order: 1;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px 16px;
-        align-items: center;
-        font-size: 16px;
-        line-height: 24px;
-    }
-
-    .case-card__results {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-        margin-top: 24px;
-        margin-bottom: 40px;
-    }
-
-    .case-card__results h4 {
-        color: var(--success-100);
-        font-size: 16px;
-        font-weight: 600;
-        line-height: 24px;
+      padding: 24px 16px;
+      border-radius: 20px;
+      padding-left: 15px;
     }
 
     .case-card__results ul {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
+      gap: 10px;
     }
 
-    .case-card__results li {
-        display: grid;
-        grid-template-columns: 24px 1fr;
-        gap: 10px;
-        font-size: 16px;
-        line-height: 24px;
+    .case-card__header {
+      padding-block-start: 0px;
     }
 
-    .case-card__check {
-        display: block;
-        color: var(--success-90);
-        font-size: 24px;
-        margin-top: 2px;
+    .case-card h3 {
+      padding: 10px 0;
     }
 
-    .case-card__footer {
-      margin-top: auto;
+    .case-card__image {
+      display: none;
     }
 
-    .case-card__footer a {
-        height: 50px;
-        width: 100%;
+    .case-card__results {
+      margin: 0;
     }
 
-    @media (max-width: 1200px) {
-        .cases-section {
-            padding: 64px 40px;
-        }
+    .case-card__meta,
+    .case-card__results li,
+    .case-card__link {
+      font-size: 14px;
     }
+  }
 
-    @media (max-width: 992px) {
-        .cases-section {
-            gap: 40px;
-        }
+  @media (max-width: 480px) {
+    .cases__slide {
+      flex: 0 0 320px;
     }
-
-    @media (max-width: 786px) {
-        .cases-section {
-            padding: 40px 32px;
-            border-radius: var(--r-xl);
-        }
-
-        .cases-section h2 {
-            font-size: 32px;
-            line-height: 40px;
-        }
-
-        .case-card {
-            width: 320px;
-            padding: 24px 16px;
-            gap: 15px;
-            border-radius: 20px;
-        }
-
-        .case-card__results ul{
-            gap: 10px
-        }
-
-        .case-card__header {
-            padding-block-start: 0px;
-        }
-
-        .case-card h3 {
-            padding: 10px 0;
-        }
-
-        .case-card__image {
-            display: none;
-        }
-
-        .case-card__results {
-            margin: 0;
-        }
-
-        .case-card__meta,
-        .case-card__results li,
-        .case-card__link {
-            font-size: 14px;
-        }
+    .cases-section {
+      padding: 32px 24px;
     }
-
-    @media (max-width: 480px) {
-        .cases-section {
-            padding: 32px 24px;
-        }
-    }
+  }
 </style>
+
+<script>
+  import EmblaCarousel from 'embla-carousel';
+  import Autoplay from 'embla-carousel-autoplay';
+  import ClassNames from 'embla-carousel-class-names';
+
+  function init() {
+    const wrapperNode = document.querySelector<HTMLElement>('.cases-wrapper')!;
+    const viewportNode = wrapperNode.querySelector<HTMLElement>('.cases__viewport')!;
+    const prevButtonNode = wrapperNode.querySelector<HTMLElement>('.cases__prev')!;
+    const nextButtonNode = wrapperNode.querySelector<HTMLElement>('.cases__next')!;
+
+    const emblaApi = EmblaCarousel(viewportNode, { loop: true, align: 'center' }, [
+      Autoplay({
+        delay: 2000,
+        stopOnMouseEnter: true,
+        stopOnInteraction: false,
+      }),
+      ClassNames(),
+    ]);
+
+    const handlePrev = () => emblaApi.scrollPrev();
+    const handleNext = () => emblaApi.scrollNext();
+
+    prevButtonNode.addEventListener('click', handlePrev, false);
+    nextButtonNode.addEventListener('click', handleNext, false);
+
+    return () => {
+      prevButtonNode.addEventListener('click', handlePrev);
+      nextButtonNode.addEventListener('click', handleNext);
+    };
+  }
+
+  let cleanup: (() => void) | undefined;
+  const setCleanup = (value?: () => void) => {
+    if (cleanup) cleanup();
+    cleanup = value;
+  };
+
+  document.addEventListener('astro:page-load', () => setCleanup(init()));
+  document.addEventListener('astro:before-swap', () => setCleanup());
+</script>
