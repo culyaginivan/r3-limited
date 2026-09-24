@@ -305,43 +305,7 @@ import { cases } from '../../data/cases';
 </style>
 
 <script>
-  import EmblaCarousel from 'embla-carousel';
-  import Autoplay from 'embla-carousel-autoplay';
-  import ClassNames from 'embla-carousel-class-names';
+    import { createSlider } from '../../utils/embla.base';
 
-  function init() {
-    const wrapperNode = document.querySelector<HTMLElement>('.cases-wrapper')!;
-    const viewportNode = wrapperNode.querySelector<HTMLElement>('.cases__viewport')!;
-    const prevButtonNode = wrapperNode.querySelector<HTMLElement>('.cases__prev')!;
-    const nextButtonNode = wrapperNode.querySelector<HTMLElement>('.cases__next')!;
-
-    const emblaApi = EmblaCarousel(viewportNode, { loop: true, align: 'center' }, [
-      Autoplay({
-        delay: 4000,
-        stopOnMouseEnter: true,
-        stopOnInteraction: false,
-      }),
-      ClassNames(),
-    ]);
-
-    const handlePrev = () => emblaApi.scrollPrev();
-    const handleNext = () => emblaApi.scrollNext();
-
-    prevButtonNode.addEventListener('click', handlePrev, false);
-    nextButtonNode.addEventListener('click', handleNext, false);
-
-    return () => {
-      prevButtonNode.addEventListener('click', handlePrev);
-      nextButtonNode.addEventListener('click', handleNext);
-    };
-  }
-
-  let cleanup: (() => void) | undefined;
-  const setCleanup = (value?: () => void) => {
-    if (cleanup) cleanup();
-    cleanup = value;
-  };
-
-  document.addEventListener('astro:page-load', () => setCleanup(init()));
-  document.addEventListener('astro:before-swap', () => setCleanup());
+    createSlider('cases', { loop: true, align: 'center' });
 </script>

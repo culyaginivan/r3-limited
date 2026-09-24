@@ -60,54 +60,97 @@ const services = [
     <a class="btn btn--lg btn--primary" href="#request">Оставить заявку</a>
   </header>
 
-  <ol class="service-list" aria-label="Услуги R3 Limited">
-    {
-      services.map((service, index) => (
-        <li>
-          <article class="service-card">
-            <div class="service-card__topline">
-              <Icon name="service" class="service-card__icon" aria-hidden="true" />
-              <span aria-hidden="true">{index.toString().padStart(2, '0')}</span>
-            </div>
+  <div class="services-wrapper">
+    <div class="services__viewport">
+      <ol class="services__container service-list" aria-label="Услуги R3 Limited">
+        {
+          services.map((service, index) => (
+            <li class="services__slide">
+              <article class="service-card">
+                <div class="service-card__topline">
+                  <Icon name="service" class="service-card__icon" aria-hidden="true" />
+                  <span aria-hidden="true">{index.toString().padStart(2, '0')}</span>
+                </div>
 
-            <h3 class="h3 service-card__title">{service.title}</h3>
-            <p class="service-card__description">{service.description}</p>
+                <h3 class="h3 service-card__title">{service.title}</h3>
+                <p class="service-card__description">{service.description}</p>
 
-            <dl class="service-card__details">
-              <div>
-                <dt>Срок</dt>
-                <dd>
-                    <time datetime={service.details.term.iso8601}>
-                        {service.details.term.value}
-                    </time>
-                </dd>
-              </div>
-              <div>
-                <dt>Комиссия</dt>
-                <dd>{service.details.commission}</dd>
-              </div>
-            </dl>
-          </article>
-        </li>
-      ))
-    }
-  </ol>
+                <dl class="service-card__details">
+                  <div>
+                    <dt>Срок</dt>
+                    <dd>
+                        <time datetime={service.details.term.iso8601}>
+                            {service.details.term.value}
+                        </time>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Комиссия</dt>
+                    <dd>{service.details.commission}</dd>
+                  </div>
+                </dl>
+              </article>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+    
+    <button class="max-md:hidden services-btn services__prev flex items-center justify-center">
+      <Icon name="chevron" class="transform-[rotate(90deg)] " aria-hidden="true"/>
+    </button>
+    <button class="max-md:hidden services-btn services__next flex items-center justify-center">
+        <Icon name="chevron" class="transform-[rotate(-90deg)]" aria-hidden="true"/>
+    </button>
+  </div>
 </section>
 
 <style>
+  .services__viewport {
+    transform: translateZ(0);
+    z-index: 1;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+
+  .services-btn {
+    position: absolute;
+    top: 50%;
+    left: 32px;
+    transform: translateY(-50%);
+    height: 48px;
+    width: 48px;
+    background: #0000001a;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    border-radius: var(--r-full);
+    font-size: 12px;
+  }
+
+  .services-btn.services__next {
+    right: 32px;
+    left: auto;
+  }
+
   .services-section {
     display: flex;
     flex-direction: column;
     gap: 64px;
     width: 100%;
     margin-block: 88px;
-    padding-inline: var(--gutter);
   }
 
   .services-section__heading {
     display: flex;
     align-items: center;
     gap: 10px;
+    padding-inline: var(--gutter);
   }
 
   .services-section h2 {
@@ -119,12 +162,19 @@ const services = [
 
   .service-list {
     display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
+    display: flex;
+    align-items: stretch;
+    touch-action: pan-y pinch-zoom;
+    margin-left: -16px;
   }
 
-  .service-list li {
-    width: calc((100% - 32px)/3);
+  .services__slide {
+    transform: translate3d(0, 0, 0);
+    flex: 0 0 calc((100% - 48px)/4);
+    max-width: calc(100vw - 32px);
+    min-height: 100%;
+    min-width: 0;
+    padding-left: 16px;
   }
 
   .service-card {
@@ -190,6 +240,13 @@ const services = [
     font-weight: 600;
   }
 
+  @media (max-width: 1440px) {
+    .services__viewport {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+  }
+
   @media (max-width: 1200px) {
     .services-section {
       margin-block: 64px;
@@ -203,7 +260,6 @@ const services = [
   @media (max-width: 992px) {
     .services-section {
       gap: 40px;
-      overflow-y: auto;
     }
 
     .services-section__heading {
@@ -251,3 +307,9 @@ const services = [
     }
   }
 </style>
+
+<script>
+  import { createSlider } from '../../utils/embla.base';
+
+  createSlider('services', { loop: true, align: 'center' });
+</script>
