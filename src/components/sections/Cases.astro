@@ -234,6 +234,10 @@ import { cases } from '../../data/cases';
     .cases-section {
       padding-block: 64px;
     }
+    .cases__viewport {
+    -webkit-mask-image: none;
+    mask-image: none;
+    }
   }
 
   @media (max-width: 992px) {
@@ -302,10 +306,35 @@ import { cases } from '../../data/cases';
       padding-inline: 32px;
     }
   }
+
+    @media (max-width: 480px) {
+        .cases-section {
+            padding: 32px 24px;
+        }
+    }
+
+    @media (max-height: 900px) {
+        .case-card h3{
+            padding-block: 10px;
+        }
+
+        .case-card__header {
+            padding-block-start: 20px;
+        }
+
+        .case-card__results {
+            gap: 10px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .case-card__results ul {
+            gap: 10px;
+        }
+    }
 </style>
 
 <script>
     import { createSlider } from '../../utils/embla.base';
-
     createSlider('cases', { loop: true, align: 'center' });
 </script>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import { countries } from '../../data/countries';
 import { currencies } from '../../data/currency';
 import Field from '../form/Field';
@@ -19,7 +19,92 @@ const wayFunding: Option[] = [
   { value: 'rub', label: 'Рубли с расчётного счёта' },
   { value: 'currency', label: 'Валюта с валютного счёта' },
 ];
-const rates: Record<string, number> = { SNY: 12.769, USD: 92.4, AED: 25.2, TRY: 2.85, RUB: 1 };
+const FALLBACK_RATES: Record<string, number> = { SNY: 12.769, USD: 92.4, AED: 25.2, TRY: 2.85, RUB: 1 };
+const RATES_URL = 'https://www.cbr-xml-daily.ru/daily_json.js';
+const RATES_CACHE_KEY = 'cbr-rates';
+const RATES_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+const CBR_TO_INTERNAL: Record<string, string> = { CNY: 'SNY', USD: 'USD', AED: 'AED', TRY: 'TRY', RUB: 'RUB' };
+
+type RatesCache = { timestamp: number; rates: Record<string, number> };
+
+let ratesSnapshot: Record<string, number> = FALLBACK_RATES;
+let ratesRequest: Promise<void> | null = null;
+const ratesListeners = new Set<() => void>();
+
+function readCachedRates(): Record<string, number> | null {
+  if (typeof localStorage === 'undefined') return null;
+  try {
+    const raw = localStorage.getItem(RATES_CACHE_KEY);
+    if (!raw) return null;
+    const cache = JSON.parse(raw) as RatesCache;
+    if (!cache?.timestamp || !cache?.rates) return null;
+    if (Date.now() - cache.timestamp > RATES_CACHE_TTL_MS) return null;
+    return cache.rates;
+  } catch {
+    return null;
+  }
+}
+
+function writeCachedRates(rates: Record<string, number>) {
+  try {
+    localStorage.setItem(RATES_CACHE_KEY, JSON.stringify({ timestamp: Date.now(), rates } satisfies RatesCache));
+  } catch {
+    console.log("хранилище недоступно — работаем без кэша")
+  }
+}
+
+async function fetchCbrRates(): Promise<Record<string, number>> {
+  const response = await fetch(RATES_URL);
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const data = await response.json();
+  const rates: Record<string, number> = { RUB: 1 };
+  for (const [cbrCode, internalCode] of Object.entries(CBR_TO_INTERNAL)) {
+    const valute = data?.Valute?.[cbrCode];
+    if (valute && typeof valute.Value === 'number' && typeof valute.Nominal === 'number' && valute.Nominal > 0) {
+      rates[internalCode] = valute.Value / valute.Nominal;
+    }
+  }
+  return rates;
+}
+
+function updateRates(rates: Record<string, number>) {
+  ratesSnapshot = rates;
+  ratesListeners.forEach((listener) => listener());
+}
+
+function requestRates() {
+  if (ratesRequest) return ratesRequest;
+  ratesRequest = fetchCbrRates()
+    .then((rates) => {
+      writeCachedRates(rates);
+      updateRates(rates);
+    })
+    .catch(() => {
+      console.log("сеть или сервис недоступны — остаёмся на fallback")
+    })
+    .finally(() => {
+      ratesRequest = null;
+    });
+  return ratesRequest;
+}
+
+function subscribeRates(listener: () => void) {
+  ratesListeners.add(listener);
+  if (!readCachedRates()) requestRates();
+  return () => {
+    ratesListeners.delete(listener);
+  };
+}
+
+function getRatesSnapshot() {
+  // Снапшот должен возвращать стабильную ссылку — React иначе падает в бесконечный цикл.
+  // Парсим кэш из localStorage только один раз, дальше работаем с ratesSnapshot.
+  if (ratesSnapshot === FALLBACK_RATES) {
+    const cached = readCachedRates();
+    if (cached) ratesSnapshot = cached;
+  }
+  return ratesSnapshot;
+}
 
 export default function Calculator() {
   const [from, setFrom] = useState(countries[2].value);
@@ -29,8 +114,11 @@ export default function Calculator() {
   const [purpose, setPurpose] = useState('');
   const [funding, setFunding] = useState('');
   const [file, setFile] = useState<File | null>(null);
+  const rates = useSyncExternalStore(subscribeRates, getRatesSnapshot, () => FALLBACK_RATES);
+
   const numericAmount = Math.max(0, Number(amount.replace(/\s/g, '').replace(',', '.')) || 0);
-  const rate = rates[currency] ?? rates.SNY;
+  const rate = rates[currency] ?? FALLBACK_RATES[currency] ?? FALLBACK_RATES.USD;
+  const usdRate = rates.USD ?? FALLBACK_RATES.USD;
   const body = numericAmount * rate;
   const feeRate = numericAmount >= 1000000 ? 0.003 : 0.006;
   const fee = body * feeRate;
@@ -58,7 +146,7 @@ export default function Calculator() {
           </div>
           <div className="calc__fact">
             <dt>Курс ЦБ</dt>
-            <dd>{rate.toLocaleString('ru-RU', { maximumFractionDigits: 3 })} ₽</dd>
+            <dd>{usdRate.toLocaleString('ru-RU', { maximumFractionDigits: 3 })} ₽</dd>
           </div>
           <div className="calc__fact">
             <dt>Срок</dt>
@@ -169,7 +257,7 @@ export default function Calculator() {
             </div>
             <div className="quote__row">
               <dt>Курс ЦБ</dt>
-              <dd>{rate.toLocaleString('ru-RU', { maximumFractionDigits: 3 })} ₽</dd>
+              <dd>{usdRate.toLocaleString('ru-RU', { maximumFractionDigits: 3 })} ₽</dd>
             </div>
             <div className="quote__row">
               <dt>Тело платежа</dt>
