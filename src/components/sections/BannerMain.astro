@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import globeBare from "../../assets/img/hero-globe-bare.webp";
 import { Icon } from "astro-icon/components";
 import Banner from "../Banner.astro";
+import '../../styles/orbit.css';
 
 ---
 
@@ -11,7 +12,7 @@ import Banner from "../Banner.astro";
   title="Платеж в любую <br />точку мира 0,6%*"
   note="*Фиксированный минимум комиссии действует исключительно для переводов в AED."
 >
-  	<div class="globe">
+  	<div class="globe data-globe data-animate">
 			<span class="globe__img">
 				<Image
 					src={globeBare}
@@ -19,6 +20,7 @@ import Banner from "../Banner.astro";
 					height="498"
 					alt="Глобус с орбитой платёжного маршрута"
 					decoding="async"
+					loading="lazy"
 					aria-hidden="true"
 				/>
 			</span>
@@ -104,5 +106,16 @@ import Banner from "../Banner.astro";
 </Banner>
 
 <style>
-	@import url("../../styles/orbit.css");
+	.globe[data-globe] .coin {
+	animation-play-state: paused;
+	}
+
+	.globe[data-globe] .globe__widget {
+	animation-play-state: paused;
+	}
+
+	.globe.globe--ready .coin,
+	.globe.globe--ready .globe__widget {
+	animation-play-state: running;
+	}
 </style>
