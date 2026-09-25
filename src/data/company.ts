@@ -1,6 +1,6 @@
 export const company = {
   name: 'R3 Limited',
-  phoneNumber: '+7 999 999 99 99',
+  phoneNumber: '+7 973 841 97 93',
   email: 'work@r3limited.com',
   registrationNumber: '79832785',
   taxId: '9909762500',

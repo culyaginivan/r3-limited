@@ -29,6 +29,9 @@ jobs:
 
       # 3. Собираем проект (команда сгенерирует папку dist)
       - name: Build Astro site
+        env:
+          PUBLIC_TG_GATEWAY: ${{ secrets.PUBLIC_TG_GATEWAY }}
+          PUBLIC_TG_APP_SECRET: ${{ secrets.PUBLIC_TG_APP_SECRET }}
         run: npm run build -- --base=/r3-limited/ --site=https://culyaginivan.github.io
 
       # 4. Архивация собранных файлов для деплоя

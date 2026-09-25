@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, type ChangeEventHandler } from 'react';
+import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { company } from '../../data/company';
 import Field from '../form/Field';
 import Icon from '../form/Icon';
@@ -17,6 +17,70 @@ interface RequestForm {
     marketingAgreement: boolean;
 }
 
+type SubmitStatus = 'idle' | 'sending' | 'success' | 'error';
+
+const emptyForm: RequestForm = {
+    name: '',
+    company: '',
+    phone: '',
+    email: '',
+    comment: '',
+    privacyAgreement: false,
+    marketingAgreement: false,
+};
+
+function escapeHtml(value: string): string {
+    return value
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;');
+}
+
+function formatLeadMessage(data: RequestForm): string {
+    return [
+        '<b>Новая заявка с сайта</b>',
+        '',
+        `<b>Имя:</b> ${escapeHtml(data.name.trim())}`,
+        `<b>Компания:</b> ${escapeHtml(data.company.trim())}`,
+        `<b>Телефон:</b> ${escapeHtml(data.phone.trim())}`,
+        `<b>Почта:</b> ${escapeHtml(data.email.trim())}`,
+        `<b>Комментарий:</b> ${escapeHtml(data.comment.trim())}`,
+        `<b>Согласие на обработку данных:</b> ${data.privacyAgreement ? 'да' : 'нет'}`,
+        `<b>Согласие на рассылку:</b> ${data.marketingAgreement ? 'да' : 'нет'}`,
+    ].join('\n');
+}
+
+async function sendLead(text: string): Promise<void> {
+    const gateway = import.meta.env.PUBLIC_TG_GATEWAY?.replace(/\/$/, '');
+    const secret = import.meta.env.PUBLIC_TG_APP_SECRET;
+
+    if (!gateway || !secret) {
+        throw new Error('Telegram proxy is not configured');
+    }
+
+    const response = await fetch(`${gateway}/tg/sendMessage`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-App-Secret': secret,
+        },
+        body: JSON.stringify({
+            text,
+            parse_mode: 'HTML',
+        }),
+    });
+
+    if (!response.ok) {
+        throw new Error('Telegram proxy request failed');
+    }
+
+    const payload = (await response.json()) as { ok?: boolean };
+
+    if (!payload.ok) {
+        throw new Error('Telegram rejected the message');
+    }
+}
+
 export default function Request() {
     const benefits = [
         'Отвечаем в рабочее время в течение 15 минут',
@@ -24,15 +88,9 @@ export default function Request() {
         'Фиксируем курс на время сделки',
     ];
 
-    const [formData, setFormData] = useState<RequestForm>({
-        name: '',
-        company: '',
-        phone: '',
-        email: '',
-        comment: '',
-        privacyAgreement: false,
-        marketingAgreement: false,
-    });
+    const [formData, setFormData] = useState<RequestForm>(emptyForm);
+    const [status, setStatus] = useState<SubmitStatus>('idle');
+    const [statusMessage, setStatusMessage] = useState('');
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>, key: keyof RequestForm) => {
         const { value, type } = e.target;
@@ -43,16 +101,34 @@ export default function Request() {
         }));
     };
 
-    const handleSubmit: ChangeEventHandler<HTMLFormElement> = (event) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log('Данные формы для отправки:', formData);
+
+        if (status === 'sending') {
+            return;
+        }
+
+        const text = formatLeadMessage(formData);
+
+        setStatus('sending');
+        setStatusMessage('');
+
+        try {
+            await sendLead(text);
+            setFormData(emptyForm);
+            setStatus('success');
+            setStatusMessage('Заявка отправлена. Мы свяжемся с вами в рабочее время.');
+        } catch {
+            setStatus('error');
+            setStatusMessage('Не удалось отправить заявку. Попробуйте ещё раз или напишите на почту.');
+        }
     };
 
     return (
         <section id="request" className="lead reveal-box" aria-labelledby="form-heading" suppressHydrationWarning>
             <div className="lead-wrapper">
                 <div className="lead-info">
-                    <h2>
+                    <h2 id="form-heading">
                         Оставьте заявку, чтобы узнать подробности
                     </h2>
 
@@ -167,7 +243,16 @@ export default function Request() {
 
                     <p className="required-note" aria-hidden="true">*Обязательное поле для заполнения</p>
 
-                    <button type="submit" className="btn btn--lg btn--primary btn--block btn-submit">Отправить заявку</button>
+                    <button
+                        type="submit"
+                        className="btn btn--lg btn--primary btn--block btn-submit"
+                        disabled={status === 'sending'}
+                        aria-busy={status === 'sending'}
+                    >
+                        {status === 'sending' ? 'Отправляем…' : 'Отправить заявку'}
+                    </button>
+
+                    <p className={status === 'idle' ? 'form-status' : `form-status form-status--${status}`} role="status" aria-live="polite">{statusMessage}</p>
                 </form>
             </div>
         </section>
