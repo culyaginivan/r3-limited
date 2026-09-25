@@ -26,22 +26,8 @@ export function createSlider(classPrefix: string, userOptions?: EmblaOptionsType
 
       prevButtonNode.addEventListener('click', handlePrev, false);
       nextButtonNode.addEventListener('click', handleNext, false);
-
-      return () => {
-        prevButtonNode.addEventListener('click', handlePrev);
-        nextButtonNode.addEventListener('click', handleNext);
-      };
     }
-
-    return () => {};
   }
 
-  let cleanup: (() => void) | undefined;
-  const setCleanup = (value?: () => void) => {
-    if (cleanup) cleanup();
-    cleanup = value;
-  };
-
-  document.addEventListener('astro:page-load', () => setCleanup(init()));
-  document.addEventListener('astro:before-swap', () => setCleanup());
+  document.addEventListener('DOMContentLoaded', () => init());
 }

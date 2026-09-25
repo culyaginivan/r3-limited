@@ -1,10 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 
-const iconFiles = import.meta.glob("../../assets/icons/**/*.svg");
-const iconNames = Object.keys(iconFiles).map((path) =>
-    path.replace("../../assets/icons/", "").replace(/\.svg$/, ""),
-);
+const iconNames = ['upload', 'flags/greece', 'flags/italy', 'refresh', 'checked'];
 ---
 
 <div aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">

@@ -18,8 +18,8 @@ import Banner from "../Banner.astro";
 					width="501"
 					height="498"
 					alt="Глобус с орбитой платёжного маршрута"
-          loading="eager"
-          fetchpriority="high"
+					decoding="async"
+					aria-hidden="true"
 				/>
 			</span>
 			<div class="globe__stage">
@@ -102,3 +102,7 @@ import Banner from "../Banner.astro";
 			</div>
 		</div>
 </Banner>
+
+<style>
+	@import url("../../styles/orbit.css");
+</style>

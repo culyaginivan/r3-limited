@@ -153,7 +153,7 @@ const { problem, solution, invoice, results, fullViewInvoice } = Astro.props;
         }
     }
 
-    document.addEventListener('astro:page-load', initWorkProgress);
+    document.addEventListener('DOMContentLoaded', initWorkProgress);
 </script>
 
 <style>

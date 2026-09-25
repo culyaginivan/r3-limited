@@ -118,7 +118,6 @@ export default function Calculator() {
 
   const numericAmount = Math.max(0, Number(amount.replace(/\s/g, '').replace(',', '.')) || 0);
   const rate = rates[currency] ?? FALLBACK_RATES[currency] ?? FALLBACK_RATES.USD;
-  const usdRate = rates.USD ?? FALLBACK_RATES.USD;
   const body = numericAmount * rate;
   const feeRate = numericAmount >= 1000000 ? 0.003 : 0.006;
   const fee = body * feeRate;
@@ -146,7 +145,7 @@ export default function Calculator() {
           </div>
           <div className="calc__fact">
             <dt>Курс ЦБ</dt>
-            <dd>{usdRate.toLocaleString('ru-RU', { maximumFractionDigits: 3 })} ₽</dd>
+            <dd>{rate.toLocaleString('ru-RU', { maximumFractionDigits: 3 })} ₽</dd>
           </div>
           <div className="calc__fact">
             <dt>Срок</dt>
@@ -257,7 +256,7 @@ export default function Calculator() {
             </div>
             <div className="quote__row">
               <dt>Курс ЦБ</dt>
-              <dd>{usdRate.toLocaleString('ru-RU', { maximumFractionDigits: 3 })} ₽</dd>
+              <dd>{rate.toLocaleString('ru-RU', { maximumFractionDigits: 3 })} ₽</dd>
             </div>
             <div className="quote__row">
               <dt>Тело платежа</dt>

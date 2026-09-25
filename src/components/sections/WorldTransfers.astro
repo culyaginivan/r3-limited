@@ -70,7 +70,7 @@ const countries: Country[] = [
 const defaultActiveId = countries[0].id;
 ---
 
-<section id="geo" class="world-transfers reveal-box max-lg:world-transfers.gap-10" aria-labelledby="transfers-title">
+<section id="geo" class="relative world-transfers reveal-box max-lg:world-transfers.gap-10" aria-labelledby="transfers-title">
   <h2 id="transfers-title" class="h2">Переводы по всему миру</h2>
 
   <div class="world-transfers__card">
@@ -269,23 +269,9 @@ const defaultActiveId = countries[0].id;
     }
 
     window.addEventListener('resize', handleResize);
-
-    return () => { 
-      window.removeEventListener('resize', handleResize); 
-      if (resizeFrame !== null) { 
-        cancelAnimationFrame(resizeFrame); 
-      } 
-    };
-  }
-
-  let cleanup: (() => void) | undefined;
-  const setCleanup = (value?: () => void) => {
-    if (cleanup) cleanup();
-    cleanup = value;
   }
   
-  document.addEventListener('astro:page-load', () => setCleanup(initMapWidget())); 
-  document.addEventListener('astro:before-swap', () => setCleanup());
+  document.addEventListener('DOMContentLoaded', () => initMapWidget()); 
 </script>
 
 <style>

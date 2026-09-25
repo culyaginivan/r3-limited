@@ -1,7 +1,6 @@
 ---
 import { Font } from "astro:assets";
 import IconSprite from "../components/form/IconSprite.astro";
-import { ClientRouter } from "astro:transitions";
 import Header, { type currentPageIdType } from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Request from "../components/sections/Request";
@@ -41,28 +40,26 @@ const {
 		<meta name="description" content={description} />
         <!-- slot for additional head content -->
         {Astro.slots.has('head') && (<slot name="head" />)}
-		<ClientRouter />
 	</head>
 	<body class="px-[60px] max-2xl:px-0">
-		<IconSprite />
-		<Header transition:persist current={page} />
-		<main transition:animate="fade" class="relative overflow-clip max-w-(--container-max) mx-auto mt-[-68px] max-sm:flex max-sm:flex-col max-sm:gap-10">
+		<Header current={page} />
+		<main class="relative overflow-clip max-w-(--container-max) mx-auto mt-[-68px] max-sm:flex max-sm:flex-col max-sm:gap-10">
 			<slot/>
 			<HowWeWork />
 			<Documents />
 			{page === 'index' && <WorldTransfers />}
 			<Faq />
 			<Request client:idle />
-			<Footer transition:persist />
+			<Footer />
 		</main>
+		<IconSprite />
 
 		<script>
 			import { gsap } from "gsap";
   			import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-			gsap.registerPlugin(ScrollTrigger);
-
 			const initScroll = () => {
+				gsap.registerPlugin(ScrollTrigger);
 				const revealBoxes = gsap.utils.toArray(".reveal-box") as HTMLElement[];
 				revealBoxes.forEach((box) => {
 					gsap.fromTo(box, 
@@ -85,7 +82,7 @@ const {
 				});
 			};
 
-			document.addEventListener("astro:page-load", initScroll);
+			document.addEventListener("DOMContentLoaded", initScroll);
 		</script>
     </body>
 </html>
