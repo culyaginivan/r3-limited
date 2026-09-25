@@ -46,7 +46,7 @@ const {
 	<body class="px-[60px] max-2xl:px-0">
 		<IconSprite />
 		<Header transition:persist current={page} />
-		<main transition:animate="slide" class="relative overflow-clip max-w-(--container-max) mx-auto mt-[-68px] max-sm:flex max-sm:flex-col max-sm:gap-10">
+		<main transition:animate="fade" class="relative overflow-clip max-w-(--container-max) mx-auto mt-[-68px] max-sm:flex max-sm:flex-col max-sm:gap-10">
 			<slot/>
 			<HowWeWork />
 			<Documents />
@@ -78,7 +78,7 @@ const {
 							scrollTrigger: {
 								trigger: box,
 								start: "top 85%", // Анимация начнется, когда верх блока пересечет 85% экрана
-								toggleActions: "play none none reverse", // Воспроизвести при скролле вниз, вернуть назад при скролле вверх
+								toggleActions: "play none none none", // Воспроизвести при скролле вниз, вернуть назад при скролле вверх
 							}
 						}
 					);

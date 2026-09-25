@@ -80,17 +80,19 @@ const documents = [
             </dl>
         </aside>
 
-        <ul class="grid gap-4 grid-cols-2 max-lg:grid-cols-1">
+        <ul class="grid gap-4 grid-cols-2 max-md:grid-cols-1">
             {documents.map((document) => (
                 <li>
                     <article class="h-full">
                         <a href={document.link} download aria-label={`Скачать: ${document.title}`}
-                            class="relative flex flex-col overflow-hidden h-full gap-4
-                            rounded-[var(--r-2xl)] max-lg:rounded-[var(--r-lg)] 
-                            bg-[var(--secondary-60)] p-10 max-xl:p-6 max-lg:p-6
-                            max-lg:w-full max-lg:justify-center max-lg:items-center
-                            max-lg:flex-row-reverse "
-                        >
+                            class="
+                                relative flex flex-col overflow-hidden h-full gap-4
+                                rounded-[var(--r-2xl)] max-lg:rounded-[var(--r-lg)] 
+                                bg-[var(--secondary-60)] p-10 max-xl:p-6 max-md:p-6
+                                max-md:w-full max-lg:justify-center max-md:items-center
+                                max-md:flex-row-reverse
+                                max-sm:justify-between
+                            ">
                             <Image 
                                 src={document.image} 
                                 alt="" 
@@ -98,14 +100,14 @@ const documents = [
                                 height={100} 
                                 class="
                                     absolute bottom-5 right-5
-                                    max-lg:bottom-auto max-lg:right-auto
+                                    max-md:bottom-auto max-md:right-auto
                                     max-xl:relative max-xl:bottom-[unset] max-xl:right-[unset]
                                     h-[100px] w-[100px] object-contain
-                                    max-lg:relative max-lg:bottom-5 max-lg:right-5 
-                                    max-lg:w-20 max-lg:h-20
+                                    max-md:relative max-md:bottom-5 max-md:right-5 
+                                    max-md:w-20 max-md:h-20
                                 " 
                             />
-                            <div class="relative flex h-full max-w-[280px] flex-col gap-6 max-lg:justify-between max-lg:w-[400px] max-lg:max-w-none">
+                            <div class="relative flex h-full max-w-[280px] flex-col gap-6 max-md:justify-between max-md:w-[400px] max-md:max-w-none max-sm:w-[130px]">
                                 <h3 class="text-xl font-semibold leading-6 lg:text-2xl lg:leading-7">{document.title}</h3>
                                 <div class="flex flex-col items-start gap-1 text-xs leading-4 lg:text-base lg:leading-6">
                                     <p>[{document.meta}]</p>

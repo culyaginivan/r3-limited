@@ -3,12 +3,10 @@ import Autoplay from 'embla-carousel-autoplay';
 import ClassNames from 'embla-carousel-class-names';
 
 
-export function createSlider(classPrefix: string, userOptions?: EmblaOptionsType) {
+export function createSlider(classPrefix: string, userOptions?: EmblaOptionsType, withButtons = true) {
   function init() {
     const wrapperNode = document.querySelector<HTMLElement>(`.${classPrefix}-wrapper`)!;
     const viewportNode = wrapperNode.querySelector<HTMLElement>(`.${classPrefix}__viewport`)!;
-    const prevButtonNode = wrapperNode.querySelector<HTMLElement>(`.${classPrefix}__prev`)!;
-    const nextButtonNode = wrapperNode.querySelector<HTMLElement>(`.${classPrefix}__next`)!;
 
     const emblaApi = EmblaCarousel(viewportNode, userOptions, [
       Autoplay({
@@ -19,16 +17,23 @@ export function createSlider(classPrefix: string, userOptions?: EmblaOptionsType
       ClassNames(),
     ]);
 
-    const handlePrev = () => emblaApi.scrollPrev();
-    const handleNext = () => emblaApi.scrollNext();
+    if (withButtons) {
+      const prevButtonNode = wrapperNode.querySelector<HTMLElement>(`.${classPrefix}__prev`)!;
+      const nextButtonNode = wrapperNode.querySelector<HTMLElement>(`.${classPrefix}__next`)!;
 
-    prevButtonNode.addEventListener('click', handlePrev, false);
-    nextButtonNode.addEventListener('click', handleNext, false);
+      const handlePrev = () => emblaApi.scrollPrev();
+      const handleNext = () => emblaApi.scrollNext();
 
-    return () => {
-      prevButtonNode.addEventListener('click', handlePrev);
-      nextButtonNode.addEventListener('click', handleNext);
-    };
+      prevButtonNode.addEventListener('click', handlePrev, false);
+      nextButtonNode.addEventListener('click', handleNext, false);
+
+      return () => {
+        prevButtonNode.addEventListener('click', handlePrev);
+        nextButtonNode.addEventListener('click', handleNext);
+      };
+    }
+
+    return () => {};
   }
 
   let cleanup: (() => void) | undefined;
