@@ -43,10 +43,10 @@ const partners = [
         Нам доверяют банки и партнеры
     </h2>
 
-    <div class="relative min-w-0 flex-1 overflow-hidden pl-16 max-md:pl-[0px]">
-        <ul class="marquee-track flex w-max items-center gap-16" aria-label="Банки и партнеры">
-            {Array.from({ length: 2 }).map((_, groupIndex) => (
-                <li class="flex items-center gap-16" aria-hidden={groupIndex > 0}>
+    <div class="trasted-wrapper relative min-w-0 flex-1 overflow-hidden pl-16 max-md:pl-[0px]">
+        <ul class="marquee-track flex w-max items-center" aria-label="Банки и партнеры">
+            {Array.from({ length: 3 }).map((_, groupIndex) => (
+                <li class="marquee-group" aria-hidden={groupIndex > 0}>
                     {partners.map(item => (
                         <Image
                             width={item.width}
@@ -62,11 +62,22 @@ const partners = [
 
 <style>
     .marquee-track {
-        animation: trusted-marquee 24s linear infinite;
+        display: flex;
+        width: max-content;
+        align-items: center;
     }
 
-    .marquee-track:hover,
-    .marquee-track:focus-within {
+    .marquee-group {
+        display: flex;
+        align-items: center;
+        gap: 4rem;
+        padding-right: 4rem;
+        will-change: transform;
+        animation: trusted-marquee 20s linear infinite;
+    }
+
+    .marquee-track:hover .marquee-group,
+    .marquee-track:focus-within .marquee-group {
         animation-play-state: paused;
     }
 
@@ -76,13 +87,13 @@ const partners = [
         }
 
         to {
-            transform: translateX(calc(-50% - 2rem));
+            transform: translateX(-100%);
         }
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .marquee-track {
-            animation-play-state: paused;
+        .marquee-group {
+            animation: none;
         }
     }
 </style>
