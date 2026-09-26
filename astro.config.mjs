@@ -6,6 +6,7 @@ import icon from 'astro-icon';
 import react from '@astrojs/react';
 
 export default defineConfig({
+  site: 'https://r3lmtd.com',
   output: 'static',
 
 

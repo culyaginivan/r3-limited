@@ -9,6 +9,7 @@ import Documents from "../components/sections/Documents.astro";
 import Faq from "../components/sections/Faq.astro";
 import HowWeWork from "../components/sections/HowWeWork.astro";
 import WorldTransfers from "../components/sections/WorldTransfers.astro";
+import SocialMeta from "../components/SocialMeta.astro";
 
 interface Props {
     description: string;
@@ -38,7 +39,7 @@ const {
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
   		<title>{title}</title>
 		<meta name="description" content={description} />
-        <!-- slot for additional head content -->
+		<SocialMeta title={title} description={description} />
         {Astro.slots.has('head') && (<slot name="head" />)}
 	</head>
 	<body class="px-[60px] max-2xl:px-0">

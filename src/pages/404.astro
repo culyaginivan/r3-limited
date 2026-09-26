@@ -4,23 +4,20 @@ import { Image } from "astro:assets";
 import nfPlanet from "../assets/img/nf-planet.webp";
 import nfAstronaut from "../assets/img/nf-astronaut.webp";
 import "../styles/global.css";
+import SocialMeta from "../components/SocialMeta.astro";
+
+const title = "404 — страница не найдена · R3Limited";
+const description =
+	"Ошибка 404 — страница не найдена. Попробуйте перезагрузить эту страницу или вернуться на главную страницу R3 Limited.";
 ---
 
 <html lang="ru">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>404 — страница не найдена · R3Limited</title>
-		<meta
-			name="description"
-			content="Ошибка 404 — страница не найдена. Попробуйте перезагрузить эту страницу или вернуться на главную страницу R3 Limited."
-		/>
-		<meta property="og:title" content="404 — страница не найдена · R3Limited" />
-		<meta
-			property="og:description"
-			content="Ошибка 404 — страница не найдена. Вернитесь на главную страницу R3 Limited."
-		/>
-		<meta property="og:type" content="website" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<SocialMeta title={title} description={description} />
 		<Font cssVariable="--font-onest" />
 	</head>
 
