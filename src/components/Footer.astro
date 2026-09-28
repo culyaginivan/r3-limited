@@ -87,8 +87,6 @@ const documentLinks: FooterLink[] = [
             <Image class="footer__logo" src={logo} alt={company.name}/>
             <address class="footer__legal">
                 ИНН {company.taxId} · КПП {company.kpp}<br>{company.legalAddress}<br>
-                <a href={'tel:' + company.phoneNumber} aria-label={'Телефон: ' + company.phoneNumber}>{company.phoneNumber}</a>
-                &nbsp;·&nbsp;
                 <a href={'mailto:' + company.email} aria-label={'Электронная почта: ' + company.email}>{company.email}</a>
             </address>
 		</div>

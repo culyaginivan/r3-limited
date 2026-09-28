@@ -58,7 +58,7 @@ export const cases: Case[] = [
         ],
         category: "Оплата мероприятий",
         invoice: vipInvoice,
-        fullViewInvoice: `${import.meta.env.BASE_URL}/documents/sport-events.pdf`,
+        fullViewInvoice: `${import.meta.env.BASE_URL}documents/sport-events.pdf`,
         description: "",
         params: {
             commission: "1,5%",
@@ -86,7 +86,7 @@ export const cases: Case[] = [
         ],
         category: "Медицина",
         invoice: uaeInvoice,
-        fullViewInvoice: `${import.meta.env.BASE_URL}/documents/medicine.pdf`,
+        fullViewInvoice: `${import.meta.env.BASE_URL}documents/medicine.pdf`,
         description: "",
         params: {
             commission: "1,3%",
@@ -110,12 +110,11 @@ export const cases: Case[] = [
         results: [
             "<strong>Через 6 часов</strong> после начала процесса поставщик подтвердил <strong>поступление средств.</strong>",
             "Оборудование было <strong>зарезервировано и отправлено</strong> логистическим партнёрам <strong>в тот же день.</strong>",
-            // "Клиент получил <strong>полный комплект закрывающих документов:</strong> инвойсы, платёжные поручения и акты сверки.",
             "<strong>Сроки поставки сохранены — оборудование уже в пути к клиенту.</strong>",
         ],
         category: "Оплата электроники",
         invoice: chinaInvoice,
-        fullViewInvoice: `${import.meta.env.BASE_URL}/documents/electronics.pdf`,
+        fullViewInvoice: `${import.meta.env.BASE_URL}documents/electronics.pdf`,
         description: "",
         params: {
             commission: "0,9%",
@@ -143,7 +142,7 @@ export const cases: Case[] = [
         ],
         category: "Воздушное судно",
         invoice: ukInvoice,
-        fullViewInvoice: `${import.meta.env.BASE_URL}/documents/plane.pdf`,
+        fullViewInvoice: `${import.meta.env.BASE_URL}documents/plane.pdf`,
         description: "",
         params: {
             commission: "1,1%",
