@@ -208,13 +208,12 @@ export default function Request() {
                                 onChange={(e) => handleChange(e, 'email')}
                             />
                         </Field>
-                        <Field id="l-user-comment" label="Комментарий" className="field-comment" required>
+                        <Field id="l-user-comment" label="Комментарий" className="field-comment">
                             <Input
                                 id="l-user-comment"
                                 placeholder="Страна, валюта, сумма"
                                 name="l-user-comment"
                                 inputMode="text"
-                                required
                                 type="text"
                                 value={formData.comment}
                                 onChange={(e) => handleChange(e, 'comment')}

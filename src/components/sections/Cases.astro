@@ -13,45 +13,44 @@ import { cases } from '../../data/cases';
         {
           cases.map((item) => (
             <li class="cases__slide">
-              <article class="case-card">
-                <Image
-                  class="case-card__image"
-                  src={item.image.preview}
-                  alt=""
-                  height={200}
-                  aria-hidden="true"
-                />
+              <article class="w-full h-full">
+                <a class="case-card" href={`${import.meta.env.BASE_URL}cases/${item.id}`}>
+                  <Image
+                    class="case-card__image"
+                    src={item.image.preview}
+                    alt=""
+                    height={200}
+                    aria-hidden="true"
+                  />
 
-                <header class="case-card__header">
-                  <h3 class="h3">{item.title}</h3>
+                  <header class="case-card__header">
+                    <h3 class="h3">{item.title}</h3>
 
-                  <p class="case-card__meta">
-                    <span>{item.location}</span>
-                    <span aria-hidden="true">•</span>
-                    <time>{item.duration}</time>
-                  </p>
-                </header>
+                    <p class="case-card__meta">
+                      <span>{item.location}</span>
+                      <span aria-hidden="true">•</span>
+                      <time>{item.duration}</time>
+                    </p>
+                  </header>
 
-                <section class="case-card__results">
-                  <h4>Результат</h4>
-                  <ul>
-                    {item.results.map((result) => (
-                      <li>
-                        <Icon name="check" class="case-card__check" aria-hidden="true" />
-                        <span set:html={result} />
-                      </li>
-                    ))}
-                  </ul>
-                </section>
+                  <section class="case-card__results">
+                    <h4>Результат</h4>
+                    <ul>
+                      {item.results.map((result) => (
+                        <li>
+                          <Icon name="check" class="case-card__check" aria-hidden="true" />
+                          <span set:html={result} />
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
 
-                <footer class="case-card__footer">
-                  <a
-                    class="btn btn--lg btn--secondary"
-                    href={`${import.meta.env.BASE_URL}cases/${item.id}`}
-                  >
-                    Открыть кейс
-                  </a>
-                </footer>
+                  <footer class="case-card__footer">
+                    <button class="btn btn--lg btn--secondary w-full h-[50px]">
+                      Открыть кейс
+                    </button>
+                  </footer>
+                </a>
               </article>
             </li>
           ))
@@ -223,11 +222,6 @@ import { cases } from '../../data/cases';
 
   .case-card__footer {
     margin-top: auto;
-  }
-
-  .case-card__footer a {
-    height: 50px;
-    width: 100%;
   }
 
   @media (max-width: 1200px) {
