@@ -64,6 +64,8 @@ jobs:
 
   deploy-yandex:
     runs-on: ubuntu-latest
+    # Без этой строки секреты из Environment "Yandex cloud" не видны
+    environment: 'Yandex cloud'
     steps:
       - uses: actions/checkout@v4
 
