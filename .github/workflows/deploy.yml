@@ -90,6 +90,8 @@ jobs:
           aws-access-key-id: ${{ secrets.YC_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.YC_SECRET_ACCESS_KEY }}
           aws-region: ru-central1
+          # Ключи Яндекса не проходят проверку через AWS STS
+          validate-credentials: false
 
       # 1) Сначала основные файлы (короткий кэш, HTML и т.п.)
       #    --exclude "_astro/*" — не трогаем ассеты на этом шаге
