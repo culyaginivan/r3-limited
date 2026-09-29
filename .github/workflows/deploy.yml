@@ -64,8 +64,13 @@ jobs:
 
   deploy-yandex:
     runs-on: ubuntu-latest
-    # Без этой строки секреты из Environment "Yandex cloud" не видны
     environment: 'Yandex cloud'
+    # Ключи напрямую в env — без STS-проверки
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.YC_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.YC_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ru-central1
+      AWS_EC2_METADATA_DISABLED: true
     steps:
       - uses: actions/checkout@v4
 
@@ -84,16 +89,7 @@ jobs:
           PUBLIC_TG_APP_SECRET: ${{ secrets.PUBLIC_TG_APP_SECRET }}
         run: npm run build
 
-      - name: Configure AWS credentials (Yandex Cloud)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.YC_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.YC_SECRET_ACCESS_KEY }}
-          aws-region: ru-central1
-          # Ключи Яндекса не проходят проверку через AWS STS
-          validate-credentials: false
-
-      # 1) Сначала основные файлы (короткий кэш, HTML и т.п.)
+      # 1) Основные файлы (короткий кэш)
       #    --exclude "_astro/*" — не трогаем ассеты на этом шаге
       #    --exclude "dist.zip" — архив в бакете сохраняется
       - name: Sync site files (short cache)
