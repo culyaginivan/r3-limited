@@ -1,8 +1,13 @@
-name: Deploy to GitHub Pages
+name: Deploy
 
 on:
   push:
     branches: [ main ]
+
+# Не даём двум деплоям идти одновременно
+concurrency:
+  group: deploy
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -10,37 +15,40 @@ permissions:
   id-token: write
 
 jobs:
+  # ---------- GitHub Pages ----------
+
+  # 1. Сборка сайта для GitHub Pages
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repository
         uses: actions/checkout@v4
 
-      # 1. Жестко задаем нужную версию Node.js
+      # Жестко задаем нужную версию Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22.12.0' # Указываем точную поддерживаемую версию
           cache: 'npm'
 
-      # 2. Устанавливаем зависимости вашего проекта
+      # Устанавливаем зависимости вашего проекта
       - name: Install dependencies
         run: npm ci
 
-      # 3. Собираем проект (команда сгенерирует папку dist)
+      # Собираем проект (команда сгенерирует папку dist)
       - name: Build Astro site
         env:
           PUBLIC_TG_GATEWAY: ${{ secrets.PUBLIC_TG_GATEWAY }}
           PUBLIC_TG_APP_SECRET: ${{ secrets.PUBLIC_TG_APP_SECRET }}
         run: npm run build -- --base=/r3-limited/ --site=https://culyaginivan.github.io
 
-      # 4. Архивация собранных файлов для деплоя
+      # Архивация собранных файлов для деплоя
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist # Astro по умолчанию собирает сайт в эту папку
 
-
+  # 2. Публикация на GitHub Pages
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -48,7 +56,56 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      # 5. Публикация на GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # ---------- Yandex Cloud Object Storage ----------
+
+  deploy-yandex:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Сборка для продакшена (r3lmtd.com, base по умолчанию)
+      - name: Build site
+        env:
+          PUBLIC_TG_GATEWAY: ${{ secrets.PUBLIC_TG_GATEWAY }}
+          PUBLIC_TG_APP_SECRET: ${{ secrets.PUBLIC_TG_APP_SECRET }}
+        run: npm run build
+
+      - name: Configure AWS credentials (Yandex Cloud)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.YC_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.YC_SECRET_ACCESS_KEY }}
+          aws-region: ru-central1
+
+      # 1) Сначала основные файлы (короткий кэш, HTML и т.п.)
+      #    --exclude "_astro/*" — не трогаем ассеты на этом шаге
+      #    --exclude "dist.zip" — архив в бакете сохраняется
+      - name: Sync site files (short cache)
+        run: |
+          aws s3 sync dist s3://r3lmtd.com \
+            --endpoint-url https://storage.yandexcloud.net \
+            --delete \
+            --exclude "_astro/*" \
+            --exclude "dist.zip" \
+            --cache-control "public, max-age=0, must-revalidate"
+
+      # 2) Потом хэшированные ассеты — длинный immutable-кэш
+      #    (имена файлов с хэшем: style.BsTd85N9.css — можно кэшировать навсегда)
+      - name: Sync hashed assets (immutable cache)
+        run: |
+          aws s3 sync dist/_astro s3://r3lmtd.com/_astro \
+            --endpoint-url https://storage.yandexcloud.net \
+            --delete \
+            --cache-control "public, max-age=31536000, immutable"
