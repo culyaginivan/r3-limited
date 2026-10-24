@@ -115,6 +115,9 @@ export default function Request() {
 
         try {
             await sendLead(text);
+            if (typeof window !== 'undefined' && typeof window.ym === 'function') {
+                window.ym(113771383, 'reachGoal', 'contactForm');
+            }
             setFormData(emptyForm);
             setStatus('success');
             setStatusMessage('Заявка отправлена. Мы свяжемся с вами в рабочее время.');
