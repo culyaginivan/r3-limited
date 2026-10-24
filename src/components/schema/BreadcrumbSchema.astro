@@ -1,0 +1,24 @@
+---
+interface Props {
+  items: {
+    name: string;
+    url?: string;
+  }[];
+}
+
+const { items } = Astro.props;
+const site = Astro.site ?? new URL('https://r3lmtd.com');
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": items.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": item.name,
+    "item": item.url ? new URL(item.url, site).href : undefined
+  }))
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schemaData)} />

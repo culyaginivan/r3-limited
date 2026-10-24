@@ -1,0 +1,31 @@
+---
+import { company } from '../../data/company';
+
+const site = Astro.site ?? new URL('https://r3lmtd.com');
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${site.href}#organization`,
+  "name": company.name,
+  "url": site.href,
+  "logo": `${site.href}og-image.png`,
+  "email": company.email,
+  "taxID": company.taxId,
+  "vatID": company.registrationNumber,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "UNIT 308, 3/F., CHEVALIER HOUSE, 45-51 CHATHAM RD SOUTH",
+    "addressLocality": "TSIM SHA TSUI",
+    "addressCountry": "HK"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer support",
+    "email": company.email,
+    "availableLanguage": ["Russian", "English"]
+  }
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schemaData)} />

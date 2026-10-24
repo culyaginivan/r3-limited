@@ -1,0 +1,82 @@
+---
+import { company } from '../../data/company';
+
+const site = Astro.site ?? new URL('https://r3lmtd.com');
+
+// Data from Services.astro
+const services = [
+  {
+    name: 'Международные платежи',
+    description: 'Проводим зарубежные переводы в разные страны и валюты.',
+    price: '0.3',
+  },
+  {
+    name: 'Быстрая оплата иностранных партнёров',
+    description: 'Закрываем срочные счета и обеспечиваем быстрый проход платежей.',
+    price: '0.3',
+  },
+  {
+    name: 'Мультивалютные операции',
+    description: 'Работаем с USD, EUR, CNY, AED и другими валютами.',
+    price: '0.3',
+  },
+  {
+    name: 'Проверка контрагентов',
+    description: 'Технологическая проверка на благонадёжность и корректность реквизитов.',
+    price: '0.3',
+  },
+  {
+    name: 'Отчётность',
+    description: 'Предоставляем полный комплект документов и подтверждений по каждому платежу.',
+    price: '0.3',
+  },
+  {
+    name: 'Консультация',
+    description: 'Предоставляем профессиональную консультацию и предлагаем наиболее выгодные условия.',
+    price: '0.3',
+  }
+];
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "FinancialService",
+  "@id": `${site.href}#financial-service`,
+  "name": company.name,
+  "description": "Международные платежи и зарубежные переводы для бизнеса с комиссией от 0,3%",
+  "url": site.href,
+  "feesAndCommissionsSpecification": "Комиссия от 0,3% до 0,6% от суммы платежа",
+  "currenciesAccepted": "USD, EUR, CNY, TRY, RUB, EGP, LYD, DZD, AED",
+  "paymentAccepted": "Безналичный расчет, SWIFT, SEPA",
+  "provider": {
+    "@id": `${site.href}#organization`
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Услуги R3 Limited",
+    "itemListElement": services.map((service, index) => ({
+      "@type": "Offer",
+      "position": index + 1,
+      "itemOffered": {
+        "@type": "Service",
+        "name": service.name,
+        "description": service.description,
+        "offers": {
+          "@type": "Offer",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": service.price,
+            "priceCurrency": "%",
+            "description": `${service.price}%`
+          },
+          "deliveryLeadTime": {
+            "@type": "QuantitativeValue",
+            "value": "PT30M/PT1H"
+          }
+        }
+      }
+    }))
+  }
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schemaData)} />

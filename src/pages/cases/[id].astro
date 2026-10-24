@@ -9,6 +9,7 @@ import statTerms from '../../assets/img/stat-2.webp';
 import statGeography from '../../assets/img/stat-3.webp';
 import Banner from "../../components/Banner.astro";
 import WorkProgress from "../../components/sections/WorkProgress.astro";
+import BreadcrumbSchema from "../../components/schema/BreadcrumbSchema.astro";
 
 export async function getStaticPaths() {
   return cases.map((item) => ({
@@ -38,6 +39,14 @@ const bannerClassName = `bg-[image:var(--gradient-${item.id === 'uae' ? 3 : 2})]
     title={item.title} 
     description={item.title}
 >
+    <BreadcrumbSchema
+        slot="head"
+        items={[
+            { name: "Главная", url: "/" },
+            { name: "Кейсы", url: "/#cases" },
+            { name: item.title, url: `/cases/${item.id}` }
+        ]}
+    />
     <Banner 
         title={item.title}
         category={item.category}

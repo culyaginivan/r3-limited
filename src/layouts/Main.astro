@@ -10,6 +10,8 @@ import Faq from "../components/sections/Faq.astro";
 import HowWeWork from "../components/sections/HowWeWork.astro";
 import WorldTransfers from "../components/sections/WorldTransfers.astro";
 import SocialMeta from "../components/SocialMeta.astro";
+import OrganizationSchema from "../components/schema/OrganizationSchema.astro";
+import FinancialServiceSchema from "../components/schema/FinancialServiceSchema.astro";
 
 interface Props {
     description: string;
@@ -30,8 +32,9 @@ const {
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
-		<link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} />
+		<link rel="icon" type="image/x-icon" href={`${import.meta.env.BASE_URL}favicon.ico`} />
 		<link rel="apple-touch-icon" sizes="180x180" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`}>
+		<link rel="icon" type="image/png" sizes="120x120" href={`${import.meta.env.BASE_URL}favicon-120x120.png`}>
 		<link rel="icon" type="image/png" sizes="32x32" href={`${import.meta.env.BASE_URL}favicon-32x32.png`}>
 		<link rel="icon" type="image/png" sizes="16x16" href={`${import.meta.env.BASE_URL}favicon-16x16.png`}>
 		<link rel="manifest" href={`${import.meta.env.BASE_URL}site.webmanifest`}>
@@ -40,6 +43,8 @@ const {
   		<title>{title}</title>
 		<meta name="description" content={description} />
 		<SocialMeta title={title} description={description} />
+        <OrganizationSchema />
+        {page === 'index' && <FinancialServiceSchema />}
         {Astro.slots.has('head') && (<slot name="head" />)}
 	</head>
 	<body class="px-[60px] max-2xl:px-0">
